@@ -1,0 +1,21 @@
+﻿@model EPiCore.Content.ViewModels.Pages.AToZPageViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@foreach (var letter in Model.Pages)
+{
+    <a href="#@letter.Key">@letter.Key</a>
+}
+
+@foreach (var letter in Model.Pages)
+{
+    <h3><a id="@letter.Key"></a>@letter.Key</h3>
+    <ul>
+        @foreach (var page in letter.Value)
+        {
+            <li><a href="@page.Url">@page.Name</a></li>
+        }
+    </ul>
+}

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<languages>
+	<language name="Svenska" id="sv">
+    <contenttypes>
+      
+      <!-- Page Types -->
+
+      <SectionPage>
+        <name>Sektionssida</name>
+        <description>Sida för huvudingång i huvudmeny</description>
+        <properties>
+          <MaxNumberOfMenuEntries>
+            <caption>Max antal menyingångar</caption>
+            <help>Egenskap för att manuellt begränsa antalet menyingångar för denna sektion</help>
+          </MaxNumberOfMenuEntries>
+          <MenuLinkList>
+            <caption>"Hitta snabbt"-länkar</caption>
+            <help>Presenteras först i menyn (max fyra)</help>
+          </MenuLinkList>
+          <Icon>
+            <caption>Menyikon</caption>
+            <help>Typ av ikon som kommer representera menysektionen</help>
+          </Icon>
+        </properties>
+      </SectionPage>
+
+      <ContentPage>
+        <name>Innehållssida</name>
+        <description>Sida för innehåll</description>
+        <properties>
+          <MenuTitle>
+            <caption>Titel i huvudmeny</caption>
+            <help>Presenteras som rubrik för sidan i huvudmenyn</help>
+          </MenuTitle>
+          <MenuDescription>
+            <caption>Beskrivning i huvudmeny</caption>
+            <help>Presenteras som beskrivning för sidan i huvudmenyn (max 100 tecken)</help>
+          </MenuDescription>
+          <TitleImage>
+            <caption>Titelbild</caption>
+            <help>Rekommenderat bildformat är 2:1 (720 x 360)</help>
+          </TitleImage>
+          <TitleImageCaption>
+            <caption>Bildtext</caption>
+            <help>Presenteras under titelbild om en sådan är angiven</help>
+          </TitleImageCaption>
+          <RelatedEServices>
+            <caption>Relaterade e-tjänster</caption>
+          </RelatedEServices>
+          <RelatedDocuments>
+            <caption>Relaterade dokument</caption>
+          </RelatedDocuments>
+          <RelatedLinks>
+            <caption>Relaterade länkar</caption>
+          </RelatedLinks>
+        </properties>
+       </ContentPage>
+
+      <!--SettingsPage>
+        <name>Inställningssida</name>
+        <description>Sida för globala inställningar</description>
+        <properties>
+          <Adjust>
+            <caption>Länk till tillgänglighetssida</caption>
+          </Adjust>
+          <EServices>
+            <caption>Länk till e-tjänster</caption>
+          </EServices>
+          <Contact>
+            <caption>Länk till kontaktsida</caption>
+          </Contact>
+          <LinkListArea>
+            <caption>Blockyta för sidfot</caption>
+          </LinkListArea>
+          <ContactDetails>
+            <caption>Informationsstext</caption>
+            <help>Visas längst ner i sidfoten</help>
+          </ContactDetails>
+        </properties>
+      </SettingsPage-->
+
+      <!-- Blocks -->      
+      
+      <VideoBlock>
+        <name>Videoblock</name>
+        <description>Block för videorendering i TinyMCE text editor</description>
+        <properties>
+          <VideoType>
+            <caption>Videotyp</caption>
+            <help>Välj vilken typ av video som skall renderas.</help>
+          </VideoType>
+          <Video>
+            <caption>Lokal videofil</caption>
+            <help>Videofil som finns upplagd i EPiServer. Rekommenderat format: mp4. Detta val kräver att "Lokal fil" är valt som Videotyp.</help>
+          </Video>
+          <VideolinkId>
+            <caption>Id från videolänk</caption>
+            <help>Ange det avslutande Id:t som återfinns i slutet på din Youtube eller Vimeo länk. Detta val kräver att "Youtube" eller "Vimeo" är valt som Videotyp</help>
+          </VideolinkId>
+        </properties>
+      </VideoBlock>
+    
+    </contenttypes>
+	</language>
+</languages>

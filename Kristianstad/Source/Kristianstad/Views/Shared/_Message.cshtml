@@ -1,0 +1,64 @@
+﻿@model EPiCore.Content.ViewModels.Common.MessageViewModel
+
+<section class="message">
+    @using (Html.BeginForm("Send", "Message"))
+    {
+
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.PageId)
+
+        <div class="row">
+            <div class="columns small-12 medium-6">
+                @Html.LabelFor(m => m.FirstName, Html.Translate("/core/misc/message/form/firstName"), new { @class = "show-for-sr" })
+                @Html.TextBoxFor(m => m.FirstName, new { @placeholder = Html.Translate("/core/misc/message/form/firstName") })
+            </div>
+            <div class="columns small-12 medium-6">
+                @Html.LabelFor(m => m.LastName, Html.Translate("/core/misc/message/form/lastName"), new { @class = "show-for-sr" })
+                @Html.TextBoxFor(m => m.LastName, new { @placeholder = Html.Translate("/core/misc/message/form/lastName") })
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="columns small-12">
+                @Html.LabelFor(m => m.Address, Html.Translate("/core/misc/message/form/address"), new { @class = "show-for-sr" })
+                @Html.TextBoxFor(m => m.Address, new { @placeholder = Html.Translate("/core/misc/message/form/address") })
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="columns small-12 medium-4">
+                @Html.LabelFor(m => m.ZipCode, Html.Translate("/core/misc/message/form/zipCode"), new { @class = "show-for-sr" })
+                <input type="number" id="@Html.IdFor(m => m.ZipCode)" placeholder="@Html.Translate("/core/misc/message/form/zipCode")" />
+            </div>
+            <div class="columns small-12 medium-8">
+                @Html.LabelFor(m => m.City, Html.Translate("/core/misc/message/form/city"), new { @class = "show-for-sr" })
+                @Html.TextBoxFor(m => m.City, new { @placeholder = Html.Translate("/core/misc/message/form/city") })
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="columns small-12 medium-6">
+                @Html.LabelFor(m => m.Phone, Html.Translate("/core/misc/message/form/phone"), new { @class = "show-for-sr" })
+                <input type="number" id="@Html.IdFor(m => m.Phone)" placeholder="@Html.Translate("/core/misc/message/form/phone")" />
+            </div>
+            <div class="columns small-12 medium-6">
+                @Html.LabelFor(m => m.Email, Html.Translate("/core/misc/message/form/email"), new { @class = "show-for-sr" })
+                <input type="email" id="@Html.IdFor(m => m.Email)" placeholder="@Html.Translate("/core/misc/message/form/email")" />
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="columns small-12">
+                @Html.LabelFor(m => m.Message, Html.Translate("/core/misc/message/form/message"), new { @class = "show-for-sr" })
+                @Html.TextAreaFor(m => m.Message, new { @rows = "3", @plageholder = Html.Translate("/core/misc/message/form/message") })
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="columns small-12">
+                <button type="submit" class="button secondary expand">@Html.Translate("/core/misc/message/form/send")</button>
+            </div>
+        </div>
+
+    }
+</section>

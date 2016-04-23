@@ -1,0 +1,39 @@
+﻿
+<nav class="row mobile-menu hide-for-medium" id="responsive-menu">
+    <div class="mobile-menu__search">
+        <div class="input-group">
+            <input class="input-group-field" type="text">
+            <div class="input-group-button">
+                <input type="submit" class="button" value="Submit">
+            </div>
+        </div>
+    </div>
+
+    <ul class="horizontal menu mobile-menu__help-links">
+        <li><a href="#">Anpassa</a></li>
+        <li><a href="#">Kontakta</a></li>
+    </ul>
+
+    <ul class="vertical menu mobile-menu__nav">
+        <li class="has-children">
+            <a href="">One</a>
+            <span class="toggle" data-toggle="sub1"></span>
+            <ul class="menu vertical sub-1" id="sub1" data-toggler=".is-active">
+                <li><a href="">One</a></li>
+                <li><a href="">Two</a></li>
+                <li class="has-children">
+                    <a href="">Three</a>
+                    <span class="toggle" data-toggle="sub2"></span>
+                    <ul class="menu vertical sub-2" id="sub2" data-toggler=".is-active">
+                        <li><a href="">One</a></li>
+                        <li><a href="">Two</a></li>
+                        <li><a href="">Three</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li><a href="">Two</a></li>
+        <li><a href="">Three</a></li>
+    </ul>
+
+</nav>

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<languages>
+  <language name="English" id="en">
+    <contenttypes>
+
+      <!-- Page Types -->
+
+      <SectionPage>
+        <name>Section page</name>
+        <description>Entry page for the main menu</description>
+        <properties>
+          <MaxNumberOfMenuEntries>
+            <caption>Max number of menu pages</caption>
+            <help>Property for limiting the maximum number of menu pages</help>
+          </MaxNumberOfMenuEntries>
+          <MenuLinkList>
+            <caption>"Quick links"</caption>
+            <help>Quick links presented first in the main menu (max 4)</help>
+          </MenuLinkList>
+          <Icon>
+            <caption>Menu icon</caption>
+            <help>Type of menu icon</help>
+          </Icon>
+        </properties>
+      </SectionPage>
+
+      <ContentPage>
+        <name>Content page</name>
+        <description>Page for content</description>
+        <properties>
+          <MenuTitle>
+            <caption>Title in main menu</caption>
+            <help>Presented as header for this page in the main menu</help>
+          </MenuTitle>
+          <MenuDescription>
+            <caption>Description in main menu</caption>
+            <help>Presented as description for the page in the main menu (max 100 characters)</help>
+          </MenuDescription>
+          <TitleImage>
+            <caption>Title picture</caption>
+            <help>Recommended format is 2:1 (720 x 360)</help>
+          </TitleImage>
+          <TitleImageCaption>
+            <caption>Picture caption</caption>
+            <help>Presented beneath title picture if one has been set</help>
+          </TitleImageCaption>
+          <RelatedEServices>
+            <caption>Related e-services</caption>
+          </RelatedEServices>
+          <RelatedDocuments>
+            <caption>Related documents</caption>
+          </RelatedDocuments>
+          <RelatedLinks>
+            <caption>Related links</caption>
+          </RelatedLinks>
+        </properties>
+      </ContentPage>
+
+      <!--SettingsPage>
+        <name>Settings page</name>
+        <description>Page for global settings</description>
+        <properties>
+          <Adjust>
+            <caption>Link to accessibility page</caption>
+          </Adjust>
+          <EServices>
+            <caption>Link to e-services</caption>
+          </EServices>
+          <Contact>
+            <caption>Link to contact page</caption>
+          </Contact>
+          <FooterBlockArea>
+            <caption>Blockarea for footer</caption>
+          </FooterBlockArea>
+          <ContactDetails>
+            <caption>Information text</caption>
+            <help>Shown at the bottom of the footer</help>
+          </ContactDetails>
+        </properties>
+      </SettingsPage-->
+
+      <!-- Blocks -->
+
+      <VideoBlock>
+        <name>Videoblock</name>
+        <description>Block for rendering of videos in TinyMCE text editor</description>
+        <properties>
+          <VideoType>
+            <caption>Videotype</caption>
+            <help>Choose the type of video to be rendered</help>
+          </VideoType>
+          <Video>
+            <caption>Local video file</caption>
+            <help>Video file uploaded in EPiServer. Recommended format: mp4. This choise requires that "Local file" was set as Videotype</help>
+          </Video>
+          <VideolinkId>
+            <caption>Id from video link</caption>
+            <help>The Id at the end of your Youtube or Vimeo link. This choise requires that "Youtube" or "Vimeo" was set as Videotype</help>
+          </VideolinkId>
+        </properties>
+      </VideoBlock>      
+
+    </contenttypes>
+  </language>
+</languages>

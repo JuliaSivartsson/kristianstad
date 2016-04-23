@@ -1,0 +1,575 @@
+﻿// Fonts
+// -----------------------
+
+$OpenSansPath: "../font/opensans" !default;
+$fa-font-path: "../font/font-awesome" !default;
+
+//  Foundation for Sites Settings
+//  -----------------------------
+//
+//  Table of Contents:
+//
+//   1. Global
+//   2. Breakpoints
+//   3. The Grid
+//   4. Base Typography
+//   5. Typography Helpers
+//   6. Abide
+//   7. Accordion
+//   8. Accordion Menu
+//   9. Badge
+//  10. Breadcrumbs
+//  11. Button
+//  12. Button Group
+//  13. Callout
+//  14. Close Button
+//  15. Drilldown
+//  16. Dropdown
+//  17. Dropdown Menu
+//  18. Flex Video
+//  19. Forms
+//  20. Label
+//  21. Media Object
+//  22. Menu
+//  23. Meter
+//  24. Off-canvas
+//  25. Orbit
+//  26. Pagination
+//  27. Progress Bar
+//  28. Reveal
+//  29. Slider
+//  30. Switch
+//  31. Table
+//  32. Tabs
+//  33. Thumbnail
+//  34. Title Bar
+//  35. Tooltip
+//  36. Top Bar
+
+@import 'util/util';
+
+// 1. Global
+// ---------
+
+$global-font-size: 100% !default;
+$global-width: rem-calc(1200) !default;
+$global-lineheight: 1.5 !default;
+$foundation-palette: (
+  primary: #2199e8,
+  secondary: #777,
+  success: #3adb76,
+  warning: #ffae00,
+  alert: #ec5840,
+) !default;
+$light-gray: #e6e6e6 !default;
+$medium-gray: #cacaca !default;
+$dark-gray: #8a8a8a !default;
+$black: #0a0a0a !default;
+$white: #fefefe !default;
+$body-background: #f5f5f5 !default;
+$body-font-color: $black !default;
+$body-font-family: 'Open sans', 'Helvetica Neue', Helvetica, Roboto, Arial, sans-serif !default;
+$body-antialiased: true !default;
+$global-margin: 1rem !default;
+$global-padding: 1rem !default;
+$global-weight-normal: normal !default;
+$global-weight-bold: bold !default;
+$global-radius: 0 !default;
+$global-text-direction: ltr !default;
+$global-flexbox: false !default;
+$print-transparent-backgrounds: true !default;
+
+@include add-foundation-colors;
+
+// 2. Breakpoints
+// --------------
+
+$breakpoints: (
+  small: 0,
+  medium: 640px,
+  large: 1024px,
+  xlarge: 1200px,
+  xxlarge: 1440px,
+) !default;
+$breakpoint-classes: (small medium large) !default;
+
+// 3. The Grid
+// -----------
+
+$grid-row-width: $global-width !default;
+$grid-column-count: 12 !default;
+$grid-column-gutter: (
+  small: 20px,
+  medium: 30px,
+) !default;
+$grid-column-align-edge: true !default;
+$block-grid-max: 8 !default;
+
+// 4. Base Typography
+// ------------------
+
+$header-font-family: $body-font-family !default;
+$header-font-weight: $global-weight-normal !default;
+$header-font-style: normal !default;
+$font-family-monospace: Consolas, 'Liberation Mono', Courier, monospace !default;
+$header-sizes: (
+  small: (
+    'h1': 24,
+    'h2': 20,
+    'h3': 19,
+    'h4': 18,
+    'h5': 17,
+    'h6': 16,
+  ),
+  medium: (
+    'h1': 48,
+    'h2': 40,
+    'h3': 31,
+    'h4': 25,
+    'h5': 20,
+    'h6': 16,
+  ),
+) !default;
+$header-color: inherit !default;
+$header-lineheight: 1.4 !default;
+$header-margin-bottom: 0.5rem !default;
+$header-text-rendering: optimizeLegibility !default;
+$small-font-size: 80% !default;
+$header-small-font-color: $medium-gray !default;
+$paragraph-lineheight: 1.6 !default;
+$paragraph-margin-bottom: 1rem !default;
+$paragraph-text-rendering: optimizeLegibility !default;
+$code-color: $black !default;
+$code-font-family: $font-family-monospace !default;
+$code-font-weight: $global-weight-normal !default;
+$code-background: $light-gray !default;
+$code-border: 1px solid $medium-gray !default;
+$code-padding: rem-calc(2 5 1) !default;
+$anchor-color: $primary-color !default;
+$anchor-color-hover: scale-color($anchor-color, $lightness: -14%) !default;
+$anchor-text-decoration: none !default;
+$anchor-text-decoration-hover: none !default;
+$hr-width: $global-width !default;
+$hr-border: 1px solid $medium-gray !default;
+$hr-margin: rem-calc(20) auto !default;
+$list-lineheight: $paragraph-lineheight !default;
+$list-margin-bottom: $paragraph-margin-bottom !default;
+$list-style-type: disc !default;
+$list-style-position: outside !default;
+$list-side-margin: 1.25rem !default;
+$list-nested-side-margin: 1.25rem !default;
+$defnlist-margin-bottom: 1rem !default;
+$defnlist-term-weight: $global-weight-bold !default;
+$defnlist-term-margin-bottom: 0.3rem !default;
+$blockquote-color: $dark-gray !default;
+$blockquote-padding: rem-calc(9 20 0 19) !default;
+$blockquote-border: 1px solid $medium-gray !default;
+$cite-font-size: rem-calc(13) !default;
+$cite-color: $dark-gray !default;
+$keystroke-font: $font-family-monospace !default;
+$keystroke-color: $black !default;
+$keystroke-background: $light-gray !default;
+$keystroke-padding: rem-calc(2 4 0) !default;
+$keystroke-radius: $global-radius !default;
+$abbr-underline: 1px dotted $black !default;
+
+// 5. Typography Helpers
+// ---------------------
+
+$lead-font-size: $global-font-size * 1.25 !default;
+$lead-lineheight: 1.6 !default;
+$subheader-lineheight: 1.4 !default;
+$subheader-color: $dark-gray !default;
+$subheader-font-weight: $global-weight-normal !default;
+$subheader-margin-top: 0.2rem !default;
+$subheader-margin-bottom: 0.5rem !default;
+$stat-font-size: 2.5rem !default;
+
+// 6. Abide
+// --------
+
+$abide-inputs: true !default;
+$abide-labels: true !default;
+$input-background-invalid: map-get($foundation-palette, alert) !default;
+$form-label-color-invalid: map-get($foundation-palette, alert) !default;
+$input-error-color: map-get($foundation-palette, alert) !default;
+$input-error-font-size: rem-calc(12) !default;
+$input-error-font-weight: $global-weight-bold !default;
+
+// 7. Accordion
+// ------------
+
+$accordion-background: $white !default;
+$accordion-plusminus: true !default;
+$accordion-item-color: foreground($accordion-background, $primary-color) !default;
+$accordion-item-background-hover: $light-gray !default;
+$accordion-item-padding: 1.25rem 1rem !default;
+$accordion-content-background: $white !default;
+$accordion-content-border: 1px solid $light-gray !default;
+$accordion-content-color: foreground($accordion-background, $primary-color) !default;
+$accordion-content-padding: 1rem !default;
+
+// 8. Accordion Menu
+// -----------------
+
+$accordionmenu-arrows: true !default;
+$accordionmenu-arrow-color: $primary-color !default;
+
+// 9. Badge
+// --------
+
+$badge-background: $primary-color !default;
+$badge-color: foreground($badge-background) !default;
+$badge-padding: 0.3em !default;
+$badge-minwidth: 2.1em !default;
+$badge-font-size: 0.6rem !default;
+
+// 10. Breadcrumbs
+// ---------------
+
+$breadcrumbs-margin: 0 0 $global-margin 0 !default;
+$breadcrumbs-item-font-size: rem-calc(11) !default;
+$breadcrumbs-item-color: $primary-color !default;
+$breadcrumbs-item-color-current: $black !default;
+$breadcrumbs-item-color-disabled: $medium-gray !default;
+$breadcrumbs-item-margin: 0.75rem !default;
+$breadcrumbs-item-uppercase: true !default;
+$breadcrumbs-item-slash: true !default;
+
+// 11. Button
+// ----------
+
+$button-padding: 0.85em 1em !default;
+$button-margin: 0 0 $global-margin 0 !default;
+$button-fill: solid !default;
+$button-background: $primary-color !default;
+$button-background-hover: scale-color($button-background, $lightness: -15%) !default;
+$button-color: $white !default;
+$button-color-alt: $black !default;
+$button-radius: $global-radius !default;
+$button-sizes: (
+  tiny: 0.6rem,
+  small: 0.75rem,
+  default: 0.9rem,
+  large: 1.25rem,
+) !default;
+$button-opacity-disabled: 0.25 !default;
+
+// 12. Button Group
+// ----------------
+
+$buttongroup-margin: 1rem !default;
+$buttongroup-spacing: 1px !default;
+$buttongroup-child-selector: '.button' !default;
+$buttongroup-expand-max: 6 !default;
+
+// 13. Callout
+// -----------
+
+$callout-background: $white !default;
+$callout-background-fade: 85% !default;
+$callout-border: 1px solid rgba($black, 0.25) !default;
+$callout-margin: 0 0 1rem 0 !default;
+$callout-padding: 1rem !default;
+$callout-font-color: $body-font-color !default;
+$callout-font-color-alt: $body-background !default;
+$callout-radius: $global-radius !default;
+$callout-link-tint: 30% !default;
+
+// 14. Close Button
+// ----------------
+
+$closebutton-position: right top !default;
+$closebutton-offset-horizontal: 1rem !default;
+$closebutton-offset-vertical: 0.5rem !default;
+$closebutton-size: 2em !default;
+$closebutton-lineheight: 1 !default;
+$closebutton-color: $dark-gray !default;
+$closebutton-color-hover: $black !default;
+
+// 15. Drilldown
+// -------------
+
+$drilldown-transition: transform 0.15s linear !default;
+$drilldown-arrows: true !default;
+$drilldown-arrow-color: $primary-color !default;
+$drilldown-background: $white !default;
+
+// 16. Dropdown
+// ------------
+
+$dropdown-padding: 1rem !default;
+$dropdown-border: 1px solid $medium-gray !default;
+$dropdown-font-size: 1rem !default;
+$dropdown-width: 300px !default;
+$dropdown-radius: $global-radius !default;
+$dropdown-sizes: (
+  tiny: 100px,
+  small: 200px,
+  large: 400px,
+) !default;
+
+// 17. Dropdown Menu
+// -----------------
+
+$dropdownmenu-arrows: true !default;
+$dropdownmenu-arrow-color: $anchor-color !default;
+$dropdownmenu-min-width: 200px !default;
+$dropdownmenu-background: $white !default;
+$dropdownmenu-border: 1px solid $medium-gray !default;
+
+// 18. Flex Video
+// --------------
+
+$flexvideo-margin-bottom: rem-calc(16) !default;
+$flexvideo-ratio: 4 by 3 !default;
+$flexvideo-ratio-widescreen: 16 by 9 !default;
+
+// 19. Forms
+// ---------
+
+$fieldset-border: 1px solid $medium-gray !default
+$fieldset-padding: rem-calc(20) !default;
+$fieldset-margin: rem-calc(18 0) !default;
+$legend-padding: rem-calc(0 3) !default;
+$form-spacing: rem-calc(16) !default;
+$helptext-color: $black !default;
+$helptext-font-size: rem-calc(13) !default;
+$helptext-font-style: italic !default;
+$input-prefix-color: $black !default;
+$input-prefix-background: $light-gray !default;
+$input-prefix-border: 1px solid $medium-gray !default;
+$input-prefix-padding: 1rem !default;
+$form-label-color: $black !default;
+$form-label-font-size: rem-calc(14) !default;
+$form-label-font-weight: $global-weight-normal !default;
+$form-label-line-height: 1.8 !default;
+$select-background: $white !default;
+$select-triangle-color: $dark-gray !default;
+$select-radius: $global-radius !default;
+$input-color: $black !default;
+$input-placeholder-color: $medium-gray !default;
+$input-font-family: inherit !default;
+$input-font-size: rem-calc(16) !default;
+$input-background: $white !default;
+$input-background-focus: $white !default;
+$input-background-disabled: $light-gray !default;
+$input-border: 1px solid $medium-gray !default;
+$input-border-focus: 1px solid $dark-gray !default;
+$input-shadow: inset 0 1px 2px rgba($black, 0.1) !default;
+$input-shadow-focus: 0 0 5px $medium-gray !default;
+$input-cursor-disabled: default !default;
+$input-transition: box-shadow 0.5s, border-color 0.25s ease-in-out !default;
+$input-number-spinners: true !default;
+$input-radius: $global-radius !default;
+
+// 20. Label
+// ---------
+
+$label-background: $primary-color !default;
+$label-color: foreground($label-background) !default;
+$label-font-size: 0.8rem !default;
+$label-padding: 0.33333rem 0.5rem !default;
+$label-radius: $global-radius !default;
+
+// 21. Media Object
+// ----------------
+
+$mediaobject-margin-bottom: $global-margin !default;
+$mediaobject-section-padding: $global-padding !default;
+$mediaobject-image-width-stacked: 100% !default;
+
+// 22. Menu
+// --------
+
+$menu-margin: 0 !default;
+$menu-margin-nested: 1rem !default;
+$menu-item-padding: 0.7rem 1rem !default;
+$menu-item-color-active: $white !default;
+$menu-item-background-active: map-get($foundation-palette, primary) !default;
+$menu-icon-spacing: 0.25rem !default;
+
+// 23. Meter
+// ---------
+
+$meter-height: 1rem !default;
+$meter-radius: $global-radius !default;
+$meter-background: $medium-gray !default;
+$meter-fill-good: $success-color !default;
+$meter-fill-medium: $warning-color !default;
+$meter-fill-bad: $alert-color !default;
+
+// 24. Off-canvas
+// --------------
+
+$offcanvas-size: 250px !default;
+$offcanvas-background: $light-gray !default;
+$offcanvas-zindex: -1 !default;
+$offcanvas-transition-length: 0.5s !default;
+$offcanvas-transition-timing: ease !default;
+$offcanvas-fixed-reveal: true !default;
+$offcanvas-exit-background: rgba($white, 0.25) !default;
+$maincontent-class: 'off-canvas-content' !default;
+$maincontent-shadow: 0 0 10px rgba($black, 0.5) !default;
+
+// 25. Orbit
+// ---------
+
+$orbit-bullet-background: $medium-gray !default;
+$orbit-bullet-background-active: $dark-gray !default;
+$orbit-bullet-diameter: 1.2rem !default;
+$orbit-bullet-margin: 0.1rem !default;
+$orbit-bullet-margin-top: 0.8rem !default;
+$orbit-bullet-margin-bottom: 0.8rem !default;
+$orbit-caption-background: rgba($black, 0.5) !default;
+$orbit-caption-padding: 1rem !default;
+$orbit-control-background-hover: rgba($black, 0.5) !default;
+$orbit-control-padding: 1rem !default;
+$orbit-control-zindex: 10 !default;
+
+// 26. Pagination
+// --------------
+
+$pagination-font-size: rem-calc(14) !default;
+$pagination-margin-bottom: $global-margin !default;
+$pagination-item-color: $black !default;
+$pagination-item-padding: rem-calc(3 10) !default;
+$pagination-item-spacing: rem-calc(1) !default;
+$pagination-radius: $global-radius !default;
+$pagination-item-background-hover: $light-gray !default;
+$pagination-item-background-current: $primary-color;
+$pagination-item-color-current: foreground($pagination-item-background-current) !default;
+$pagination-item-color-disabled: $medium-gray !default;
+$pagination-ellipsis-color: $black !default;
+$pagination-mobile-items: false !default;
+$pagination-arrows: true !default;
+
+// 27. Progress Bar
+// ----------------
+
+$progress-height: 1rem !default;
+$progress-background: $medium-gray !default;
+$progress-margin-bottom: $global-margin !default;
+$progress-meter-background: $primary-color !default;
+$progress-radius: $global-radius !default;
+
+// 28. Reveal
+// ----------
+
+$reveal-background: $white !default;
+$reveal-width: 600px !default;
+$reveal-max-width: $global-width !default;
+$reveal-padding: $global-padding !default;
+$reveal-border: 1px solid $medium-gray !default;
+$reveal-radius: $global-radius !default;
+$reveal-zindex: 1005 !default;
+$reveal-overlay-background: rgba($black, 0.45) !default;
+
+// 29. Slider
+// ----------
+
+$slider-width-vertical: 0.5rem !default;
+$slider-transition: all 0.2s ease-in-out !default;
+$slider-height: 0.5rem !default;
+$slider-background: $light-gray !default;
+$slider-fill-background: $medium-gray !default;
+$slider-handle-height: 1.4rem !default;
+$slider-handle-width: 1.4rem !default;
+$slider-handle-background: $primary-color !default;
+$slider-opacity-disabled: 0.25 !default;
+$slider-radius: $global-radius !default;
+
+// 30. Switch
+// ----------
+
+$switch-background: $medium-gray !default;
+$switch-background-active: $primary-color !default;
+$switch-height: 2rem !default;
+$switch-height-tiny: 1.5rem !default;
+$switch-height-small: 1.75rem !default;
+$switch-height-large: 2.5rem !default;
+$switch-radius: $global-radius !default;
+$switch-margin: $global-margin!default;
+$switch-paddle-background: $white !default;
+$switch-paddle-offset: 0.25rem !default;
+$switch-paddle-radius: $global-radius !default;
+$switch-paddle-transition: all 0.25s ease-out !default;
+
+// 31. Table
+// ---------
+
+$table-background: $white !default;
+$table-color-scale: 5% !default;
+$table-border: 1px solid smart-scale($table-background, $table-color-scale) !default;
+$table-padding: rem-calc(8 10 10) !default;
+$table-hover-scale: 2% !default;
+$table-row-hover: darken($table-background, $table-hover-scale) !default;
+$table-row-stripe-hover: darken($table-background, $table-color-scale + $table-hover-scale) !default;
+$table-striped-background: smart-scale($table-background, $table-color-scale) !default;
+$table-stripe: even !default;
+$table-head-background: smart-scale($table-background, $table-color-scale / 2) !default;
+$table-foot-background: smart-scale($table-background, $table-color-scale) !default;
+$table-head-font-color: $body-font-color !default;
+$show-header-for-stacked: false !default;
+
+// 32. Tabs
+// --------
+
+$tab-margin: 0 !default;
+$tab-background: $white !default;
+$tab-background-active: $light-gray !default;
+$tab-item-font-size: rem-calc(12) !default;
+$tab-item-background-hover: $white !default;
+$tab-item-padding: 1.25rem 1.5rem !default;
+$tab-expand-max: 6 !default;
+$tab-content-background: $white !default;
+$tab-content-border: $light-gray !default;
+$tab-content-color: foreground($tab-background, $primary-color) !default;
+$tab-content-padding: 1rem !default;
+
+// 33. Thumbnail
+// -------------
+
+$thumbnail-border: solid 4px $white !default;
+$thumbnail-margin-bottom: $global-margin !default;
+$thumbnail-shadow: 0 0 0 1px rgba($black, 0.2) !default;
+$thumbnail-shadow-hover: 0 0 6px 1px rgba($primary-color, 0.5) !default;
+$thumbnail-transition: box-shadow 200ms ease-out !default
+$thumbnail-radius: $global-radius !default;
+
+// 34. Title Bar
+// -------------
+
+$titlebar-background: $black !default;
+$titlebar-color: $white !default;
+$titlebar-padding: 0.5rem !default;
+$titlebar-text-font-weight: bold !default;
+$titlebar-icon-color: $white !default;
+$titlebar-icon-color-hover: $medium-gray !default;
+$titlebar-icon-spacing: 0.25rem !default;
+
+// 35. Tooltip
+// -----------
+
+$has-tip-font-weight: $global-weight-bold !default;
+$has-tip-border-bottom: dotted 1px $dark-gray !default;
+$tooltip-background-color: $black !default;
+$tooltip-color: $white !default;
+$tooltip-padding: 0.75rem !default;
+$tooltip-font-size: $small-font-size !default;
+$tooltip-pip-width: 0.75rem !default;
+$tooltip-pip-height: $tooltip-pip-width * 0.866 !default;
+$tooltip-radius: $global-radius !default;
+
+// 36. Top Bar
+// -----------
+
+$topbar-padding: 0.5rem !default;
+$topbar-background: $light-gray !default;
+$topbar-submenu-background: $topbar-background !default;
+$topbar-title-spacing: 1rem !default;
+$topbar-input-width: 200px !default;
+$topbar-unstack-breakpoint: medium !default;
+
+
+@import "core_settings";

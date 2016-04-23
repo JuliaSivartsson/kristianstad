@@ -1,0 +1,82 @@
+﻿@model Kristianstad.ViewModels.Common.FooterViewModel
+
+<footer class="main-footer">
+
+    @{
+        if (Model.LinkListArea != null)
+        {
+            string cssClass;
+            switch (Model.LinkListArea.Items.Count())
+            {
+                case 4: cssClass = "column small-12 large-3"; break;
+                case 3: cssClass = "column small-12 large-4"; break;
+                case 2: cssClass = "column small-12 large-6"; break;
+                case 1: cssClass = "column small-12 large-12"; break;
+                default: cssClass = "column small-12 large-3"; break;
+            }
+
+            if (EPiServer.Editor.PageEditing.PageIsInEditMode)
+            {
+                <nav class="row footer-nav">
+                    @Html.PropertyFor(m => m.LinkListArea, new
+                    {
+                        ChildrenCustomTagName = "section",
+                        ChildrenCssClass = cssClass
+                    })
+                </nav>
+            }
+            else
+            {
+                @Html.PropertyFor(m => m.LinkListArea, new
+                {
+                    CustomTag = "nav",
+                    CssClass = "row footer-nav",
+                    ChildrenCustomTagName = "section",
+                    ChildrenCssClass = cssClass
+                })
+            }
+        }
+    }
+
+    <section class="column row social">
+        <ul class="horizontal menu">
+            @if (Model.Facebook != null)
+            {
+                <li>
+                    <a target="_blank" href="@Model.Facebook.OriginalString" title="Facebook" class="icon facebook"></a>
+                </li>
+            }
+            @if (Model.Twitter != null)
+            {
+                <li>
+                    <a target="_blank" href="@Model.Twitter.OriginalString" title="Twitter" class="icon twitter"></a>
+                </li>
+            }
+            @if (Model.LinkedIn != null)
+            {
+                <li>
+                    <a target="_blank" href="@Model.LinkedIn.OriginalString" title="LinkedIn" class="icon linkedin"></a>
+                </li>
+            }
+            @if (Model.Flickr != null)
+            {
+                <li>
+                    <a target="_blank" href="@Model.Flickr.OriginalString" title="Flickr" class="icon flickr"></a>
+                </li>
+            }
+            @if (Model.YouTube != null)
+            {
+                <li>
+                    <a target="_blank" href="@Model.YouTube.OriginalString" title="YouTube" class="icon youtube"></a>
+                </li>
+            }
+        </ul>
+    </section>
+
+    <section class="row contact-details">
+        <address class="column small-12 medium-8 medium-centered">
+            @Html.PropertyFor(m => m.ContactDetails)
+        </address>
+    </section>
+
+</footer>

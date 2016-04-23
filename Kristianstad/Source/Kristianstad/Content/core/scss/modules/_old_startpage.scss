@@ -1,0 +1,48 @@
+﻿
+.startpage {
+
+    > .slider {
+        max-width: 100%;
+        min-height: rem-calc(300px);
+        background-color: $white;
+        border-bottom: rem-calc(1px) solid lighten($aluminum, 30%);
+        background-image: url(/Content/core/img/slider/slide1.jpg);
+        background-size: cover;
+        background-position: 30% 18%;
+    }
+    
+
+    > .content {
+        max-width: $row-width;
+        margin: 0 auto;
+        margin-top: rem-calc(15px);
+
+        .header-section {
+            border-bottom: rem-calc(1px) solid lighten($aluminum, 30%);
+            margin-bottom: rem-calc(20px);
+        }
+
+        .news-list li {
+ 
+            article {
+            
+                section:nth-child(1){
+                }
+
+                section:nth-child(2){
+
+                }
+
+                h3 {
+                    font-size: rem-calc(18px);
+                    font-weight: bold;
+                }
+
+                p{
+                    font-size: rem-calc(12px);
+                    line-height: rem-calc(20px);
+                }
+            }
+        }
+    }
+}

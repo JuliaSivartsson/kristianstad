@@ -1,0 +1,17 @@
+﻿.table {
+    width: 100% !important;
+
+    .tablesaw-cell-label {
+        display: block !important;
+        padding: .4em 0;
+        margin: .4em 0;
+        width: 100% !important;
+    }
+}
+
+// Override foundation "left" class.
+.tablesaw-advance {
+    .tablesaw-nav-btn.left {
+        float: none !important;
+    }
+}

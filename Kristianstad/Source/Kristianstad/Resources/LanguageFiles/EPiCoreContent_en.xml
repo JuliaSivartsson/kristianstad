@@ -1,0 +1,518 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<languages>
+  <language name="English" id="en">
+    <contentTypes>
+
+      <!-- IContentData -->
+
+      <iContentData>
+        <properties>
+          <publisher>
+            <caption>Publisher</caption>
+            <help>The publisher of the page.</help>
+          </publisher>
+          <title>
+            <caption>Title</caption>
+            <help>The title of the page.</help>
+          </title>
+          <titleImage>
+            <caption>Title Image</caption>
+            <help>The title image of the page.</help>
+          </titleImage>
+          <preamble>
+            <caption>Preamble</caption>
+            <help>A short preamble to the page content.</help>
+          </preamble>
+          <topBlockArea>
+            <caption>Top Block Area</caption>
+            <help>A top area for placement of blocks.</help>
+          </topBlockArea>
+          <content>
+            <caption>Content</caption>
+            <help>The content of the page.</help>
+          </content>
+          <blockArea>
+            <caption>Block Area</caption>
+            <help>An area for placement of blocks.</help>
+          </blockArea>
+        </properties>
+      </iContentData>
+
+      <!-- Page Types -->
+
+      <aToZPage>
+        <name>A-Z Page</name>
+        <description>Page for listing pages A-Z.</description>
+        <properties>
+        </properties>
+      </aToZPage>
+
+      <settingsPage>
+        <name>Settings Page</name>
+        <description>Page for settings.</description>
+        <properties>
+          <sitemap>
+            <caption>Sitemap Page</caption>
+            <help>Link to sitemap page.</help>
+          </sitemap>
+          <footerBlockArea>
+            <caption>Footer Area</caption>
+            <help>A footer area for placement of blocks.</help>
+          </footerBlockArea>
+          <headerLinks>
+            <caption>Header Links</caption>
+            <help></help>
+          </headerLinks>
+          <cookieNotice>
+            <caption>Cookie Notice</caption>
+            <help>Block for showing a cookie notice.</help>
+          </cookieNotice>
+          <crisisNotice>
+            <caption>Crisis Notice</caption>
+            <help>Block for showing a crisis notice.</help>
+          </crisisNotice>
+        </properties>
+      </settingsPage>
+
+      <startPage>
+        <name>Start Page</name>
+        <description>The start page for the website.</description>
+        <properties>
+          <slideshowGallery>
+            <caption>Slideshow Gallery</caption>
+            <help>A gallery of revolving images.</help>
+          </slideshowGallery>
+          <newsHeader>
+            <caption>News Header</caption>
+            <help></help>
+          </newsHeader>
+          <newsRoot>
+            <caption>News</caption>
+            <help>Page to fetch news from.</help>
+          </newsRoot>
+        </properties>
+      </startPage>
+
+      <standardPage>
+        <name>Content Page</name>
+        <description>Page for content.</description>
+        <properties>
+          <easyToReadPage>
+            <caption>Easy To Read Link</caption>
+            <help>Link to an alternative version of the page, written to be easy to read.</help>
+          </easyToReadPage>
+        </properties>
+      </standardPage>
+
+      <easyToReadPage>
+        <name>Easy To Read Page</name>
+        <description>Page for content, written to be easy to read.</description>
+        <properties>
+        </properties>
+      </easyToReadPage>
+
+      <newsPage>
+        <name>News Page</name>
+        <description>Page for news.</description>
+        <properties>
+        </properties>
+      </newsPage>
+
+      <errorPage>
+        <name>Error Page</name>
+        <description>Page for errors.</description>
+        <properties>
+          <image>
+            <caption>Image</caption>
+            <help>An image.</help>
+          </image>
+        </properties>
+      </errorPage>
+
+      <sitemapPage>
+        <name>Sitemap Page</name>
+        <description>Page for sitemap.</description>
+        <properties>
+          <startpage>
+            <caption>Start Page</caption>
+            <help>Link to the page to start the sitemap from.</help>
+          </startpage>
+        </properties>
+      </sitemapPage>
+
+      <!-- Block Types -->
+
+      <imageBlock>
+        <name>Image Block</name>
+        <description>Block for images.</description>
+        <properties>
+          <Image>
+            <caption>Image</caption>
+            <help>Image to display.</help>
+          </Image>
+        </properties>
+      </imageBlock>
+
+      <promotionBlock>
+        <name>Promotion Block</name>
+        <description>Block for promotions.</description>
+        <properties>
+          <image>
+            <caption>Image</caption>
+            <help></help>
+          </image>
+          <title>
+            <caption>Title</caption>
+            <help>The title of the promotion.</help>
+          </title>
+          <text>
+            <caption>Text</caption>
+            <help>A short text about the promotion.</help>
+          </text>
+          <linkto>
+            <caption>Link To</caption>
+            <help>Link to the promotion site.</help>
+          </linkto>
+        </properties>
+      </promotionBlock>
+
+      <linkListBlock>
+        <name>Link List Block</name>
+        <description>Block for link lists.</description>
+        <properties>
+          <title>
+            <caption>Title</caption>
+            <help>The title of the link list.</help>
+          </title>
+          <links>
+            <caption>Links</caption>
+            <help></help>
+          </links>
+        </properties>
+      </linkListBlock>
+
+      <formBlock>
+        <name>Form Block</name>
+        <description>Block for forms.</description>
+        <properties>
+          <title>
+            <caption>Title</caption>
+            <help>The title of the form.</help>
+          </title>
+          <form>
+            <caption>Form</caption>
+            <help></help>
+          </form>
+        </properties>
+      </formBlock>
+
+      <slideItemBlock>
+        <name>Carousel Block</name>
+        <description>Block for carousels.</description>
+        <properties>
+          <image>
+            <caption>Image</caption>
+            <help>Image to display in the carousel.</help>
+          </image>
+          <title>
+            <caption>Title</caption>
+            <help></help>
+          </title>
+          <text>
+            <caption>Text</caption>
+            <help></help>
+          </text>
+          <linkto>
+            <caption>Link To</caption>
+            <help></help>
+          </linkto>
+        </properties>
+      </slideItemBlock>
+
+      <contactCardBlock>
+        <name>Contact Card Block</name>
+        <description>Block for contact cards.</description>
+        <properties>
+          <title>
+            <caption>Title</caption>
+            <help></help>
+          </title>
+          <firstName>
+            <caption>First Name</caption>
+            <help></help>
+          </firstName>
+          <lastName>
+            <caption>Last Name</caption>
+            <help></help>
+          </lastName>
+          <phone>
+            <caption>Phone Number</caption>
+            <help></help>
+          </phone>
+          <mobile>
+            <caption>Mobile Phone Number</caption>
+            <help></help>
+          </mobile>
+          <email>
+            <caption>E-mail Address</caption>
+            <help></help>
+          </email>
+        </properties>
+      </contactCardBlock>
+
+      <!-- Local Block Types -->
+
+      <crisisNoticeBlock>
+        <name>Crisis Notice Block</name>
+        <description>Block for crisis notice.</description>
+        <properties>
+          <isEnabled>
+            <caption>Show Notice</caption>
+            <help>Whether the crisis notice should be displayed or not.</help>
+          </isEnabled>
+          <level>
+            <caption>Severity</caption>
+            <help>The severity of the crisis.</help>
+          </level>
+          <message>
+            <caption>Notice</caption>
+            <help></help>
+          </message>
+          <linkText>
+            <caption>Link Text</caption>
+            <help>Text to use for the read more-link.</help>
+          </linkText>
+          <linkTo>
+            <caption>Link To</caption>
+            <help>Page to link the read more-link to.</help>
+          </linkTo>
+        </properties>
+      </crisisNoticeBlock>
+
+      <cookieNoticeBlock>
+        <name>Cookie Notice Block</name>
+        <description>Block for cookie notice.</description>
+        <properties>
+          <message>
+            <caption>Notice</caption>
+            <help></help>
+          </message>
+          <linkText>
+            <caption>Link Text</caption>
+            <help>Text to use for the read more-link.</help>
+          </linkText>
+          <linkTo>
+            <caption>Link To</caption>
+            <help>Page to link the read more-link to.</help>
+          </linkTo>
+        </properties>
+      </cookieNoticeBlock>
+
+      <teaserBlock>
+        <name>Teaser Block</name>
+        <description>Block for pages displayed as teasers.</description>
+        <properties>
+          <title>
+            <caption>Title</caption>
+            <help>The title of the page, when displayed as a teaser.</help>
+          </title>
+          <titleImage>
+            <caption>Title Image</caption>
+            <help>The title image of the page, when displayed as a teaser.</help>
+          </titleImage>
+          <preamble>
+            <caption>Preamble</caption>
+            <help>A short preamble to the page content, when displayed as a teaser.</help>
+          </preamble>
+        </properties>
+      </teaserBlock>
+
+      <seoBlock>
+        <name>SEO Block</name>
+        <description>Block for page SEO.</description>
+        <properties>
+          <description>
+            <caption>Description</caption>
+            <help>The page meta description.</help>
+          </description>
+          <keywords>
+            <caption>Keywords</caption>
+            <help>The page meta keywords, separated by commas.</help>
+          </keywords>
+        </properties>
+      </seoBlock>
+
+      <!-- Media Types -->
+
+      <genericFile>
+        <name>Generic File</name>
+        <description>Generic file content for use on pages and blocks.</description>
+        <properties>
+          <description>
+            <caption>Description</caption>
+            <help>A short description of the generic file.</help>
+          </description>
+          <fileSize>
+            <caption>File Size</caption>
+            <help>The size of the file in bytes (B).</help>
+          </fileSize>
+        </properties>
+      </genericFile>
+
+      <imageFile>
+        <name>Image File</name>
+        <description>Image file to be used on pages and blocks.</description>
+        <properties>
+          <alttext>
+            <caption>Alternative Text</caption>
+            <help>Alternative text to display.</help>
+          </alttext>
+          <fileSize>
+            <caption>File Size</caption>
+            <help>The size of the file in bytes (B).</help>
+          </fileSize>
+        </properties>
+      </imageFile>
+
+      <videoFile>
+        <name>Video File</name>
+        <description>Video file to be used on pages and blocks.</description>
+        <properties>
+          <description>
+            <caption>Description</caption>
+            <help>A short description of the video file.</help>
+          </description>
+          <fileSize>
+            <caption>File Size</caption>
+            <help>The size of the file in bytes (B).</help>
+          </fileSize>
+        </properties>
+      </videoFile>
+
+      <documentFile>
+        <name>Document File</name>
+        <description>Document file to be used on pages and blocks.</description>
+        <properties>
+          <description>
+            <caption>Description</caption>
+            <help>A short description of the document file.</help>
+          </description>
+          <fileSize>
+            <caption>File Size</caption>
+            <help>The size of the file in bytes (B).</help>
+          </fileSize>
+        </properties>
+      </documentFile>
+
+    </contentTypes>
+    <core>
+      <tinymce>
+        <templates>
+          <tableStack>
+            <name>Table - stack</name>
+            <description>If you have a table that contains predictive values it suits to stack it.</description>
+          </tableStack>
+          <tableSwipe>
+            <name>Table - swipe</name>
+            <description>For tables with more irregular data this strategy fits better. Columns are hidden as the space available is reduced , but you can scroll sideways.</description>
+          </tableSwipe>
+          <imagefull>
+            <name>Image - full width</name>
+            <description></description>
+          </imagefull>
+          <imageright>
+            <name>Image - right-aligned</name>
+            <description></description>
+          </imageright>
+          <imageleft>
+            <name>Image - left-aligned</name>
+            <description></description>
+          </imageleft>
+        </templates>
+        <defaultsettings>
+          <name>EPiCore</name>
+          <description>Default settings for EPiCore.</description>
+        </defaultsettings>
+      </tinymce>
+      <displayOptions>
+        <full>
+          <name>Full width</name>
+          <description>Description of full width.</description>
+        </full>
+        <half>
+          <name>Half width</name>
+          <description>Description of half width.</description>
+        </half>
+        <oneThird>
+          <name>One third width</name>
+          <description>Description of ont third width.</description>
+        </oneThird>
+      </displayOptions>
+      <misc>
+        <page>
+          <easyToRead>Easy To Read</easyToRead>
+        </page>
+        <message>
+          <form>
+            <firstName>First Name</firstName>
+            <lastName>Last Name</lastName>
+            <address>Address</address>
+            <zipCode>Zip Code</zipCode>
+            <city>City</city>
+            <phone>Phone Number</phone>
+            <email>E-mail Address</email>
+            <message>Message</message>
+            <send>Send</send>
+          </form>
+          <subject>Message to the publisher</subject>
+          <message>
+            <p>
+              This is a message sent to you from {2} {3}, using the on-line message form, regarding <a href="{1}">{0}</a>.
+            </p>
+            <p>{9}</p>
+            <p>
+              Name: {2} {3}<br />
+              Address: {4} {5} {6}<br />
+              Phone: {7}<br />
+              E-mail: {8}
+            </p>
+          </message>
+        </message>
+        <cookieNotice>
+          <approve>I approve</approve>
+        </cookieNotice>
+        <preview>
+          <heading>The block "{0}" when displayed as "{1}".</heading>
+          <noRenderer>The block "{0}" cannot be displayed as "{1}".</noRenderer>
+          <noPreview>No preview available for "{0}".</noPreview>
+        </preview>
+      </misc>
+    </core>
+    <editorStyleOptions>
+      <heading_styles>Header styles</heading_styles>
+      <heading_1>Header 1</heading_1>
+      <heading_2>Header 2</heading_2>
+    </editorStyleOptions>
+    <groups>
+
+      <!-- Groups -->
+
+      <configurationGroup>Configuration</configurationGroup>
+
+      <!-- Tabs -->
+
+      <newsTab>News Settings</newsTab>
+
+      <cookieNoticeTab>Cookie Notice Settings</cookieNoticeTab>
+
+      <crisisNoticeTab>Crisis Notice Settings</crisisNoticeTab>
+
+      <teaserTab>Teaser Settings</teaserTab>
+
+      <seoTab>SEO</seoTab>
+
+      <globalSettingsTab>Global Settings</globalSettingsTab>
+
+    </groups>
+  </language>
+</languages>

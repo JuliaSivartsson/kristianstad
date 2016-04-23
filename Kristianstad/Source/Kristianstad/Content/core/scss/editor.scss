@@ -1,0 +1,15 @@
+﻿@charset "UTF-8";
+
+h2 {
+    EditMenuTitle: Heading Styles;
+    EditMenuName: Heading 1;
+}
+
+h3 {
+    EditMenuName: Heading 2;
+}
+
+// Import the entire normal stylesheet
+// This cannot be imported here as of now since project specific "main.scss" already includes cores "main.scss".
+// @import "main";
+// Override/add styles here

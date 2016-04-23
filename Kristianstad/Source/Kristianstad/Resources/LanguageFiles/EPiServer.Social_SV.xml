@@ -1,0 +1,176 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<languages>
+    <language name="Svenska" id="sv">
+        <socialreach>
+            <title>Social Reach</title>
+            
+            <gadget>
+                <title>Social Reach</title>
+                <description>Enables editors to send updates on social channels.</description>
+                
+                <sharedonetime>Shared 1 Time</sharedonetime>
+                <sharedtimes>Shared {total} Times</sharedtimes>
+                <onescheduledshare>1 Scheduled Share</onescheduledshare>
+                <scheduledshares>{total} Scheduled Shares</scheduledshares>
+                <notsharedyet>This page not share yet. The social message should be created to promote the page in social channels</notsharedyet>
+                <cannotbeshared>This content cannot be shared.</cannotbeshared>
+                <pagenotpublished>Once this page is published, you can share it.</pagenotpublished>
+                <pagenotreadablebyeveryone>This page cannot be shared. Its access rights makes it unavailable to the public.</pagenotreadablebyeveryone>
+                <outreachdeniedmessage>You do not have access rights to create Social Reach message</outreachdeniedmessage>
+                <sharethispage>Share this page with Social Reach</sharethispage>
+                <settingscommand>Social Reach settings</settingscommand>
+                <sharepagecommand>Share this page</sharepagecommand>
+            </gadget>
+
+            <client>
+                <newchannel>New channel name</newchannel>
+                <seedetails>See details</seedetails>
+                <hidedetails>Hide details</hidedetails>
+                <editaccountdetails>Authorize account</editaccountdetails>
+                <seeaccountdetails>See account details</seeaccountdetails>
+                <hideaccountdetails>Hide account details</hideaccountdetails>
+                <accesstoken>Access Token</accesstoken>
+                <accesstokensecret>Access Token Secret</accesstokensecret>
+                <postto>Post to</postto>
+                <confirmmessagedelete>This will delete the social message from the overview page, but does not delete messages in the respective channels. 
+                
+                Do you want to continue?</confirmmessagedelete>
+                <sendingmessage>Sending message</sendingmessage>
+                <deleteconfirmation>Are you sure you want to delete this?</deleteconfirmation>
+                <custommessage>Custom message</custommessage>
+                <linkedinmaxchar>Max 700 characters</linkedinmaxchar>
+                <twittermaxchar>Message length is over Twitters limit</twittermaxchar>
+
+                <numclicks>Number of clicks</numclicks>
+                <numlikes>Number of likes</numlikes>
+                <numcomments>Number of comments</numcomments>
+                <numretweets>Number of retweets</numretweets>
+                <cannotsendemptymessage>Cannot send empty message.</cannotsendemptymessage>
+                <messagenamemustnotbeempty>Message name must not be empty.</messagenamemustnotbeempty>
+                <channelmustbeselected>No channel has been seleted.</channelmustbeselected>
+                <scheduletimeerror>The schedule time has been set to a time in the pass. Please update it to a time in the future</scheduletimeerror>
+            </client>
+
+            <error>
+                <channelnoaccount>There is no account for this channel</channelnoaccount>
+                <shortenfail>Failed shortening urls: {0}</shortenfail>
+                <executefail>"Sending fail with error: {0}"</executefail>
+                <siteurlislocalwarning>Warning! The site URL &lt;strong&gt;{0}&lt;/strong&gt; is not a fully qualified domain name, most social channels will not work! You need to change your site configuration.</siteurlislocalwarning>
+            </error>
+            
+            <overview>
+                <title>Overview</title>
+                <createnewmessage>Create new message</createnewmessage>
+                <socialmessage>Social Message</socialmessage>
+                <socialmessageplural>Social Messages</socialmessageplural>
+
+                <clicks>Clicks</clicks>
+                
+                <message>Message</message>
+                <campaign>Campaign</campaign>
+                <date>Date</date>
+                <willbesenton>Will be sent on</willbesenton>
+                <by>By</by>
+                <status>Status</status>
+
+                <createddate>Created Date</createddate>
+                <sentdate>Sent Date</sentdate>
+                <scheduleddate>Scheduled Date</scheduleddate>
+
+                <nomessage>No messages</nomessage>
+                <totalclicks>total clicks</totalclicks>
+
+                <backtolist>Back to list</backtolist>
+                <refresh>Refresh</refresh>
+                <useddefaultmessage>Used default message</useddefaultmessage>
+                <goto>Go to</goto>
+                <delivering>Message is currently being delivered</delivering>
+                <messagefailed>Message failed</messagefailed>
+                <messagecancelled>Message sending was cancelled</messagecancelled>
+                <channelerroralttext>Channel Error</channelerroralttext>
+                <removebutton>Remove</removebutton>
+                <resendbutton>Resend</resendbutton>
+                
+                <schedulemessage>Scheduled Social Message</schedulemessage>
+                <schedulemessageplural>Scheduled Social Messages</schedulemessageplural>
+                <noschedulemessage>No scheduled social messages</noschedulemessage>
+            </overview>
+            <outreach>
+                <title>Outreach</title>
+                <createmessageheading>Create Message</createmessageheading>
+                <editscheduledmessage>Edit Scheduled Message</editscheduledmessage>
+                <createmessageforpage>Social Message for page [{0}]</createmessageforpage>
+                <name>Name</name>
+                <link>Link</link>
+                <image>Image</image>
+                <campaign>Campaign</campaign>
+                <campaigndescription>Campaign name or Google Analytics Campaign</campaigndescription>
+                <message>Message</message>
+                <socialchannelsheading>Social Channels</socialchannelsheading>
+                <nochannel>No channels have been set up! </nochannel>
+                <addchannel>Add channel</addchannel>
+                <usedefaultmessage>Use default message</usedefaultmessage>
+                <createcustommessage>Create custom message</createcustommessage>
+                <send>Send Now</send>
+                <removebutton>Remove</removebutton>
+                <schedule>Schedule</schedule>
+                <savechange>Save changes</savechange>
+                <or>or</or>
+                <linkbutton>...</linkbutton>
+                <imagebutton>...</imagebutton>
+                <emptymessage>Social Message was empty.</emptymessage>
+                <socialmessagecreated>SocialMessage created.</socialmessagecreated>
+                <scheduledescription>This message is scheduled to be sent on </scheduledescription>
+                <clearschedule>Clear schedule</clearschedule>
+
+                <selectmedia>Select Media</selectmedia>
+                <selectpage>Select Page</selectpage>
+            </outreach>
+            <resendmessage>
+                <resendmessageheading>Resend Message</resendmessageheading>
+                <name>Name</name>
+                <link>Link</link>
+                <image>Image</image>
+                <campaign>Campaign</campaign>
+                <message>Message</message>
+                <socialchannelsheading>Social Channels</socialchannelsheading>
+                <nochannel>No channel availble for resending the message. This due to the channels which are used to send this message are deleted or out of date.</nochannel>
+                <usedefaultmessage>Use default message</usedefaultmessage>
+                <createcustommessage>Create custom message</createcustommessage>
+                <send>Send</send>
+            </resendmessage>
+            <settings>
+                <title>Settings</title>
+                <settingheading>Settings</settingheading>
+                <type>Type</type>
+                <caption>Choose type</caption>
+                <addchannel>Add Channel</addchannel>
+                <socialchannelsheading>Social Channels</socialchannelsheading>
+                <nochannel>No channels have been set up! </nochannel>
+                <name>Name</name>
+                <account>Account</account>
+                <campaignsource>Campaign source</campaignsource>
+                <campaignmedium>Campaign medium</campaignmedium>
+                <accessrights>Access rights</accessrights>
+                <editbutton>Edit</editbutton>
+                <deleteaccountbutton>Delete Account</deleteaccountbutton>
+                <savebutton>Save</savebutton>
+                <cancelbutton>Cancel</cancelbutton>
+                <read>Read</read>
+                <post>Post</post>
+                <admin>Admin</admin>
+                <addusergroup>Add User/Group</addusergroup>
+                <notallowspecialcharacters>You should not use special characters (&amp; / \)</notallowspecialcharacters>
+            </settings>
+
+            <plugin>
+                <publishmessageschedulejob>
+                    <displayname>Publish Social Reach Messages</displayname>
+                    <description>This publishing job checks within defined intervals if there are (scheduled) social messages through EPiServer Social Reach that are waiting to be posted to the channels.</description>
+                    <logresponseprocessed>Processed scheduled messages: {0}</logresponseprocessed>
+                    <logresponsenothing>No scheduled message is processed!</logresponsenothing>
+                </publishmessageschedulejob>
+            </plugin>
+        </socialreach>
+    </language>
+</languages>

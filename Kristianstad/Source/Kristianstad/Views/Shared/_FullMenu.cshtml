@@ -1,0 +1,68 @@
+﻿@model Kristianstad.ViewModels.Common.MenuViewModel
+@helper ItemTemplate(Kristianstad.Models.Misc.MenuItem item)
+{
+var isOnPath = Model.Path.Contains(item.ID);
+var hasChildren = item.Children.Any();
+var cssClass = (hasChildren ? "has-children" : "") + (isOnPath ? " open" : "") + (item.ID == Model.CurrentPageID ? " current" : "");
+    <li role="menuitem" class="@cssClass">
+        <a href="@item.Url" title="@item.Name">@item.Name</a>
+        @if (hasChildren)
+        {
+            <a class="toggle"></a>
+            <ul class="menu vertical">
+                @foreach (var child in item.Children)
+                {
+                    @ItemTemplate(child)
+                }
+            </ul>
+        }
+    </li>
+}
+
+@helper SectionTemplate(Kristianstad.Models.Misc.MenuItem item)
+{
+var isOnPath = Model.Path.Contains(item.ID);
+var hasChildren = item.Children.Any();
+var cssClass = (hasChildren ? "has-children" : "") + (isOnPath ? " open" : "") + (item.ID == Model.CurrentPageID ? " current" : "");
+    <li role="menuitem" class="@cssClass">
+        <a title="@item.Name">@item.Name</a>
+        @if (hasChildren)
+        {
+            <a class="toggle"></a>
+            <ul class="menu vertical">
+                @foreach (var child in item.Children)
+                {
+                    @ItemTemplate(child)
+                }
+            </ul>
+        }
+    </li>
+}
+
+<nav class="column row small-12 small-centered kr-mobile-menu">
+    <div class="mobile-search">
+        <form>
+            <div class="input-group">
+                <input class="input-group-field" type="text" placeholder="Skriv in sökord...">
+                <div class="input-group-button">
+                    <input type="submit" class="button success" value="">
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <ul class="vertical menu site-nav">
+        @foreach (var section in Model.Root.Children)
+        {
+            @SectionTemplate(section)
+        }
+    </ul>
+
+    <ul class="vertical menu help-links">
+        <li><a class="translate" data-open="translateModal">Translate</a></li>
+        <li><a class="customize" href="@Html.Adjust()">Anpassa</a></li>
+        <li><a class="services" href="@Html.EServices()">E-tjänster</a></li>
+        <li><a class="contact" href="@Html.Contact()">Kontakta</a></li>
+    </ul>
+
+</nav>

@@ -1,0 +1,112 @@
+﻿{% extends "site/shared/_layout.html" %}
+
+{% block body %}
+
+<div class="column row page">
+
+    <div class="column small-12 accessibility-bar">
+        <ul>
+            <li class="language"><a href="#">English</a></li>
+            <li class="language"><a href="#">Suomi</a></li>
+            <li class="listen"><a href="#">Lyssna</a></li>
+        </ul>
+    </div>
+
+    <div class="column small-12 medium-12 large-8 content-page content">
+
+        <div class="breadcrumbs">
+            <p>Du är här:</p>
+            <ul>
+                <li>Kommun och politik</li>
+                <li><a href="#">Ärenden och handlingar</a></li>
+                <li><a href="#">Diarium och arkiv</a></li>
+                <li><a href="#">Diarium och arkiv</a></li>
+            </ul>
+        </div>
+
+        <article class="main">
+            <header>
+                <figure class="title">
+                    <img src="/Static/img/template/img-innehallssida.jpg" alt="">
+                    <figcaption>Bildtext som inte borde vara här.</figcaption>
+                </figure>
+                <h1>Sekretess</h1>
+                <p class="article-preamble">
+                    Offentlighets- och sekretesslagen innehåller bestämmelser om tyst-nadsplikt i det allmännas verksamhet och om förbud att lämna ut allmänna handlingar.
+                </p>
+            </header>
+
+            <aside class="block-area">
+                {% include "site/shared/_content-block.html" %}
+                {% include "site/shared/_content-block.html" %}
+            </aside>
+
+            <section class="article-body">
+
+                {% include "site/shared/_tinyHTML.html" %}
+
+            </section>
+
+            <aside class="related-info">
+                <h2>Relaterad information</h2>
+                <ul class="row no-bullet small-up-1 medium-up-2 link-lists">
+                    <li class="column">
+                        <div>
+                            <h3>E-tjänster</h3>
+                            <ul class="link-list">
+                                <li><a href="#">Rubrik e-tjänst</a></li>
+                                <li><a href="#">Rubrik e-tjänst</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="column">
+                        <div>
+                            <h3>Dokument</h3>
+                            <ul class="link-list files">
+                                <li><a href="#.pdf">PDF <span class="file-size">(256 kb)</span></a></li>
+                                <li><a href="#.doc">DOC <span class="file-size">(56 kb)</span></a></li>
+                                <li><a href="#.docx">DOCX <span class="file-size">(56 kb)</span></a></li>
+                                <li><a href="#.ppt">PPT <span class="file-size">(56 kb)</span></a></li>
+                                <li><a href="#.mp4">MP4 <span class="file-size">(56 kb)</span></a></li>
+                                <li><a href="#.mov">MOV <span class="file-size">(56 kb)</span></a></li>
+                                <li><a href="#.xls">XLS <span class="file-size">(56 kb)</span></a></li>
+                                <li><a href="#.xlsx">XLSX <span class="file-size">(56 kb)</span></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="column">
+                        <div>
+                            <h3>Länkar</h3>
+                            <ul class="link-list">
+                                <li><a href="#">Riksdagens webbplats</a></li>
+                                <li><a href="#">Om sekretess</a></li>
+                                <li><a href="http://www.dn.se">Extern länk 1</a></li>
+                                <li><a href="http://www.dn.se">Extern länk 2</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </aside>
+
+            <aside class="block-area">
+                {% include "site/shared/_content-block.html" %}
+                {% include "site/shared/_content-block.html" %}
+            </aside>
+
+            <footer>
+                <p>Senast uppdaterad: 20 dec 2015 kl. 08.16</p>
+                <p>Sidansvarig: Elisabeth Andersson</p>
+                <a href="#">Skriv ut sidan</a>
+                <a href="#">Dela sidan</a>
+            </footer>
+
+        </article>
+
+    </div>
+    <div class="column small-12 medium-12 large-4">
+        {% include "site/shared/_section-menu.html" %}
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,27 @@
+﻿
+.main-top-bar {
+    background-color: $main-top-bar-background-color;
+    padding-top: 0;
+    padding-bottom: 0;
+
+    .top-bar-left {
+        width: auto;
+        .menu {
+            background-color: $main-top-bar-background-color;
+        }
+
+        a {
+            color: $white;
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+        }
+
+        a:hover, a:active, a:focus {
+            background-color: darken($main-top-bar-background-color, 15);
+        }
+
+        a.active {
+            background-color: darken($main-top-bar-background-color, 10);
+        }
+    }
+}

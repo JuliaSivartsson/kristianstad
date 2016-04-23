@@ -1,0 +1,29 @@
+﻿@model EPiCore.Content.ViewModels.Blocks.Preview.PreviewBlockViewModel
+
+@{
+    Layout = "~/Views/Shared/_PreviewLayout.cshtml";
+}
+
+@if (!Model.PreviewAreas.Any())
+{
+    <div class="row">
+        @Html.Partial("_TemplateHint", Html.TranslateFormat("/core/misc/preview/noPreview", Model.PreviewBlock.Name))
+    </div>
+}
+else
+{
+    foreach (var area in Model.PreviewAreas)
+    {
+        <div class="row">
+            @if (area.Supported)
+            {
+                @Html.Partial("_TemplateHint", Html.TranslateFormat("/core/misc/preview/heading", Model.PreviewBlock.Name, area.AreaName))
+                @Html.DisplayFor(x => area.ContentArea, new { Tag = area.AreaTag })
+            }
+            else
+            {
+                @Html.Partial("_TemplateHint", Html.TranslateFormat("/core/misc/preview/noRenderer", Model.PreviewBlock.Name, area.AreaName))
+            }
+        </div>
+    }
+}

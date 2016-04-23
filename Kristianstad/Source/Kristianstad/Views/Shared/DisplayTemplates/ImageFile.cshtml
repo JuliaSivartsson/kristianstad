@@ -1,0 +1,8 @@
+﻿@model EPiCore.Content.Models.Media.ImageFile
+
+@if (Model != null)
+{
+    <img src="@Url.ContentUrl(Model.ContentLink)" alt="@Model.AltText" />
+}
+
+

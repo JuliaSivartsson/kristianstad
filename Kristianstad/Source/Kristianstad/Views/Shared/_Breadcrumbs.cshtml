@@ -1,0 +1,15 @@
+﻿@model List<Tuple<string, string>>
+
+<div class="breadcrumbs">
+    <p>Du är här:</p>
+    <ul>
+        @if (Model.Any())
+        {
+            <li>@Model.First().Item1</li>
+        }
+        @for (int i = 1; i < Model.Count; i++)
+        {
+            <li><a href="@Model[i].Item2" title="@Model[i].Item1">@Model[i].Item1</a></li>
+        }
+    </ul>
+</div>

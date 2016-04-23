@@ -1,0 +1,104 @@
+.section-menu {
+    background: white;
+    width: 100%;
+
+    h4 {
+        background: map-get($foundation-palette, primary);
+        color: white;
+        padding: rem-calc(14px 20px 17px);
+        font-weight: $global-weight-bold;
+        font-size: rem-calc(18px);
+    }
+
+    a {
+        &:hover {
+            text-decoration: underline;
+        }
+
+        &:after {
+            content: "›";
+            color: map-get($foundation-palette, primary);
+            padding-left: rem-calc(4px);
+            display: none;
+        }
+    }
+
+    >ul {
+        padding-right: rem-calc(20px);
+        line-height: 150%;
+
+        li {
+            border-bottom: $kr-border-default;
+            padding: rem-calc(13px 0 14px);
+            position: relative;
+            list-style-type: none;
+
+            &:last-child {
+                border-bottom: 0;
+                padding-bottom: rem-calc(16px);
+            }
+
+            &.has-children:after {
+                content: "";
+                width: rem-calc(20px);
+                height: rem-calc(20px);
+                position: absolute;
+                right: rem-calc(5px);
+                top: rem-calc(16px);
+                background: url(../img/icons/arrow-down-blue.svg) no-repeat center;
+                background-size: rem-calc(20px);
+                cursor: pointer;
+                transition: all .25s;
+                transform: rotate(-90deg);
+            }
+            
+            &.has-children.open:after {
+                transform: rotate(0deg);
+            }
+
+            a {
+                color: $body-font-color;
+                padding-right: rem-calc(25px);
+
+                &:hover {
+                    color: map-get($foundation-palette, primary);
+                    text-decoration: underline;
+                }
+            }
+
+            &.open > a {
+                font-weight: $global-weight-bold;
+                color: $body-font-color;
+            }
+
+            &.current > a {
+                font-weight: $global-weight-bold;
+                color: map-get($foundation-palette, primary);
+            }
+
+            ul {
+                padding-top: rem-calc(15px);
+                padding-left: rem-calc(15px);
+                margin-left: 0;
+                display: none;
+            }
+
+            &.open >ul {
+                display: inherit;
+                list-style-type: none;
+            } 
+        }
+    }
+
+    ul li ul li {
+        border-bottom: 0;
+
+        &:last-child {
+            padding-bottom: rem-calc(.5px);
+        }
+    }
+
+    @include breakpoint($kr-mobile-menu-breakpoint down) {
+        display: none;    
+    }
+}

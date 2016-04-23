@@ -1,0 +1,156 @@
+﻿@using EPiServer.Framework.Web.Resources
+@model EPiCore.ViewModels.Blocks.IBlockViewModel<Kristianstad.Business.Models.Blocks.MapBlock>
+@{
+    var blockId = DateTime.Now.Ticks;
+
+    ClientResources.RequireStyle(Href("~/Content/css/vendor/ol.css")).AtHeader();
+    ClientResources.RequireScript(Href("~/Content/js/vendor/proj4.js"), "proj4js", new string[] { }).AtFooter();
+    ClientResources.RequireScript(Href("~/Content/js/vendor/ol.js"), "oljs", new string[] { "proj4js" }).AtFooter();
+    ClientResources.RequireScript(Href("~/Content/js/src/map/init.js"), "MapBlockInit", new string[] { "oljs" }).AtFooter();
+    ClientResources.RequireHtmlInline(BlockTemplate(blockId).ToHtmlString(), blockId.ToString(), new string[] { "MapBlockInit" }).AtArea("FooterCustom");
+}
+
+<div class="block map-block">
+    <h2>Karta</h2>
+    <div id="@blockId" class="map" style="height: auto; width: 100%;"></div>
+    <div id="@(blockId)-popup">
+        <a href="#" class="closer"></a>
+        <div class="content"></div>
+    </div>
+</div>
+
+@helper BlockTemplate(long blockId)
+{
+    <script>
+        (function (ol) {
+            var id = '@blockId';
+            var long = @Model.CurrentBlock.Longitude;
+            var lat = @Model.CurrentBlock.Latitude;
+
+            proj4.defs("EPSG:3857", "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@@null +wktext  +no_defs");
+            proj4.defs("EPSG:3008", "+proj=tmerc +lat_0=0 +lon_0=13.5 +k=1 +x_0=150000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs");
+ 
+            @*var popupContainer = $("#@(blockId)-popup");
+            var popupCloser = popupContainer.find(".closer");
+            var popupContent = popupContainer.find(".content");*@
+
+            var cords = ol.proj.transform([lat, long], 'EPSG:3008', 'EPSG:3857');
+
+            var vectorSource = new ol.source.Vector({});
+            for (var i = 0; i < 1; i++) {
+
+                var iconFeature = new ol.Feature({
+                    geometry: new
+                      ol.geom.Point(cords),
+                    name: '@Model.CurrentBlock.Address'
+                });
+                vectorSource.addFeature(iconFeature);
+            }
+            var iconStyle = new ol.style.Style({
+                image: new ol.style.Icon(({
+                    anchor: [0.5, 46],
+                    anchorXUnits: 'fraction',
+                    anchorYUnits: 'pixels',
+                    opacity: 0.9,
+                    src: 'http://193.17.67.229/cgi-bin/kkarta_responsiv/lib/leaflet/dist/images/marker-icon.png'
+                }))
+            });
+            var vectorLayer = new ol.layer.Vector({
+                source: vectorSource,
+                style: iconStyle
+            });
+           
+            //var overlay = new ol.Overlay(({
+            //    element: popupContainer
+            //}));
+
+            //overlay.setPosition(coordinate)
+
+            //closer.onclick = function() {
+            //    overlay.setPosition(undefined);
+            //    closer.blur();
+            //    return false;
+            //};
+
+            var map = new ol.Map({
+                target: id,
+                layers: [
+                    new ol.layer.Tile({
+                        source: new ol.source.TileWMS({
+                            url: 'http://193.17.67.229/geoserver/geodata/wms',
+                            params: {
+                                'DPI': 96,
+                                'REQUEST': 'GetMap',
+                                'VERSION': '1.1.1',
+                                'LAYERS': 'turistkarta',
+                                'FORMAT': 'image/png',
+                                'TRANSPARENT': true,
+                                'TILED': true,
+                                'TILESIZE': 512
+                            }
+                        })
+                    }),
+                    vectorLayer
+                ],
+                view: new ol.View({
+                    center: cords,
+                    zoom: 17
+                })
+            });
+
+            //Popup with picture and text on icon location.
+            var element = document.getElementById(id + '-popup');
+            var popup = new ol.Overlay({
+                element: element,
+                positioning: 'center-center',
+                stopEvent: false
+            });
+            map.addOverlay(popup);
+
+            // display popup on click
+            map.on('pointermove', function(evt) {
+                var feature = map.forEachFeatureAtPixel(evt.pixel,
+                    function(feature, layer) {
+                        return feature;
+                    });
+                if (feature && $('#streetName' + id).length == 0) {             
+                                        
+                    var cord = $(".ol-overlay-container").offset();
+                    var cordinates = cord.top + ":" + cord.left;
+   
+                    popup.setPosition(feature.get('geometry').A);
+                    $("#" + id + "-popup").append('<div id="streetName' + id + '">' 
+                                                    + '<div class="image-div" style="float:left;background:#FFF; border-radius: 2px;">'
+                                                        
+                                                    + '<div class="sideText" style="float:right; padding: 10px;">'
+                                                    + '<span>'+ feature.get('name')+'</span>'
+                                                    + '</div>'                                                 
+                                                    + '</div>');              
+                }
+            });
+
+            var target = map.getTarget();
+            var jTarget = typeof target === "string" ? $("#" + target) : $(target);
+            // change mouse cursor when over marker
+            $(map.getViewport()).on('mousemove', function (e) {
+                var pixel = map.getEventPixel(e.originalEvent);
+                var hit = map.forEachFeatureAtPixel(pixel, function (feature, layer) {
+                    return true;
+                });
+                if (hit) {
+                    jTarget.css("cursor", "pointer");
+                } else {
+                    jTarget.css("cursor", "");       
+                    $("#" + id + "-popup").empty();             
+                }
+            });
+
+            // Debug
+            map.getView().on('propertychange', function (e) {
+                console.log(map.getView().getZoom())
+                console.log(e);
+            });
+
+        })(window.ol);
+    </script>
+}

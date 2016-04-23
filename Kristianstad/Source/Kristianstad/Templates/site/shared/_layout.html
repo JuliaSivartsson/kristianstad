@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+<html class="no-js" lang="sv">
+<head>
+    <base href="" />
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800,600italic,400italic,300italic' rel='stylesheet' type='text/css'>
+    <title>{{title}}</title>
+
+    <link href="/Static/css/main.css" rel="stylesheet" />
+</head>
+<body>
+
+    {% include "site/shared/_header.html" %}
+
+    {% block body %}{% endblock %}
+
+    <div style="height: 50px; width: 100%"></div>
+
+    {% include "site/shared/_mobile-menu.html" %}
+
+    {% include "site/shared/_footer.html" %}
+
+    <script src="/Static/js/main.js"></script>
+
+    <script>
+        $(document).foundation();
+    </script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+﻿@model EPiCore.ViewModels.Pages.PageViewModel<EPiCore.Content.Models.Pages.ErrorPage>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@Page.Title</title>
+
+
+</head>
+<body>
+
+    @Html.FullRefreshPropertiesMetaData()
+
+    @{
+        Html.RenderAction("Index", "CookieNotice");
+    }
+
+    <h1 @Html.EditAttributes(m => m.CurrentPage.Title)>
+        @Model.CurrentPage.Title
+    </h1>
+
+    <p @Html.EditAttributes(m => m.CurrentPage.Content)>
+        @Model.CurrentPage.Content
+    </p>
+
+    @Html.PropertyFor(m => m.CurrentPage.Image)
+
+</body>
+</html>

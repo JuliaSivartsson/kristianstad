@@ -1,0 +1,17 @@
+﻿{% macro isActive(name) %}
+    {{ "active" if active.indexOf(name) > -1 else "" }}
+{% endmacro %}
+
+<nav class="nav">
+    <label><img src="Content/img/logo/logo.png" alt="Logga" /></label>
+    <ul class="vertical menu" data-accordion-menu>
+        <li class="{{isActive("start")}}"><a href="index.html">Start</a></li>
+        <li><a href="site/" target="_blank">Exempelwebbplats</a></li>
+        <li class="{{isActive("style")}}">
+            <a href="style.html">Stil</a>
+            <ul class="menu vertical nested">
+                <li class="{{isActive("tables")}}"><a href="style/tables.html">Tabeller</a></li>
+            </ul>
+        </li>
+    </ul>
+</nav>
