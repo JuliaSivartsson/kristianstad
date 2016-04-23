@@ -415,6 +415,9 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Business\Compare\CategoryHelper.cs" />
+    <Compile Include="Business\Compare\PageTypeExtensions.cs" />
+    <Compile Include="Business\Initialization\CompareInitialization.cs" />
     <Compile Include="Business\Initialization\MapBlockInitializationModule.cs" />
     <Compile Include="Business\Map\AddressResult.cs" />
     <Compile Include="Business\Map\Feature.cs" />
@@ -424,6 +427,8 @@
     <Compile Include="Business\Map\MapService.cs" />
     <Compile Include="Business\Map\Properties.cs" />
     <Compile Include="Business\Models\Blocks\CategoryBlock.cs" />
+    <Compile Include="Business\Models\Blocks\Compare\CategoryListBlock.cs" />
+    <Compile Include="Business\Models\Blocks\Compare\OrganisationalUnitListBlock.cs" />
     <Compile Include="Business\Models\Blocks\MapBlock.cs" />
     <Compile Include="Business\Models\Blocks\VideoBlock.cs" />
     <Compile Include="Controllers\Blocks\MapBlockController.cs" />
@@ -431,6 +436,11 @@
     <Compile Include="Controllers\Common\FooterKrController.cs" />
     <Compile Include="Controllers\Common\MegaMenuController.cs" />
     <Compile Include="Controllers\Common\MenuKrController.cs" />
+    <Compile Include="Controllers\Compare\CategoryController.cs" />
+    <Compile Include="Controllers\Compare\CategoryListBlockController.cs" />
+    <Compile Include="Controllers\Compare\CompareStartPageController.cs" />
+    <Compile Include="Controllers\Compare\OrganisationalUnitController.cs" />
+    <Compile Include="Controllers\Compare\OrganisationalUnitListBlockController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -443,6 +453,10 @@
     <Compile Include="Models\Blocks\FooterLinkListBlock.cs" />
     <Compile Include="Models\Misc\MenuItem.cs" />
     <Compile Include="Models\Misc\TabNames.cs" />
+    <Compile Include="Models\Pages\Compare\CategoryPage.cs" />
+    <Compile Include="Models\Pages\Compare\CompareStartPage.cs" />
+    <Compile Include="Models\Pages\Compare\OrganisationalUnitFolderPage.cs" />
+    <Compile Include="Models\Pages\Compare\OrganisationalUnitPage.cs" />
     <Compile Include="Models\Pages\SectionPage.cs" />
     <Compile Include="Models\Pages\SettingsPage.cs" />
     <Compile Include="Models\Pages\ContentPage.cs" />
@@ -457,6 +471,11 @@
     <Compile Include="ViewModels\Common\MegaMenuViewModel.cs" />
     <Compile Include="ViewModels\Common\MenuSectionViewModel.cs" />
     <Compile Include="ViewModels\Common\MenuViewModel.cs" />
+    <Compile Include="ViewModels\Compare\CategoryItemModel.cs" />
+    <Compile Include="ViewModels\Compare\CategoryListModel.cs" />
+    <Compile Include="ViewModels\Compare\CategoryPageModel.cs" />
+    <Compile Include="ViewModels\Compare\OrganisationalUnitListModel.cs" />
+    <Compile Include="ViewModels\Compare\OrganisationalUnitPageModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\..\packages\StyleCop.Analyzers.1.0.0-beta015\analyzers\dotnet\cs\Newtonsoft.Json.dll" />
@@ -828,6 +847,16 @@
     <Content Include="Views\EasyToReadPage\Index.cshtml" />
     <Content Include="Views\ContactCardBlock\Index.cshtml" />
     <Content Include="Views\AToZPage\Index.cshtml" />
+    <Content Include="Views\CategoryListBlock\Index.cshtml" />
+    <Content Include="Views\CategoryPage\Index.cshtml" />
+    <Content Include="Views\Category\Full.cshtml" />
+    <Content Include="Views\Category\Preview.cshtml" />
+    <Content Include="Views\CompareStartPage\Index.cshtml" />
+    <Content Include="Views\OrganisationalUnitListBlock\Index.cshtml" />
+    <Content Include="Views\OrganisationalUnitPage\Index.cshtml" />
+    <Content Include="Views\OrganisationalUnitsFolderPage\Index.cshtml" />
+    <Content Include="Views\OrganisationalUnit\Full.cshtml" />
+    <Content Include="Views\OrganisationalUnit\Preview.cshtml" />
     <None Include="Web.Acceptance.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
