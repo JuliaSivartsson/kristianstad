@@ -1,0 +1,15 @@
+﻿table {    
+    &.clean {
+        tbody tr td {
+            background-color: white;
+            border: $table-border;
+        }
+    }
+}
+
+.template-image-right, 
+.template-image-left,
+.template-image-full {
+    margin-bottom: rem-calc(10px);
+}
+

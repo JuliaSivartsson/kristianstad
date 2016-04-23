@@ -1,0 +1,517 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<languages>
+  <language name="Svenska" id="sv">
+    <contentTypes>
+
+      <!-- IContentData -->
+
+      <iContentData>
+        <properties>
+          <publisher>
+            <caption>Sidansvarig</caption>
+            <help>Sidans ansvariga redaktör.</help>
+          </publisher>
+          <title>
+            <caption>Titel</caption>
+            <help>Sidans titel.</help>
+          </title>
+          <titleImage>
+            <caption>Titelbild</caption>
+            <help>Sidans titelbild.</help>
+          </titleImage>
+          <preamble>
+            <caption>Inledning</caption>
+            <help>En kort inledning till sidans innehåll.</help>
+          </preamble>
+          <topBlockArea>
+            <caption>Övre blockområde</caption>
+            <help>Ett över område för placering av block.</help>
+          </topBlockArea>
+          <content>
+            <caption>Innehåll</caption>
+            <help>Sidans innehåll.</help>
+          </content>
+          <blockArea>
+            <caption>Blockområde</caption>
+            <help>Ett område för placering av block.</help>
+          </blockArea>
+        </properties>
+      </iContentData>
+
+      <!-- Page Types -->
+
+      <aToZPage>
+        <name>A-Ö-sida</name>
+        <description>Sida för att lista sidor A-Ö.</description>
+        <properties>
+        </properties>
+      </aToZPage>
+
+      <settingsPage>
+        <name>Inställningssida</name>
+        <description>Sida för inställningar.</description>
+        <properties>
+          <sitemap>
+            <caption>Webbkartssida</caption>
+            <help>Länk till webbkartssida.</help>
+          </sitemap>
+          <footerBlockArea>
+            <caption>Sidfotsblockområde</caption>
+            <help>Ett sidfotsområde för placering av block.</help>
+          </footerBlockArea>
+          <headerLinks>
+            <caption>Huvudlänkar</caption>
+            <help></help>
+          </headerLinks>
+          <cookieNotice>
+            <caption>Kaknotis</caption>
+            <help>Block för att visa en kaknotis.</help>
+          </cookieNotice>
+          <crisisNotice>
+            <caption>Krisnotis</caption>
+            <help>Block för att visa en krisnotis.</help>
+          </crisisNotice>
+        </properties>
+      </settingsPage>
+
+      <startPage>
+        <name>Startsida</name>
+        <description>Webbplatsens startsida.</description>
+        <properties>
+          <slideshowGallery>
+            <caption>Bildspelsgalleri</caption>
+            <help>Ett galleri av revolverande bilder.</help>
+          </slideshowGallery>
+          <newsHeader>
+            <caption>Nyhetsrubrik</caption>
+            <help></help>
+          </newsHeader>
+          <newsRoot>
+            <caption>Nyheter</caption>
+            <help>Sida att hämta nyheter från.</help>
+          </newsRoot>
+        </properties>
+      </startPage>
+
+      <standardPage>
+        <name>Innehållssida</name>
+        <description>Sida för innehåll.</description>
+        <properties>
+          <easyToReadPage>
+            <caption>Länk till lättläst</caption>
+            <help>Länk till en alternativ version av sidan, skriven för att enklare kunna läsas.</help>
+          </easyToReadPage>
+        </properties>
+      </standardPage>
+
+      <easyToReadPage>
+        <name>Lättläst innehållssida</name>
+        <description>Sida för innehåll, skriven för att enklare kunna läsas.</description>
+        <properties>
+        </properties>
+      </easyToReadPage>
+
+      <newsPage>
+        <name>Nyhetssida</name>
+        <description>Sida för nyhet.</description>
+        <properties>
+        </properties>
+      </newsPage>
+
+      <errorPage>
+        <name>Felsida</name>
+        <description>Sida för fel.</description>
+        <properties>
+          <image>
+            <caption>Bild</caption>
+            <help>En bild.</help>
+          </image>
+        </properties>
+      </errorPage>
+
+      <sitemapPage>
+        <name>Webbkartssida</name>
+        <description>Sida för webbkarta.</description>
+        <properties>
+          <startpage>
+            <caption>Startsida</caption>
+            <help>Länk till sida att starta webbkartan från.</help>
+          </startpage>
+        </properties>
+      </sitemapPage>
+
+      <!-- Block Types -->
+
+      <imageBlock>
+        <name>Bildblock</name>
+        <description>Block för bilder.</description>
+        <properties>
+          <Image>
+            <caption>Bild</caption>
+            <help>Bild att visa.</help>
+          </Image>
+        </properties>
+      </imageBlock>
+
+      <promotionBlock>
+        <name>Kampanjblock</name>
+        <description>Block för kampanjer.</description>
+        <properties>
+          <image>
+            <caption>Bild</caption>
+            <help></help>
+          </image>
+          <title>
+            <caption>Titel</caption>
+            <help>Kampanjens titel.</help>
+          </title>
+          <text>
+            <caption>Text</caption>
+            <help>En kort text om kampanjen.</help>
+          </text>
+          <linkto>
+            <caption>Länk till</caption>
+            <help>Länk till kampanjsidan.</help>
+          </linkto>
+        </properties>
+      </promotionBlock>
+
+      <linkListBlock>
+        <name>Länklistblock</name>
+        <description>Block för länklistor.</description>
+        <properties>
+          <title>
+            <caption>Title</caption>
+            <help>Länklistans titel.</help>
+          </title>
+          <links>
+            <caption>Länkar</caption>
+            <help></help>
+          </links>
+        </properties>
+      </linkListBlock>
+
+      <formBlock>
+        <name>Formulärblock</name>
+        <description>Block för formulär.</description>
+        <properties>
+          <title>
+            <caption>Title</caption>
+            <help>Formulärets titel.</help>
+          </title>
+          <form>
+            <caption>Formulär</caption>
+          </form>
+        </properties>
+      </formBlock>
+
+      <slideItemBlock>
+        <name>Karusellblock</name>
+        <description>Block för karuseller.</description>
+        <properties>
+          <image>
+            <caption>Bild</caption>
+            <help>Bild att visa i karusellen.</help>
+          </image>
+          <title>
+            <caption>Titel</caption>
+            <help></help>
+          </title>
+          <text>
+            <caption>Text</caption>
+            <help></help>
+          </text>
+          <linkto>
+            <caption>Länk till</caption>
+            <help></help>
+          </linkto>
+        </properties>
+      </slideItemBlock>
+
+      <contactCardBlock>
+        <name>Kontaktkortsblock</name>
+        <description>Block för kontaktkort.</description>
+        <properties>
+          <title>
+            <caption>Titel</caption>
+            <help></help>
+          </title>
+          <firstName>
+            <caption>Förnamn</caption>
+            <help></help>
+          </firstName>
+          <lastName>
+            <caption>Efternamn</caption>
+            <help></help>
+          </lastName>
+          <phone>
+            <caption>Telefonnummer</caption>
+            <help></help>
+          </phone>
+          <mobile>
+            <caption>Mobiltelefonnummer</caption>
+            <help></help>
+          </mobile>
+          <email>
+            <caption>E-postadress</caption>
+            <help></help>
+          </email>
+        </properties>
+      </contactCardBlock>
+
+      <!-- Local Block Types -->
+
+      <crisisNoticeBlock>
+        <name>Krisnotisblock</name>
+        <description>Block för krisnotis.</description>
+        <properties>
+          <isEnabled>
+            <caption>Visa notis</caption>
+            <help>Om krisnotisen ska visas eller inte.</help>
+          </isEnabled>
+          <level>
+            <caption>Grad</caption>
+            <help>Krisens allvarlighetsgrad.</help>
+          </level>
+          <message>
+            <caption>Notis</caption>
+            <help></help>
+          </message>
+          <linkText>
+            <caption>Länktext</caption>
+            <help>Text att använda för läs mer-länken.</help>
+          </linkText>
+          <linkTo>
+            <caption>Länk till</caption>
+            <help>Sida att länka läs mer-länken till.</help>
+          </linkTo>
+        </properties>
+      </crisisNoticeBlock>
+
+      <cookieNoticeBlock>
+        <name>Kaknotisblock</name>
+        <description>Block för kaknotis.</description>
+        <properties>
+          <message>
+            <caption>Notis</caption>
+            <help></help>
+          </message>
+          <linkText>
+            <caption>Länktext</caption>
+            <help>Text att använda för läs mer-länken.</help>
+          </linkText>
+          <linkTo>
+            <caption>Länk till</caption>
+            <help>Sida att länka läs mer-länken till.</help>
+          </linkTo>
+        </properties>
+      </cookieNoticeBlock>
+
+      <teaserBlock>
+        <name>Teaser-block</name>
+        <description>Block for sidor visade som teasers.</description>
+        <properties>
+          <title>
+            <caption>Titel</caption>
+            <help>Sidans titel, när visad som teaser.</help>
+          </title>
+          <titleImage>
+            <caption>Titelbild</caption>
+            <help>Sidans titelbild, när visad som teaser.</help>
+          </titleImage>
+          <preamble>
+            <caption>Inledning</caption>
+            <help>En kort inledning till sidans innehåll, när visad som teaser.</help>
+          </preamble>
+        </properties>
+      </teaserBlock>
+
+      <seoBlock>
+        <name>SEO-block</name>
+        <description>Block för SEO.</description>
+        <properties>
+          <description>
+            <caption>Beskrivning</caption>
+            <help>Sidans metabeskrivning.</help>
+          </description>
+          <keywords>
+            <caption>Keywords</caption>
+            <help>Sidans metanyckelord, separerade av kommatecken.</help>
+          </keywords>
+        </properties>
+      </seoBlock>
+
+      <!-- Media Types -->
+
+      <genericFile>
+        <name>Generisk fil</name>
+        <description>Generisk fil för användning på sidor och block.</description>
+        <properties>
+          <description>
+            <caption>Beskrivning</caption>
+            <help>En kort beskrivning av den generiska filen.</help>
+          </description>
+          <fileSize>
+            <caption>Filstorlek</caption>
+            <help>Filens storlek i bytes (B).</help>
+          </fileSize>
+        </properties>
+      </genericFile>
+
+      <imageFile>
+        <name>Bildfil</name>
+        <description>Bildfil för användning på sidor och block.</description>
+        <properties>
+          <alttext>
+            <caption>Alternativ text</caption>
+            <help>Alternativ text att visa.</help>
+          </alttext>
+          <fileSize>
+            <caption>Filstorlek</caption>
+            <help>Filens storlek i bytes (B).</help>
+          </fileSize>
+        </properties>
+      </imageFile>
+
+      <videoFile>
+        <name>Videofil</name>
+        <description>Videofil för använding på sidor och block.</description>
+        <properties>
+          <description>
+            <caption>Beskrivning</caption>
+            <help>En kort beskrivning av videofilen.</help>
+          </description>
+          <fileSize>
+            <caption>Filstorlek</caption>
+            <help>Filens storlek i bytes (B).</help>
+          </fileSize>
+        </properties>
+      </videoFile>
+
+      <documentFile>
+        <name>Dokumentfil</name>
+        <description>Dokumentfil för använding på sidor och block.</description>
+        <properties>
+          <description>
+            <caption>Beskrivning</caption>
+            <help>En kort beskrivning av dokumentfilen.</help>
+          </description>
+          <fileSize>
+            <caption>Filstorlek</caption>
+            <help>Filens storlek i bytes (B).</help>
+          </fileSize>
+        </properties>
+      </documentFile>
+
+    </contentTypes>
+    <core>
+      <tinymce>
+        <templates>
+          <tableStack>
+            <name>Tabell - stack</name>
+            <description>Om man har en tabell som innehåller förutsägbara värden rakt upp och ner passar det att stacka den.</description>
+          </tableStack>
+          <tableSwipe>
+            <name>Tabell - swipe</name>
+            <description>För tabeller med mer oregelbunden data passar den här strategin bättre. Kolumner döljs allteftersom att det tillgängliga utrymmet minskar men man kan scrolla i sidled.</description>
+          </tableSwipe>
+          <imageright>
+            <name>Bild - högerställd</name>
+            <description></description>
+          </imageright>
+          <imageleft>
+            <name>Bild - vänsterställd</name>
+            <description></description>
+          </imageleft>
+          <imagefull>
+            <name>Bild - helbredd</name>
+            <description></description>
+          </imagefull>
+        </templates>
+        <defaultsettings>
+          <name>EPiCore</name>
+          <description>Default inställningar för EPiCore.</description>
+        </defaultsettings>
+      </tinymce>
+      <displayOptions>
+        <full>
+          <name>Hel bredd</name>
+          <description>Beskrivning av hel bredd.</description>
+        </full>
+        <half>
+          <name>Halv bredd</name>
+          <description>Beskrivning av halv bredd.</description>
+        </half>
+        <oneThird>
+          <name>En tredjedels bredd</name>
+          <description>Beskrivning av en tredjedel bredd.</description>
+        </oneThird>
+      </displayOptions>
+      <misc>
+        <page>
+          <easyToRead>Lättläst</easyToRead>
+        </page>
+        <message>
+          <form>
+            <firstName>Förnamn</firstName>
+            <lastName>Efternamn</lastName>
+            <address>Adress</address>
+            <zipCode>Postnummer</zipCode>
+            <city>Stad</city>
+            <phone>Telefonnummer</phone>
+            <email>E-postadress</email>
+            <message>Meddelande</message>
+            <send>Skicka</send>
+          </form>
+          <subject>Meddelande till redaktören</subject>
+          <message>
+            <p>
+              Detta är ett meddelande som skickats till dig från {2} {3}, via on-lineformuläret, angående <a href="{1}">{0}</a>.
+            </p>
+            <p>{9}</p>
+            <p>
+              Namn: {2} {3}<br />
+              Adress: {4} {5} {6}<br />
+              Telefon: {7}<br />
+              E-post: {8}
+            </p>
+          </message>
+        </message>
+        <cookieNotice>
+          <approve>Jag godkänner</approve>
+        </cookieNotice>
+        <preview>
+          <heading>Blocket "{0}" visat som "{1}".</heading>
+          <noRenderer>Blocket "{0}" kan inte visas som "{1}".</noRenderer>
+          <noPreview>Ingen förhandsgranskning tillgänglig för "{0}".</noPreview>
+        </preview>
+      </misc>
+    </core>
+    <editorStyleOptions>
+      <heading_styles>Rubrikstilar</heading_styles>
+      <heading_1>Rubrik 1</heading_1>
+      <heading_2>Rubrik 2</heading_2>
+    </editorStyleOptions>
+    <groups>
+
+      <!-- Groups -->
+
+      <configurationGroup>Konfigurationstyper</configurationGroup>
+
+      <!-- Tabs -->
+
+      <newsTab>Nyhetsinställningar</newsTab>
+
+      <cookieNoticeTab>Kaknotisinställningar</cookieNoticeTab>
+
+      <crisisNoticeTab>Krisnotisinställningar</crisisNoticeTab>
+
+      <teaserTab>Teaser-inställningar</teaserTab>
+
+      <seoTab>SEO</seoTab>
+
+      <globalSettingsTab>Globala inställningar</globalSettingsTab>
+
+    </groups>
+  </language>
+</languages>

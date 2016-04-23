@@ -1,0 +1,19 @@
+﻿@model EPiCore.Content.ViewModels.Blocks.PreviewBlockViewModel<EPiCore.Content.Models.Blocks.PromotionBlock>
+@using EPiCore.Content.Helpers
+
+<article class="columns @Html.GetCssClasses(Model.DisplayOptionTag,
+                       full: "small-12 medium-12 large-12",
+                       half: "large-6 medium-6 small-12",
+                       oneThird: "large-4 medium-4 small-6")">
+    @Html.PropertyFor(m => m.CurrentBlock.Image)
+
+    <h2 @Html.EditAttributes(x => x.CurrentBlock.Title)>
+        @Model.CurrentBlock.Title
+    </h2>
+
+    <p @Html.EditAttributes(x => x.CurrentBlock.Text)>
+        @Model.CurrentBlock.Text
+    </p>
+
+    @Html.PropertyFor(m => m.CurrentBlock.LinkTo)
+</article>

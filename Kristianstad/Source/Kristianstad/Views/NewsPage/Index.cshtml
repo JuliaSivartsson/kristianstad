@@ -1,0 +1,18 @@
+﻿@model EPiCore.ViewModels.Pages.PageViewModel<EPiCore.Content.Models.Pages.NewsPage>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@Html.PropertyFor(m => m.CurrentPage.Title)
+
+@Html.PropertyFor(m => m.CurrentPage.TitleImage)
+
+@Html.PropertyFor(m => m.CurrentPage.Preamble)
+
+@Html.PropertyFor(m => m.CurrentPage.TopBlockArea)
+
+@Html.PropertyFor(m => m.CurrentPage.Content)
+
+@Html.PropertyFor(m => m.CurrentPage.BlockArea)

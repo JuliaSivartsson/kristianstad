@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<languages>
+	<language name="English" id="en">
+		<core>
+      <validation>
+        <allowMultiple>
+          <error>The page cannot be created. Max number of pages of this type is {0}.</error>
+        </allowMultiple>
+        <linkItemCollectionAllowedTypes>
+          <error>Unsupported type added. The following types are not supported in this field: {0}.</error>
+        </linkItemCollectionAllowedTypes>
+        <allowedDropTypesAttribute>
+          <error>Unsupported type added. The following types are not supported in this field: {0}.</error>
+        </allowedDropTypesAttribute>
+      </validation>
+    </core>
+	</language>
+</languages>

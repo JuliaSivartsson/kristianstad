@@ -1,0 +1,19 @@
+﻿@model EPiCore.Content.ViewModels.Common.CookieNoticeViewModel
+
+<div class="contain-to-grid" id="cookie-notice">
+    <div class="row">
+
+        <div class="columns small-12 medium-9 large-10">
+            @Model.Message <a href="@Model.Link.Url" title="@Model.Link.Name">@Model.Link.Name</a>
+        </div>
+
+        <div class="columns small-12 medium-3 large-2">
+            @using (Html.BeginForm("Approve", "CookieNotice"))
+            {
+                @Html.AntiForgeryToken()
+                <button type="submit" class="button secondary expand">@Html.Translate("/core/misc/cookieNotice/approve")</button>
+            }
+        </div>
+
+    </div>
+</div>

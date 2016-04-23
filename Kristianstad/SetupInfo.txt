@@ -1,0 +1,13 @@
+# Requirements
+
+* Node.js v.5+ installed (https://nodejs.org/en/) 
+* Git installed
+* Gulp installed globally  (npm install -g git://github.com/gulpjs/gulp.git#4.0)
+* Visual studio should use commands from path as first choise.
+    1. Go to Tools -> Options -> Projects and Solutions -> External Web Tools.
+    2. Move "$(PATH)" to the top.
+
+# EPiServer Find
+Create a index on http://find.episerver.com/.
+Create a file in Source/Kristianstad/Config/Development named episerver.find.config with the required config. Look at acceptance and production config for how to format.
+Source/Kristianstad/Config/Development/episerver.find.config should not be included in the project and not included in git.

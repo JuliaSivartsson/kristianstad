@@ -1,0 +1,33 @@
+﻿@import "../core/scss/settings";
+
+// Custom KR variables
+$kr-color-body-dark: #ededed;
+$kr-color-green: #96bf0d;
+$kr-text-color-light: #818181;
+$kr-border-default: rem-calc(1px) solid #e7e2dd;
+$kr-mobile-menu-breakpoint: 850;
+
+// Overridden foundation variables
+$body-font-color: #414040;
+$small-font-size: 86%; 
+$table-border: $kr-border-default;
+$foundation-palette: (
+  primary: #639EC8,
+  secondary: #777,
+  success: #96bf0d,
+  warning: #ffae00,
+  alert: #ec5840,
+);
+
+@include add-foundation-colors;
+
+/*
+  Use following foundation variables
+
+- $global-weight-bold -> Bold 700
+- $body-background -> Main background color
+- $small-font-size -> Small font 14px
+- $body-font-color -> #414040
+- map-get($foundation-palette, primary) -> Primary blue (#639EC8)
+
+*/

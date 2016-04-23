@@ -1,0 +1,32 @@
+﻿@model EPiCore.ViewModels.Blocks.IBlockViewModel<Kristianstad.Business.Models.Blocks.VideoBlock>
+
+
+<div class="flex-video widescreen">
+
+    @if (Model.CurrentBlock.VideoType == (int)Kristianstad.UI.Factories.VideoTypeSelectionFactory.VideoType.LOCAL)
+    {
+        if (Model.CurrentBlock.Video != null)
+        {
+            <video controls>
+                <source src="@Url.ContentUrl(Model.CurrentBlock.Video)">
+            </video>
+        }
+    }
+    else if (Model.CurrentBlock.VideoType == (int)Kristianstad.UI.Factories.VideoTypeSelectionFactory.VideoType.YOUTUBE)
+    {
+        if (!string.IsNullOrWhiteSpace(Model.CurrentBlock.VideoLinkId))
+        {
+            <iframe type="text/html" src="//www.youtube.com/embed/@Model.CurrentBlock.VideoLinkId" frameborder="0"></iframe>
+        }
+    }
+    else
+    {
+        if (!string.IsNullOrWhiteSpace(Model.CurrentBlock.VideoLinkId))
+        {
+            <iframe src="//player.vimeo.com/video/@Model.CurrentBlock.VideoLinkId"
+                    frameborder="0">
+            </iframe> 
+        }
+    }
+
+</div>

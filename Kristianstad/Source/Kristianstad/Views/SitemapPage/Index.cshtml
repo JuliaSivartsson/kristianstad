@@ -1,0 +1,9 @@
+﻿@model EPiCore.Content.ViewModels.Pages.SitemapPageViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Html.PropertyFor(m => m.CurrentPage.Title)
+
+@Html.PropertyFor(m => m.CurrentPage.Content)

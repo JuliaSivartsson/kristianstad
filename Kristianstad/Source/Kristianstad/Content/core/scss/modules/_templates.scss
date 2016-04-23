@@ -1,0 +1,30 @@
+﻿.template-image-right, 
+.template-image-left,
+.template-image-full {
+    margin: rem-calc(0 0 25px 0);
+
+    img {
+        min-width: 100%;
+    }
+
+    figcaption {
+        font-style: italic;
+        font-size: $small-font-size;
+    }
+}
+
+.template-image-right {
+    width: 50%;
+    float: right;
+    padding-left: rem-calc(25px);
+}
+
+.template-image-left {
+    width: 50%;
+    float: left;
+    padding-right: rem-calc(25px);
+}
+
+.template-image-full {
+    width: 100%;
+}

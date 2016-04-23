@@ -1,0 +1,29 @@
+﻿@model EPiCore.Content.ViewModels.Pages.StartPageViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="startpage">
+
+    @*<div class="row slider">
+        <section class="columns small-12"></section>
+    </div>*@
+
+    <div class="row content">
+        <section class="columns small-12 header-section">
+            <h2 @Html.EditAttributes(m => m.CurrentPage.NewsHeader)>
+                @Model.CurrentPage.NewsHeader
+            </h2>
+        </section>
+
+        <section class="columns small-12">
+            @Html.PropertyFor(m => m.CurrentPage.TopBlockArea)
+        </section>
+
+        <section class="columns small-12">
+            @Html.PropertyFor(m => m.CurrentPage.BlockArea)
+        </section>
+    </div>
+
+</div>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<languages>
+  <language name="English" id="en">
+    
+    <errors>
+      <validation>
+        <linkItemCountAttribute>
+          <badCount>This property allows a maximum of {0} link(s), but {1} link(s) have been supplied.</badCount>
+        </linkItemCountAttribute>
+        <maxContentCountAttribute>
+          <badCount>This property allows a maximum of {0} item(s), but {1} item(s) have been supplied.</badCount>
+        </maxContentCountAttribute>
+      </validation>
+    </errors>
+    
+    <editorStyleOptions>
+      <table_styles>Table styles</table_styles>
+      <clean_rows>White rows only</clean_rows>
+    </editorStyleOptions>
+
+    <videoTypes>
+      <localFile>Local file</localFile>
+      <youtube>Youtube</youtube>
+      <vimeo>Vimeo</vimeo>
+    </videoTypes>
+
+    <icons>
+      <binoculars>Binoculars</binoculars>
+      <crossroad>Crossroad sign</crossroad>
+      <ballon>Ballon</ballon>
+      <camera>Camera</camera>
+      <family>Family</family>
+      <heart>Heart</heart>
+      <environmentalHouse>Environmental house</environmentalHouse>
+      <truck>Truck</truck>
+      <handShake>Handshake</handShake>
+      <club>Club</club>
+    </icons>    
+    
+  </language>
+</languages>

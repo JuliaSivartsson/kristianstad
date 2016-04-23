@@ -1,0 +1,28 @@
+﻿<!DOCTYPE html>
+<html class="no-js" lang="sv">
+<head>
+    <base href="/{{base}}/" />
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}}</title>
+
+    <link href="Static/css/main.css" rel="stylesheet" />
+</head>
+<body>
+
+    {% include "core/site/shared/_header.html" %}
+
+    {% block body %}{% endblock %}
+
+    {% include "core/site/shared/_mobile-menu.html" %}
+
+    {% include "core/site/shared/_footer.html" %}
+
+    <script src="Static/js/main.js"></script>
+
+    <script>
+        $(document).foundation();
+    </script>
+</body>
+</html>

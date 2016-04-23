@@ -1,0 +1,23 @@
+﻿.main-off-canvas {
+    .off-canvas-list {
+        .logo {
+            label {
+                border-bottom: none;
+                a {
+                    border-bottom: none;
+                } 
+            }
+        }
+    }
+}
+
+/* Scroll fix */
+
+/*@media #{$small-only} {
+
+    .off-canvas-wrap, 
+    .off-canvas-wrap .inner-wrap {
+        height: 100%;
+        width: 100%;
+    }
+}*/

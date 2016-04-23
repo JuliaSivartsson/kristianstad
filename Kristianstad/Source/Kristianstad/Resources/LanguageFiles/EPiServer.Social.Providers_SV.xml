@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<languages>
+    <language name="Svenska" id="sv">
+        <socialreach>
+            <providers>
+                <facebook>
+                    <defaultsocialchannelaccountname>Facebook page</defaultsocialchannelaccountname>
+                </facebook>
+                <twitter>
+                    <unauthorized>Your login account could not be authenticated. Please try again later.</unauthorized>
+                </twitter>
+            </providers>
+        </socialreach>
+    </language>
+</languages>

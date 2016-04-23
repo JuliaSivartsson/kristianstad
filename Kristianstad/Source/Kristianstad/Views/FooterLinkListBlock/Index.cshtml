@@ -1,0 +1,10 @@
+﻿@model EPiCore.ViewModels.Blocks.IBlockViewModel<Kristianstad.Models.Blocks.FooterLinkListBlock>
+
+<div class="icon @Model.CurrentBlock.Icon"></div>
+<h1>@Model.CurrentBlock.Title</h1>
+<ul class="vertical menu">
+    @foreach (var link in Model.CurrentBlock.Links)
+    {
+        <li><a href="@link.Href" title="@link.Title">@link.Text</a></li>
+    }
+</ul>

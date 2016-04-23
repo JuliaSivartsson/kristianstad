@@ -1,0 +1,54 @@
+﻿@model Kristianstad.ViewModels.Common.HeaderViewModel
+
+<header class="top-bar main-top-bar trans">
+    <div class="top-bar-left">
+        <a href="/">
+            <img src="/Static/img/icons/logo-kristianstadskommun.svg" alt="">
+        </a>
+    </div>
+    <div class="top-bar-search">
+        <form>
+            <div class="input-group">
+                <input class="input-group-field" type="text" placeholder="Skriv in sökord...">
+                <div class="input-group-button">
+                    <input type="submit" class="button success" value="Sök">
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="top-bar-right trans">
+        <ul class="header-links trans">
+            <li class="header-translate"><a data-open="translateModal">Translate</a></li>
+            <li class="header-customize"><a href="@(Model.Adjust ?? "#")">Anpassa</a></li>
+            <li class="header-services"><a href="@(Model.EServices ?? "#")">E-tjänster</a></li>
+            <li class="header-contact"><a href="@(Model.Contact ?? "#")">Kontakta</a></li>
+        </ul>
+        <a class="mega-menu-button trans" href="@Html.MegaMenuUrl()" role="button">
+            <div class="menu-hamburger">
+                <span></span>
+            </div>
+            <div class="menu-button-text">
+                <span class="open trans">Meny</span>
+                <span class="close trans">Stäng</span>
+            </div>
+        </a>
+    </div>
+
+    @*Google translate HTML*@
+    <div class="reveal" id="translateModal" data-reveal>
+        <p class="lead">Translate</p>
+        <p>Use Google to translate the web site. We take no responsibility for the accuracy of the translation.</p>
+        <div id="google_translate_element"></div>
+        <script type="text/javascript">
+                function googleTranslateElementInit() {
+                    new google.translate.TranslateElement({pageLanguage: 'sv', layout: google.translate.TranslateElement.InlineLayout.SIMPLE, autoDisplay: false, multilanguagePage: true}, 'google_translate_element');
+                }
+        </script>
+        <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+        <button class="close-button" data-close aria-label="Close modal" type="button">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+
+</header>

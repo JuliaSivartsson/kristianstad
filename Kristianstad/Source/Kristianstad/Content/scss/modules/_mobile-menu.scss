@@ -1,0 +1,242 @@
+
+.kr-mobile-menu {
+    padding: rem-calc(10 0 0 0);
+    background-color: white;
+    overflow-y: auto;
+    margin-top: rem-calc(8px);
+    bottom: rem-calc(1px);
+
+    .site-nav {
+        padding: rem-calc(0 10 0 10);
+
+        a {
+            color: $body-font-color;
+            padding-right: rem-calc(25px);
+            font-size: rem-calc(17px);
+            letter-spacing: rem-calc(-.4px);
+
+            &:hover {
+                color: map-get($foundation-palette, primary);
+            }           
+        }
+
+        > li > a {
+            font-weight: $global-weight-bold;
+            font-size: rem-calc(19px);
+        }
+
+        > li > ul, ul li ul {
+            padding-left: rem-calc(15px);
+            margin-left: 0;
+        }
+
+        .toggle {
+            width:rem-calc(32px);
+            height:rem-calc(33px);
+            position:absolute;
+            right:0;
+            top:0;
+            cursor:pointer;
+            line-height:1;
+            border: rem-calc(2px) solid map-get($foundation-palette, primary);
+            border-radius: 100%;
+            font-weight: $global-weight-bold;
+        }
+
+        li.has-children {
+            > .toggle {
+
+                &:before {
+                    content:"+";
+                    color: map-get($foundation-palette, primary);
+                    font-size: rem-calc(35px);
+                    margin-top: rem-calc(-4px);
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    text-align: center;
+                    font-weight: 300;
+                }
+            }
+
+            ul {
+                display: none;
+            }
+        }
+
+        li.open {
+            > .toggle {
+
+                &:before {
+                    content:"_";
+                    color: map-get($foundation-palette, primary);
+                    font-size: rem-calc(32px);
+                    margin-top: rem-calc(-16px);
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    text-align: center;
+                }
+            }
+
+            > ul {
+                display: block;
+            }
+        }
+
+        li.open > a {
+            font-weight: $global-weight-bold;
+            color: black;
+        }
+
+        li.current > a {
+            font-weight: $global-weight-bold;
+            color: black;
+        }
+
+        li {
+            border-top: $kr-border-default;
+            padding-top: rem-calc(5);
+            padding-bottom: rem-calc(5);
+            list-style-type: none;
+
+            .open > a {
+                font-weight: 600;
+            }
+        }
+
+        >li:first-child {
+            border-top: none;
+        }
+
+        & > li {
+            padding-top: rem-calc(10);
+            padding-bottom: rem-calc(10);
+
+            &.has-children .toggle {
+                top: 15px !important;
+            }
+        }
+
+        .vertical li .toggle{
+                top: 8px !important;
+        }
+    }
+
+    .menu.vertical {
+        li {
+            position: relative;
+        }
+
+        a {
+            padding-left: 0;
+        }
+
+        $menu__sub--ul-class: sub;
+
+        @for $i from 1 through $mobile-menu-max-levels {
+            .#{$menu__sub--ul-class}-#{$i} a {
+                padding-left: rem-calc(($i)*15);
+            }
+        }
+    }
+
+    .mobile-search {
+
+        border-bottom: $kr-border-default;
+        padding-bottom: rem-calc(11px);
+
+        form .input-group {
+
+            padding: rem-calc(0 10px);
+            margin-bottom: 0; 
+
+            .input-group-field {
+                background: $body-background;
+                height: rem-calc(43px);
+                padding-left: rem-calc(15px);
+                color: $body-font-color;
+                outline: 0;
+            }
+
+            .input-group-button {
+                width: rem-calc(95px);
+            }
+
+            .button {
+                background: url(../img/icons/icon-sok.svg) no-repeat center map-get($foundation-palette, primary);
+                background-size: rem-calc(23px);
+                float: right;
+                width: rem-calc(87px);
+                cursor: pointer;
+                height: rem-calc(43px);
+            }
+        }
+    }
+
+    .help-links {
+
+        background: map-get($foundation-palette, primary);
+
+        li {
+            border-top: $kr-border-default;
+            display: block;
+            height: rem-calc(50px);
+        }
+
+        a {
+            padding-left: rem-calc(40px) !important;
+            margin-left: rem-calc(10px);
+            font-weight: $global-weight-bold;
+            font-size: 1.1875rem;
+            color: white;
+        }
+
+        .translate {
+                background: url(../img/icons/icon-translate-white.png) no-repeat left center;
+                background-size: rem-calc(27px);
+                padding-top: rem-calc(17px);
+        }
+        .customize {
+                background: url(../img/icons/icon-anpassa-white.svg) no-repeat left center;
+                background-size: rem-calc(28px);
+                padding-top: rem-calc(17px);
+        }
+        .services {
+                background: url(../img/icons/icon-etjanster-white.svg) no-repeat left center;
+                background-size: rem-calc(28px);
+                margin-top: rem-calc(2px);
+                padding-top: rem-calc(13px);
+        }
+        .contact {
+                background: url(../img/icons/icon-kontakta-white.svg) no-repeat left center;
+                background-size: rem-calc(28px);
+                padding-top: rem-calc(7px);
+                margin-top: rem-calc(6px);
+        } 
+        .search {
+                background: url(../img/icons/icon-sok-white.svg) no-repeat left center;
+                background-size: rem-calc(28px);
+        }              
+    }
+}
+
+html:not(.no-js) {
+    .kr-mobile-menu {
+        top: $main-header-height;
+        position: fixed;
+        width: 100%;
+        z-index: 10;
+        display: none;
+    }
+}
+
+body.menu-open {
+    .kr-mobile-menu {
+        @include breakpoint($kr-mobile-menu-breakpoint down) { 
+            display: block;
+        } 
+    }
+}

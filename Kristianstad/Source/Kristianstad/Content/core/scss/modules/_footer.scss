@@ -1,0 +1,19 @@
+﻿footer.main-footer {
+    background-color: $footer-bg-color;
+    padding: rem-calc(10px 0 10px 0);
+    color: $footer-font-color;
+    
+    section {
+        font-size: rem-calc(12px);
+
+        h3 {
+            color: $footer-font-color;
+        }
+
+        a {
+            color: $footer-font-link-color;
+            text-decoration: underline;
+            font-size: rem-calc(12px);
+        }
+    }
+}

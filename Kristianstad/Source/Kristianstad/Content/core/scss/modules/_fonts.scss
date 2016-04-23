@@ -1,0 +1,22 @@
+﻿@mixin fontdef($OpenSansPath, $FontType:"Regular") {
+  src:  url('#{$OpenSansPath}/#{$FontType}/OpenSans-#{$FontType}.eot');
+  src:  url('#{$OpenSansPath}/#{$FontType}/OpenSans-#{$FontType}.eot?#iefix') format('embedded-opentype'),
+        url('#{$OpenSansPath}/#{$FontType}/OpenSans-#{$FontType}.woff2') format('woff2'),
+        url('#{$OpenSansPath}/#{$FontType}/OpenSans-#{$FontType}.woff') format('woff'),
+        url('#{$OpenSansPath}/#{$FontType}/OpenSans-#{$FontType}.ttf') format('truetype'),
+        url('#{$OpenSansPath}/#{$FontType}/OpenSans-#{$FontType}.svg##{$FontType}') format('svg');
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  @include fontdef($OpenSansPath, "Regular");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  @include fontdef($OpenSansPath, "Bold");
+  font-weight: bold;
+  font-style: normal;
+}

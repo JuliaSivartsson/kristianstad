@@ -1,0 +1,309 @@
+.content-page.content {
+    color: $body-font-color;
+    margin-bottom: rem-calc(30px);
+
+    .row {
+        margin-right: 0;
+        margin-left: 0;
+    }
+
+    .breadcrumbs {
+        background: $kr-color-body-dark;
+        padding: rem-calc(15px 21px 17px);
+        line-height: 130%;
+        margin-bottom: rem-calc(20px);
+        font-size: $small-font-size;
+
+        p {
+            margin: 0;
+            margin-right: rem-calc(10px);
+            font-weight: $global-weight-bold;
+            float: left;
+        }
+
+        ul {
+            list-style: none;
+            margin-left: rem-calc(80px);
+            margin-bottom: 0;
+            
+            li {
+                text-transform: none;
+                font-size: 100%;
+                color: $kr-text-color-light;
+
+                &:not(:last-child)::after {
+                    margin: rem-calc(0 4px 0 0);
+                }
+                
+                &:first-child:after {
+                    margin: rem-calc(0 4px);
+                }
+
+                a {
+                    color: $kr-text-color-light;
+
+                    &:after {
+                        content:"";
+                    }
+                }
+            }
+
+            @include breakpoint(small down) { 
+                margin-left: 0;
+                float: left;
+            }
+        }
+    }
+
+    .main {
+        header {
+            figure.title {
+                display: inline-block;
+                text-align: center;
+                margin: 0;
+                padding: 0;
+                margin-bottom: rem-calc(28px);
+                min-width: 100%;
+
+                img {
+                    width: 100%;
+                }
+
+                figcaption {
+                    font-style: italic;
+                    text-align: left;
+                }
+            }
+
+            .article-preamble {
+                font-size: rem-calc(22px);
+                line-height: 1.4;
+                margin-bottom: rem-calc(32px);
+                padding-bottom: rem-calc(32px);
+                border-bottom: $kr-border-default;
+            }
+        }
+
+        .article-body {
+            padding-bottom: rem-calc(23px);
+
+            a {
+                font-weight: 600;
+            }
+        }
+
+        footer {
+            border-top: $kr-border-default;
+
+            p, a {
+                font-size: $small-font-size;
+                line-height: 150%;
+                padding-top: rem-calc(15px);
+                position: relative;
+                margin-bottom: 0;
+                padding-left: rem-calc(40px);
+
+                // Child one and two (always displayed)
+                &:first-child {
+                    float: left;
+
+                    &::before {
+                        left: 0;
+                        background: url(../img/icons/icon-senastuppdaterad.svg) no-repeat center;
+                        background-size: rem-calc(24px);
+                    }
+                }
+                &:nth-child(2) {
+                    float: right;
+                    padding-right: rem-calc(40px);
+                    padding-left: 0;
+
+                    &::after {
+                        right: 0;
+                        background: url(../img/icons/icon-sidansvarig.svg) no-repeat center;
+                        background-size: rem-calc(20px);
+                    }
+
+                    @include breakpoint(small down) { 
+                        float: left;
+                        width: 100%;
+                        padding-right: 0;
+                        padding-left: rem-calc(40px);
+
+                        &::after {
+                            left: 0;
+                        }
+                    }
+                }
+
+                // Child three and four are links (displayed only in display small mode)
+                &:nth-child(3) {
+                    &:before {
+                        background: url(../img/icons/icon-skrivut-grey.svg) no-repeat center;
+                    }
+                }
+
+                &:nth-child(4) {
+                    &:before {
+                        background: url(../img/icons/icon-dela-grey.svg) no-repeat center;
+                    }
+                }
+
+                &:nth-child(3), &:nth-child(4) {
+                    float: left;
+                    color: $body-font-color;
+                    width: 100%;
+
+                    &:before {
+                        background-size: rem-calc(24px);
+                        left: 0;
+                    }
+
+                    @include breakpoint(medium up) { 
+                        display: none;
+                    }
+                }
+
+                // Shared icon styling
+                &:first-child::before, &:nth-child(2)::after,
+                &:nth-child(3):before, &:nth-child(4):before {
+                        content: "";
+                        position: absolute;
+                        width: rem-calc(24px);
+                        height: rem-calc(24px);
+                }
+            }
+        }
+    }
+
+    .inEditMode {
+
+        header figcaption {
+            margin-top: rem-calc(10px)
+        }
+        .article-body {
+            margin-top: rem-calc(30px);
+        }
+    }
+
+    // Related links
+    .related-info .link-lists {
+        background: none;
+        width: 100%;
+        margin-bottom: rem-calc(35px);
+
+        h3 {
+            background: map-get($foundation-palette, primary);
+            color: white;
+            padding: rem-calc(14px 20px 17px);
+            font-weight: $global-weight-bold;
+            font-size: rem-calc(18px);
+            margin: 0;
+        }
+
+        // Foundation wrapper of each link list
+        .column {
+            margin-bottom: rem-calc(26px);
+
+            > div {
+                background-color: white;
+            }
+
+            padding-left: 0;
+            padding-right: 0;
+
+            &:nth-child(2) {
+                float: right;
+            }
+
+            @include breakpoint(medium up) { 
+                max-width: 48%;
+            }
+        }
+
+        .link-list {
+	        padding: rem-calc(21px 20px);
+            margin-left: 0 !important;
+
+            li {
+                list-style-type: none;
+                border-bottom: $kr-border-default;
+                padding-top: rem-calc(13px);
+                padding-bottom: rem-calc(14px);
+                position: relative;
+
+                &:last-child {
+                    border-bottom: 0;
+                    padding-bottom: 0;
+                }
+
+                &:first-child {
+                    padding-top: 0;
+                }
+            }
+        }
+
+        .files {
+            .file-size {
+                font-size: $small-font-size;
+            }
+
+            a {
+                &:before {
+                    font-family: FontAwesome;
+                    margin-right: rem-calc(6px);
+                    float: left;
+                }
+
+                &[href$=".pdf"]:before {
+                    content: "\f1c1"; // fa-file-pdf-o
+                }
+
+                &[href$=".mp4"]:before,
+                &[href$=".mov"]:before {
+                    content: "\f1c8"; // fa-file-video-o
+                }
+
+                &[href$=".ppt"]:before,
+                &[href$=".pptx"]:before {
+                    content: "\f1c4"; // fa-file-powerpoint-o
+                }
+
+                &[href$=".doc"]:before,
+                &[href$=".docx"]:before {
+                    content: "\f1c2"; // fa-file-word-o
+                }
+
+                &[href$=".xls"]:before,
+                &[href$=".xlsx"]:before {
+                    content: "\f1c3"; // fa-file-excel-o
+                }
+            }
+        }
+    }
+
+    @include breakpoint(large up) { 
+        padding-right: rem-calc(45px);
+    }
+}
+
+// Styling for right content blocks
+.content-page.right-content {
+    .block-area .block {
+
+        margin-top: rem-calc(50px);
+
+        h1, h2, h3, h4 {
+            background: map-get($foundation-palette, primary);
+            color: white;
+            padding: 0.875rem 1.25rem 1.0625rem;
+            font-weight: $global-weight-bold;
+            font-size: 1.125rem;
+            margin-bottom: 0;
+        }
+
+        div {
+            max-height: rem-calc(450px);
+        }
+    }
+}

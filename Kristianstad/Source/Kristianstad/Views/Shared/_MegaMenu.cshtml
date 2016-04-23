@@ -1,0 +1,73 @@
+﻿@model Kristianstad.ViewModels.Common.MegaMenuViewModel
+
+<nav class="mega-menu">
+    <div class="section-wrapper">
+
+        <div class="menu-information"><p>Klicka på det huvudområde du vill hitta information om:</p></div>
+
+        <ul class="tabs" data-tabs id="menu-sections">
+            @foreach (var sectionPage in Model.MenuPages)
+            {
+                <li class="tabs-title"><h3><a href="#@sectionPage.Key.ID" aria-selected="true"><span class="@sectionPage.Key.Icon"></span>@sectionPage.Key.Title</a></h3></li>
+            }
+        </ul>
+
+        <div class="tabs-content" data-tabs-content="menu-sections">
+            @*Use section page ID for id*@
+            @foreach (var sectionPage in Model.MenuPages)
+            {
+                <div class="tabs-panel" id="@sectionPage.Key.ID">
+
+                    <h2>@sectionPage.Key.Title</h2>
+                    <ul class="row no-bullet small-up-1 medium-up-3 large-up-4">
+
+                        @if (sectionPage.Key.QuickLinks != null)
+                        {
+                            <li class="column link-list">
+                                <div>
+                                    <h3>Hitta snabbt</h3>
+                                    <ul>
+                                        @foreach (var link in sectionPage.Key.QuickLinks.Take(4))
+                                        {
+                                            <li>
+                                                <a href="@link.GetMappedHref()">@link.Text</a>
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+                            </li>
+                        }
+                        @foreach (var standardPage in sectionPage.Value.Where(p => !p.RenderAsLinkOnly))
+                        {
+                            <li class="column">
+                                <div>
+                                    <h3>@standardPage.Title</h3>
+                                    <p>@standardPage.Description</p>
+                                    <a href="@standardPage.URL" class="go-to-page">Gå till sidan</a>
+                                </div>
+                            </li>
+                        }
+
+                        @{ var linkPages = sectionPage.Value.Where(p => p.RenderAsLinkOnly);}
+                        @while (linkPages.Any())
+                        {
+                            @RemderLinkColumn(linkPages.Take(4));
+                            linkPages = linkPages.Skip(4);
+                        }
+
+                        @helper RemderLinkColumn(IEnumerable<Kristianstad.ViewModels.Common.MenuContentViewModel> links)
+                        {
+                            <li class="column compressed">
+                                <div>
+                                    @foreach (var link in links)
+                                    {
+                                        <a href="@link.URL">@link.Title.Substring(0, Math.Min(link.Title.Length, 20))@(link.Title.Length > 20 ? " .." : "")</a>
+                                    }
+                                </div>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            }
+    </div>
+</nav>

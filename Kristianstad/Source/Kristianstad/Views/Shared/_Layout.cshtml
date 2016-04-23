@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800,600italic,400italic,300italic' rel='stylesheet' type='text/css'>
+    <title>@Page.Title</title>
+    
+    @{
+       Html.RenderMeta();
+    }
+    @Html.CanonicalLink()
+    @Html.AlternateLinks()
+
+    @Styles.Render("~/Static/css/EPiCoreCss")
+
+    @Html.RequiredClientResources("Header")
+</head>
+<body class="@(Html.MegaMenuOpen() ? "menu-open" : "")">
+    @Html.RenderEPiServerQuickNavigator()
+    @Html.FullRefreshPropertiesMetaData()
+
+    @{
+        Html.RenderAction("Index", "HeaderKr");
+        Html.RenderAction("Index", "MegaMenu");
+        //Html.RenderAction("Index", "CrisisNotice");
+        //Html.RenderAction("Index", "CookieNotice");
+    }
+
+    <div class="column row page">
+        @RenderBody()
+    </div>
+
+    @{
+        Html.RenderAction("FullMenu", "MenuKr");
+    }
+
+    @{
+        Html.RenderAction("Index", "FooterKr");
+    }
+
+
+    @Scripts.Render("~/Static/js/EPiCoreJs")
+    @Html.RequiredClientResources("Footer")
+
+    <script>
+        $(document).foundation();
+    </script>
+
+    @Html.RequiredClientResources("FooterCustom")
+</body>
+</html>

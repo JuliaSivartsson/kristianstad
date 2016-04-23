@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<languages>
+  <language name="Svenska" id="sv"> 
+    <errors>
+      <validation>
+        <linkItemCountAttribute>
+          <badCount>Egenskapen tillåter max {0} länk(ar), men {1} länk(ar) har angetts.</badCount>
+        </linkItemCountAttribute>
+        <maxContentCountAttribute>
+          <badCount>Egenskapen tillåter max {0} föremål, men {1} föremål har angetts.</badCount>
+        </maxContentCountAttribute>
+      </validation>
+    </errors>
+   
+    <editorStyleOptions>
+      <table_styles>Tabellstilar</table_styles>
+      <clean_rows>Endast ljusa rader</clean_rows>
+    </editorStyleOptions>
+
+    <videoTypes>
+      <localFile>Lokal fil</localFile>
+      <youtube>Youtube</youtube>
+      <vimeo>Vimeo</vimeo>
+    </videoTypes>
+
+    <icons>    
+      <binoculars>Kikare</binoculars>
+      <crossroad>Vägskälsskylt</crossroad>
+      <ballon>Pratbubbla</ballon>
+      <camera>Kamera</camera>
+      <family>Familj</family>
+      <heart>Hjärta</heart>
+      <environmentalHouse>Hus med löv</environmentalHouse>
+      <truck>Lastbil</truck>
+      <handShake>Handslag</handShake>
+      <club>Klubba</club>   
+    </icons>
+    
+  </language>
+</languages>

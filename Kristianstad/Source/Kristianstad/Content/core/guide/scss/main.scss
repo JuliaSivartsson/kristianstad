@@ -1,0 +1,26 @@
+﻿@import "settings";
+@import "../../scss/settings";
+
+.guide {
+    .off-canvas-wrapper, .off-canvas-wrapper-inner, .off-canvas {
+        height: 100%;
+    }
+
+
+    .off-canvas-content {
+        min-height: 100%;
+    }
+
+    .main {
+        @include breakpoint(medium up) { 
+            margin-left: map-get($grid-column-gutter, medium);
+        }
+        
+    }
+
+    .nav {
+        label {
+            padding: 15px;
+        }
+    }
+}

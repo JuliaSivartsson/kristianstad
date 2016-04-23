@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<languages>
+  <language name="Svenska" id="sv">
+    <core>
+      <validation>
+        <allowMultiple>
+          <error>Sidan kan inte skapas. Max antal sidor av denna typ är {0}.</error>
+        </allowMultiple>
+        <linkItemCollectionAllowedTypes>
+          <error>Typ utan stöd tillagd. Följande typer stöds inte i detta fält: {0}.</error>
+        </linkItemCollectionAllowedTypes>
+        <allowedDropTypesAttribute>
+          <error>Typ utan stöd tillagd. Följande typer stöds inte i detta fält: {0}.</error>
+        </allowedDropTypesAttribute>
+      </validation>
+    </core>
+  </language>
+</languages>

@@ -1,0 +1,43 @@
+﻿/* Display Options
+   ========================================================================== */
+
+.Sleek .epi-icon__layout--full {
+    background: url('./../img/icons/layoutIcons24x24.png') 0px -24px no-repeat;
+    height: 24px;
+    width: 24px;
+}
+
+.Sleek .epi-icon__layout--half {
+    background: url('../img/icons/layoutIcons24x24.png') 0px -48px no-repeat;
+    height: 24px;
+    width: 24px;
+}
+
+.Sleek .epi-icon__layout--two-thirds {
+    background: url('../img/icons/layoutIcons24x24.png') 0px -72px no-repeat;
+    height: 24px;
+    width: 24px;
+}
+
+.Sleek .epi-icon__layout--one-third {
+    background: url('../img/icons/layoutIcons24x24.png') 0px -96px no-repeat;
+    height: 24px;
+    width: 24px;
+}
+
+.Sleek .epi-icon__layout--one-quarter {
+    background: url('../img/icons/layoutIcons24x24.png') 0px -120px no-repeat;
+    height: 24px;
+    width: 24px;
+}
+
+/* Editor Hints
+   ========================================================================== */
+
+.Sleek .dijitTabPaneWrapper .epi-form-container__section__row label[title]:after { /* EPiServer 8+ */
+    content: attr(title);
+    display: block;
+    font-size: 0.8em;
+    font-style: italic;
+    margin: 0.3em 0 0 0;
+}

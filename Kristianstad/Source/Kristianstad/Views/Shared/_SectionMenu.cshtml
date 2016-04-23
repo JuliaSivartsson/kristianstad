@@ -1,0 +1,29 @@
+﻿@model Kristianstad.ViewModels.Common.MenuViewModel
+@helper ItemTemplate(Kristianstad.Models.Misc.MenuItem item)
+{
+var isOnPath = Model.Path.Contains(item.ID);
+var hasChildren = item.Children.Any();
+var cssClass = (hasChildren ? "has-children" : "") + (isOnPath ? " open" : "") + (item.ID == Model.CurrentPageID ? " current" : "");
+    <li role="menuitem" class="@cssClass">
+        <a href="@item.Url" title="@item.Name">@item.Name</a>
+        @if (hasChildren && isOnPath)
+        {
+            <ul>
+                @foreach (var child in item.Children)
+                {
+                    @ItemTemplate(child)
+                }
+            </ul>
+        }
+    </li>
+}
+
+<nav class="section-menu">
+    <h4>@Model.Root.Name </h4>
+    <ul role="navigation">
+        @foreach (var item in Model.Root.Children)
+        {
+            @ItemTemplate(item)
+        }
+    </ul>
+</nav>

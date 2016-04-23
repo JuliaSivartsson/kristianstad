@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<!--[if IE 9]><html class="lt-ie10" lang="sv" > <![endif]-->
+<html class="no-js" lang="sv">
+<head>
+    <base href="/{{base}}/" />
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}}</title>
+
+    <link href="Static/css/main.css" rel="stylesheet" />
+    <link href="Static/css/main-guide.css" rel="stylesheet" />
+</head>
+<body class="guide">
+
+    <div class="off-canvas-wrapper">
+        
+
+        <div class="off-canvas-wrapper-inner" data-off-canvas-wrapper>
+            <div class="off-canvas position-left reveal-for-medium" id="offCanvas" data-off-canvas>
+                {% include "core/guide/shared/_menu.html" %}
+            </div>
+            <div class="off-canvas-content" data-off-canvas-content>
+                <div class="title-bar">
+                    <div class="title-bar-left">
+                        <button class="menu-icon hide-for-medium" type="button" data-open="offCanvas"></button>
+                        <span class="title-bar-title">{{title}}</span>
+                    </div>
+                </div>
+
+                <div class="row main" role="main">
+                    {% block body %}{% endblock %}
+                </div>
+
+            </div>
+
+            
+        </div>
+    </div>
+
+    <script src="Static/js/main.js"></script>
+
+    <script>
+        $(document).foundation();
+    </script>
+</body>
+</html>
+
+
+

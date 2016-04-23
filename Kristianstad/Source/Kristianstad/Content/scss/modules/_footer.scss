@@ -1,0 +1,137 @@
+.main-footer {
+    background: url(../img/footer_bg.png) no-repeat top center;
+    background-size: cover;
+    margin-top: rem-calc(64);
+    padding-bottom: rem-calc(53);
+
+    h1 {
+        font-size: rem-calc(22);
+        font-weight: $global-weight-bold;
+        letter-spacing: rem-calc(-.5);
+        padding-bottom: rem-calc(12);
+    }
+
+    a {
+        color: #414040;
+
+        &:hover {
+            color: #5b9dcc;
+            text-decoration: underline;
+        }
+    }
+
+    .footer-nav {
+        text-align: center;
+        margin-bottom: rem-calc(48);
+
+        h1 {
+            padding-bottom: rem-calc(23);
+            border-bottom: rem-calc(2) solid #edecea;
+            margin-bottom: rem-calc(22);
+        }
+
+        .column {
+            margin-bottom: rem-calc(32);
+        }
+
+        .icon {
+            line-height: 0;
+            margin-bottom: rem-calc(10);
+            height: rem-calc(70);
+            width: 100%;
+            content: "";
+
+            /* Foundation breakpoint: Small & Medium */
+            @media screen and (max-width: 63.9375em) {
+                margin-bottom: rem-calc(0);
+            }
+
+            &.crossroad-icon {
+                background: url(../img/icons/icon-hittasnabbt-green.svg) no-repeat center;
+                background-size: rem-calc(68);
+            }
+
+            &.binoculars-icon {
+                background: url(../img/icons/icon-omkommunen-green.svg) no-repeat center;
+                background-size: rem-calc(54);
+            }
+
+            &.ballon-icon {
+                background: url(../img/icons/icon-kontakta-green.svg) no-repeat center;
+                background-size: rem-calc(56);
+            }
+            &.camera-icon {
+                background: url(../img/icons/icon-uppleva.svg) no-repeat center;
+                background-size: rem-calc(56);
+            }
+        }
+
+        a:after {
+            content: "›";
+            display: inline-block;
+            padding-left: rem-calc(4);
+            color: #5b9dcc;
+        }
+    }
+
+    .social {
+        text-align: center;
+        margin-bottom: rem-calc(25);
+
+        li {
+            display: inline-block;
+            margin: rem-calc(0 5);
+        }
+
+        a {
+            padding: 0;
+        }
+
+        .icon {
+            width: rem-calc(46);
+            height: rem-calc(46);
+            border: rem-calc(2) solid #96bf0d;
+            border-radius: 100%;
+            display: inline-block;
+
+            &.facebook {
+                background: url(../img/icons/facebook.svg) no-repeat center;
+                background-size: rem-calc(18);
+            }
+
+            &.twitter {
+                background: url(../img/icons/twitter.svg) no-repeat center;
+                background-size: rem-calc(20);
+            }
+
+            &.linkedin {
+                background: url(../img/icons/linkedin.svg) no-repeat center;
+                background-size: rem-calc(18);
+            }
+
+            &.flickr {
+                background: url(../img/icons/flickr.svg) no-repeat center;
+                background-size: rem-calc(20);
+            }
+
+            &.youtube {
+                background: url(../img/icons/youtube.svg) no-repeat center;
+                background-size: rem-calc(22);
+            }
+        }
+    }
+
+    /* TODO: Change this? Styling might be messed up by how EPiServer renders properties */
+    .contact-details > address {
+        text-align: center;
+        font-size: rem-calc(14);
+        font-style: normal;
+        line-height: 150%;
+
+        /* Foundation breakpoint */
+        @media screen and (max-width: 39.9375em) {
+            font-size: rem-calc(12);
+        }
+    }
+
+}

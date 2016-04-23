@@ -1,0 +1,30 @@
+﻿#cookie-notice {
+    background-color: $cookie-notice-bg-color;
+    color: $cookie-notice-font-color;
+    padding: rem-calc(10px 0 10px 0);
+
+    div {
+        font-size: rem-calc(14px);
+
+        a {
+            color: $cookie-notice-font-link-color;
+            text-decoration: underline;
+        }
+    }
+
+    form {
+        button[type=submit] {
+            margin: 0;
+        }
+    }
+}
+
+@media #{$small-only} {
+    #cookie-notice {
+        form {
+            button[type=submit] {
+                margin: rem-calc(5px) 0 0;
+            }
+        }
+    }
+}
