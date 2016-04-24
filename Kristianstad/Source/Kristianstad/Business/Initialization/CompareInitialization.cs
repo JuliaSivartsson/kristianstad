@@ -14,6 +14,9 @@ using EPiServer.Web.Routing;
 using EPiServer;
 using Kristianstad.Business.Compare;
 using Kristianstad.Models.Pages;
+using EPiServer.DataAbstraction.RuntimeModel;
+using Kristianstad.Business.Models.Blocks.Shared;
+using EPiServer.Globalization;
 
 namespace Kristianstad.Business.Initialization
 {
@@ -35,6 +38,9 @@ namespace Kristianstad.Business.Initialization
 
             RouteTable.Routes.RegisterPartialRouter<BlogStartPage, Category>(partialRouter);
             */
+
+
+            //context.Locate.Advanced.GetInstance<SingleModelRegister<OrganisationalUnitBlock>>().RegisterType();
         }
 
         void Instance_PublishingPage(object sender, PageEventArgs e)
@@ -110,51 +116,85 @@ namespace Kristianstad.Business.Initialization
             else if (string.Equals(e.Page.PageTypeName, typeof(OrganisationalUnitPage).GetPageType().Name, StringComparison.OrdinalIgnoreCase))
             {
                 var contentRepository = ServiceLocator.Current.GetInstance<IContentRepository>();
+                var contentTypeRepository = ServiceLocator.Current.GetInstance<IContentTypeRepository>();
+                var contentAssetHelper = ServiceLocator.Current.GetInstance<ContentAssetHelper>();
 
-                PageData page = contentRepository.Get<PageData>(e.Page.ParentLink);
+                var newOrganisationalUnitName = e.Page.Name;
+
+                PageData ancestorPage = contentRepository.Get<PageData>(e.Page.ParentLink);
                 string categoryName = null;
-                if (page is CategoryPage)
+                if (ancestorPage is CategoryPage)
                 {
-                    categoryName = page.Name;
-                    page = contentRepository.Get<PageData>(page.ParentLink);
+                    categoryName = ancestorPage.Name;
+                    ancestorPage = contentRepository.Get<PageData>(ancestorPage.ParentLink);
                 }
 
-                PageData startPage = (page is CompareStartPage ? page : null);
-                if (startPage != null)
+                if (ancestorPage is CompareStartPage)
                 {
-                    var ouFolderPage = GetOrganisationalUnitsPageRef(startPage, contentRepository);
-                    var existingOuPage = (ouFolderPage != null ? contentRepository.GetChildren<OrganisationalUnitPage>(ouFolderPage).FirstOrDefault() : null);
-                    if (existingOuPage == null)
+                    //var blockType = contentTypeRepository.Load<OrganisationalUnitBlock>();
+                    var block = contentRepository.GetDefault<OrganisationalUnitBlock>(ContentReference.GlobalBlockFolder); //, blockType.ID, ContentLanguage.PreferredCulture);
+                    block.Name = newOrganisationalUnitName;
+                    contentRepository.Save(block, SaveAction.Publish);
+                    
+                    /*
+                    //OrganisationalUnitBlock ouBlock = contentRepository.Get<OrganisationalUnitBlock>(new ContentReference(123));
+                    ContentAssetFolder assetFolder = contentAssetHelper.GetOrCreateAssetFolder(e.Page.ContentLink);
+                    OrganisationalUnitBlock ouBlock = contentRepository.GetDefault<OrganisationalUnitBlock>(assetFolder.ContentLink);
+
+                    //ouBlock.Rating = 5;
+                    //ouBlock.Text = "This is such a nice product";
+                    //ouBlock.UserDisplayName = "Arve Systad";
+                    ouBlock.Name = newOrganisationalUnitName; // ouBlock.UserDisplayName + "(" + DateTime.Now.ToShortDateString() + ")";
+                    contentRepository.Save(ouBlock, SaveAction.Publish, AccessLevel.FullAccess);
+                    */
+                    
+                    var ouPage = e.Page as OrganisationalUnitPage;
+                    ouPage.OrganisationalUnitBlock = block.ContentLink;
+                }
+                else
+                {
+                    // cancel, no compare start page
+                    e.CancelReason = "Could not find the compare start page";
+                    e.CancelAction = true;
+                }
+
+                /*
+                    var organisationalUnitFolderPage = GetOrganisationalUnitsPageRef(ancestorPage, contentRepository);
+                    if (organisationalUnitFolderPage != null)
                     {
-                        e.Page.ParentLink = GetOrganisationalUnitsPageRef(startPage, contentRepository);
-
-                        if (!String.IsNullOrWhiteSpace(categoryName))
+                        bool existingOuPage = contentRepository.GetChildren<OrganisationalUnitPage>(organisationalUnitFolderPage).Where(x => x.Name.ToLower() == newOrganisationalUnitName.ToLower()).Any();
+                        if (!existingOuPage)
                         {
-                            var categoryRepository = ServiceLocator.Current.GetInstance<CategoryRepository>();
-                            Category category = CategoryHelper.FindCompareCategory(categoryRepository, categoryName);
-                            if (category == null)
-                            {
-                                category = CategoryHelper.SaveCompareCategory(categoryRepository, categoryName, categoryName);
-                            }
+                            e.Page.ParentLink = GetOrganisationalUnitsPageRef(ancestorPage, contentRepository);
 
-                            //add category to the ou page
-                            e.Page.Category.Add(category.ID);
+                            if (!string.IsNullOrWhiteSpace(categoryName))
+                            {
+                                var categoryRepository = ServiceLocator.Current.GetInstance<CategoryRepository>();
+                                Category category = CategoryHelper.FindCompareCategory(categoryRepository, categoryName);
+                                if (category == null)
+                                {
+                                    category = CategoryHelper.SaveCompareCategory(categoryRepository, categoryName, categoryName);
+                                }
+
+                                // add category to the ou page
+                                e.Page.Category.Add(category.ID);
+                            }
+                        }
+                        else
+                        {
+                            // cancel, ou page already exists in this comparison content
+                            e.CancelReason = "An organisational unit with the name " + e.Page.Name + " already exists. Please choose another name or edit the existing one.";
+                            e.CancelAction = true;
                         }
                     }
                     else
                     {
-                        //cancel, ou page already exists in this comparison content
-                        e.CancelReason = "An organisational unit with the name " + e.Page.Name + " already exists. Please choose another name or edit the existing one.";
+                        // cancel, ou page folder does not exist (and could not be created for some reason)
+                        e.CancelReason = "Could not find or create an organisational unit folder within the compare service";
                         e.CancelAction = true;
-
                     }
                 }
-                else
-                {
-                    //cancel, no compare start page
-                    e.CancelReason = "Could not find the compare start page";
-                    e.CancelAction = true;
-                }
+                */
             }
         }
         
@@ -163,13 +203,14 @@ namespace Kristianstad.Business.Initialization
         // in here we know that the page is a compare start page and now we must create the organisational unit page unless already created
         private static PageReference GetOrganisationalUnitsPageRef(PageData compareStart, IContentRepository contentRepository)
         {
-            foreach (var current in contentRepository.GetChildren<PageData>(compareStart.ContentLink))
+            foreach (var childPage in contentRepository.GetChildren<PageData>(compareStart.ContentLink))
             {
-                if (current.Name == ORGANISATIONAL_UNIT_FOLDER_NAME)
+                if (childPage is OrganisationalUnitFolderPage) // current.Name == ORGANISATIONAL_UNIT_FOLDER_NAME)
                 {
-                    return current.PageLink;
+                    return childPage.PageLink;
                 }
             }
+
             return CreateOrganisationalUnitFolderPage(contentRepository, compareStart.ContentLink);
         }
 
