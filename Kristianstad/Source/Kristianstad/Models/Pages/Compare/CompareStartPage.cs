@@ -5,6 +5,7 @@ using EPiServer.DataAbstraction;
 using EPiServer.DataAnnotations;
 using EPiServer.SpecializedProperties;
 using Kristianstad.Business.Models.Blocks.Compare;
+using EPiServer.Filters;
 
 namespace Kristianstad.Models.Pages
 {
@@ -31,21 +32,11 @@ namespace Kristianstad.Models.Pages
         [Display(GroupName = SystemTabNames.Content)]
         public virtual ContentArea RightContentArea { get; set; }
 
-
-        #region IInitializableContent
-
-        /// <summary>
-        /// Sets the default property values on the content data.
-        /// </summary>
-        /// <param name="contentType">Type of the content.</param>
+        /// <inheritdoc/>
         public override void SetDefaultValues(ContentType contentType)
         {
             base.SetDefaultValues(contentType);
-
-            //CategoryList.PageTypeFilter = typeof(CategoryPage).GetPageType();
-            //CategoryList.Recursive = true;
+            this[MetaDataProperties.PageChildOrderRule] = FilterSortOrder.Index;
         }
-
-        #endregion
     }
 }
