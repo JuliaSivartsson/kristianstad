@@ -28,7 +28,7 @@ namespace Kristianstad.Business.Initialization
 
         public void Initialize(InitializationEngine context)
         {
-            DataFactory.Instance.CreatingPage +=Instance_CreatingPage;
+            DataFactory.Instance.CreatingPage += Instance_CreatingPage;
             //DataFactory.Instance.CreatingContent += Instance_CreatingContent;
 
             DataFactory.Instance.SavingContent += Instance_SavingContent;
@@ -45,12 +45,12 @@ namespace Kristianstad.Business.Initialization
 
         void Instance_PublishingPage(object sender, PageEventArgs e)
         {
-            
+
         }
 
         void Instance_CreatedPage(object sender, PageEventArgs e)
         {
-           
+
         }
 
         //Returns if we are doing an import or mirroring
@@ -66,7 +66,7 @@ namespace Kristianstad.Business.Initialization
         {
             var contentRepository = ServiceLocator.Current.GetInstance<IContentRepository>();
             PageData page = contentRepository.Get<PageData>(e.ContentLink);
-            
+
             if (page != null &&
                 string.Equals(page.PageTypeName, typeof(CategoryPage).GetPageType().Name, StringComparison.OrdinalIgnoreCase) &&
                 page.Name != e.Content.Name)
@@ -126,9 +126,9 @@ namespace Kristianstad.Business.Initialization
                 if (ancestorPage is CategoryPage)
                 {
                     categoryName = ancestorPage.Name;
-                    ancestorPage = contentRepository.Get<PageData>(ancestorPage.ParentLink);
+                    //ancestorPage = contentRepository.Get<PageData>(ancestorPage.ParentLink);
 
-                    bool existingOuPage = contentRepository.GetChildren<OrganisationalUnitPage>(ancestorPage.ContentLink).Where(x => x.Name.ToLower() == newOrganisationalUnitName.ToLower()).Any();
+                    bool existingOuPage = contentRepository.GetChildren<OrganisationalUnitPage>(ancestorPage.ContentLink, LanguageSelector.AutoDetect(true)).Where(x => x.Name.ToLower() == newOrganisationalUnitName.ToLower()).Any();
                     if (!existingOuPage)
                     {
                         //e.Page.ParentLink = GetOrganisationalUnitsPageRef(ancestorPage, contentRepository);
@@ -154,7 +154,7 @@ namespace Kristianstad.Business.Initialization
                     }
                 }
 
-                if (ancestorPage is CompareStartPage)
+                /*if (ancestorPage is CompareStartPage)
                 {
                     /*
                     //var blockType = contentTypeRepository.Load<OrganisationalUnitBlock>();
@@ -213,17 +213,17 @@ namespace Kristianstad.Business.Initialization
                         e.CancelReason = "Could not find or create an organisational unit folder within the compare service";
                         e.CancelAction = true;
                     }*/
-                }
+                /*}
                 else
                 {
                     // cancel, no compare start page
                     e.CancelReason = "Could not find the compare start page";
                     e.CancelAction = true;
-                }
+                }*/
             }
         }
-        
-        
+
+
 
         // in here we know that the page is a compare start page and now we must create the organisational unit page unless already created
         private static PageReference GetOrganisationalUnitsPageRef(PageData compareStart, IContentRepository contentRepository)

@@ -41,10 +41,10 @@ namespace Kristianstad.Controllers.Compare
             */
 
             var model = new OrganisationalUnitListModel() // (currentBlock)
-                {
-                    OrganisationalUnits = organisationalUnits 
-                    //Heading = string.Empty //category != null ? "Category tags for post: "+category.Name : string.Empty
-                };
+            {
+                OrganisationalUnits = organisationalUnits
+                //Heading = string.Empty //category != null ? "Category tags for post: "+category.Name : string.Empty
+            };
 
             return PartialView(model);
         }
@@ -64,7 +64,7 @@ namespace Kristianstad.Controllers.Compare
 
             return PartialView("Preview", model);
         }
-        
+
 
 
         protected string GetPreviewText(OrganisationalUnitPage page)
@@ -157,6 +157,6 @@ namespace Kristianstad.Controllers.Compare
             return asCollection;
         }
 
-      
+
     }
 }
