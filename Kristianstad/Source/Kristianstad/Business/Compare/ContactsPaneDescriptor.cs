@@ -10,27 +10,30 @@ using System.Web;
 namespace Kristianstad.Business.Compare
 {
     [ServiceConfiguration(typeof(IContentRepositoryDescriptor))]
-    public class OrganisationalUnitsPaneDescriptor : ContentRepositoryDescriptorBase
+    public class ContactsPaneDescriptor : ContentRepositoryDescriptorBase
     {
-        public static string RepositoryKey { get { return "organisational-units"; } }
+        public static string RepositoryKey { get { return "contacts"; } }
 
         public override string Key { get { return RepositoryKey; } }
 
-        public override string Name { get { return "Organisational units"; } }
+        public override string Name { get { return "Contacts"; } }
 
         public override IEnumerable<Type> ContainedTypes
         {
-            get { return new[] { typeof(OrganisationalUnitBlock), typeof(ContentFolder) }; }
+            get { return new[] { typeof(ContactBlock), typeof(ContentFolder) }; }
         }
 
         public override IEnumerable<Type> CreatableTypes
         {
-            get { return new List<Type> { typeof(OrganisationalUnitBlock) }; }
+            get { return new List<Type> { typeof(ContactBlock) }; }
         }
 
         public override IEnumerable<ContentReference> Roots
         {
-            get { return Enumerable.Empty<ContentReference>(); }
+            get
+            {
+                return Enumerable.Empty<ContentReference>();
+            }
         }
 
         public override IEnumerable<Type> MainNavigationTypes

@@ -8,17 +8,17 @@ using System.Web;
 namespace Kristianstad.Business.Compare
 {
     [Component]
-    public class OrganisationalUnitsPaneNavigationComponent : ComponentDefinitionBase
+    public class ContactsPaneNavigationComponent : ComponentDefinitionBase
     {
-        public OrganisationalUnitsPaneNavigationComponent()
+        public ContactsPaneNavigationComponent()
             : base("epi-cms.component.SharedBlocks")
         {
             Categories = new[] { "cms", "content" };
-            Title = "Organisational units";
+            Title = "Contacts";
             SortOrder = 1000;
             PlugInAreas = new[] { PlugInArea.AssetsDefaultGroup };
-            Settings.Add(new Setting("repositoryKey", OrganisationalUnitsPaneDescriptor.RepositoryKey));
-            LanguagePath = "/components/organisationalUnits";
+            Settings.Add(new Setting("repositoryKey", ContactsPaneDescriptor.RepositoryKey));
+            LanguagePath = "/components/contacts";
         }
     }
 }

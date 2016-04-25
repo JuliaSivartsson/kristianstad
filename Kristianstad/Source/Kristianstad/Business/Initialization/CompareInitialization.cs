@@ -33,6 +33,9 @@ namespace Kristianstad.Business.Initialization
 
             DataFactory.Instance.SavingContent += Instance_SavingContent;
 
+
+            DataFactory.Instance.CreatedContent += Instance_CreatedContent;
+            
             /*
             var partialRouter = new BlogPartialRouter();
 
@@ -59,33 +62,53 @@ namespace Kristianstad.Business.Initialization
             return ContextCache.Current["CurrentITransferContext"] != null;
         }
 
+        void Instance_CreatedContent(object sender, ContentEventArgs e)
+        {
+            if (e.Content is OrganisationalUnitPage)
+            {
+                // Create a contact
+                var contentRepository = ServiceLocator.Current.GetInstance<IContentRepository>();
+                var contentAssetHelper = ServiceLocator.Current.GetInstance<ContentAssetHelper>();
+
+                // ContactBlock contact = contentRepository.Get<ContactBlock>(new ContentReference(123));
+                ContentAssetFolder assetFolder = contentAssetHelper.GetOrCreateAssetFolder(e.ContentLink);
+                ContactBlock newContact = contentRepository.GetDefault<ContactBlock>(assetFolder.ContentLink);
+                newContact.Email = "test@test.com";
+                newContact.Name = e.Content.Name + " Svensson";
+                contentRepository.Save(newContact, SaveAction.Publish, AccessLevel.NoAccess);
+
+            }
+        }
+
         /*
          * When a page gets created lets see if it is a blog post and if so lets create the date page information for it
          */
         void Instance_SavingContent(object sender, ContentEventArgs e)
         {
-            var contentRepository = ServiceLocator.Current.GetInstance<IContentRepository>();
-            PageData page = contentRepository.Get<PageData>(e.ContentLink);
-
-            if (page != null &&
-                string.Equals(page.PageTypeName, typeof(CategoryPage).GetPageType().Name, StringComparison.OrdinalIgnoreCase) &&
-                page.Name != e.Content.Name)
+            if (e.Content is CategoryPage)
             {
-                //renaming name of the page!
-                string oldName = page.Name;
-                string newName = e.Content.Name;
+                // get current saved page version
+                var contentRepository = ServiceLocator.Current.GetInstance<IContentRepository>();
+                PageData page = contentRepository.Get<PageData>(e.ContentLink);
 
-                var categoryRepository = ServiceLocator.Current.GetInstance<CategoryRepository>();
-                var category = CategoryHelper.FindCompareCategory(categoryRepository, oldName);
-                if (category != null)
+                if (page.Name != e.Content.Name)
                 {
-                    category = category.CreateWritableClone();
-                    category.Name = newName;
-                    categoryRepository.Save(category);
-                }
-                else
-                {
-                    CategoryHelper.SaveCompareCategory(categoryRepository, newName, newName);
+                    //renaming name of the page!
+                    string oldName = page.Name;
+                    string newName = e.Content.Name;
+
+                    var categoryRepository = ServiceLocator.Current.GetInstance<CategoryRepository>();
+                    var category = CategoryHelper.FindCompareCategory(categoryRepository, oldName);
+                    if (category != null)
+                    {
+                        category = category.CreateWritableClone();
+                        category.Name = newName;
+                        categoryRepository.Save(category);
+                    }
+                    else
+                    {
+                        CategoryHelper.SaveCompareCategory(categoryRepository, newName, newName);
+                    }
                 }
             }
         }
@@ -144,6 +167,7 @@ namespace Kristianstad.Business.Initialization
 
                             // add category to the ou page
                             e.Page.Category.Add(category.ID);
+
                         }
                     }
                     else

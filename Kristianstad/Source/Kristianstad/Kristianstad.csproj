@@ -416,7 +416,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Business\Compare\CategoryHelper.cs" />
+    <Compile Include="Business\Compare\ContactsPaneDescriptor.cs" />
     <Compile Include="Business\Compare\OrganisationalUnitsPaneDescriptor.cs" />
+    <Compile Include="Business\Compare\ContactsPaneNavigationComponent.cs" />
     <Compile Include="Business\Compare\OrganisationalUnitsPaneNavigationComponent.cs" />
     <Compile Include="Business\Compare\PageTypeExtensions.cs" />
     <Compile Include="Business\Initialization\CompareInitialization.cs" />
@@ -432,6 +434,7 @@
     <Compile Include="Business\Models\Blocks\Compare\CategoryListBlock.cs" />
     <Compile Include="Business\Models\Blocks\Compare\OrganisationalUnitListBlock.cs" />
     <Compile Include="Business\Models\Blocks\MapBlock.cs" />
+    <Compile Include="Business\Models\Blocks\Shared\ContactBlock.cs" />
     <Compile Include="Business\Models\Blocks\Shared\OrganisationalUnitBlock.cs" />
     <Compile Include="Business\Models\Blocks\VideoBlock.cs" />
     <Compile Include="Controllers\Blocks\MapBlockController.cs" />
