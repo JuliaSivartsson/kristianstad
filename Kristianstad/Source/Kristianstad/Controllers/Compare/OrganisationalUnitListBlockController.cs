@@ -116,13 +116,21 @@ namespace Kristianstad.Controllers.Compare
             var pageRouteHelper = ServiceLocator.Current.GetInstance<PageRouteHelper>();
             PageData currentPage = pageRouteHelper.Page ?? contentLoader.Service.Get<PageData>(ContentReference.StartPage);
 
+            //var ancestorPage = contentLoader.Service.Get<PageData>(currentPage.ParentLink);
+
             var categoryRepository = ServiceLocator.Current.GetInstance<CategoryRepository>();
             var category = CategoryHelper.FindCompareCategory(categoryRepository, currentPage.Name);
 
-            if (category != null)
+            if (category != null && currentPage is CategoryPage)
             {
+                var ouPages = contentLoader.Service.GetChildren<OrganisationalUnitPage>(currentPage.ContentLink).Where(o => o.Category.Contains(category.ID)).ToList();
+                if (ouPages != null && ouPages.Count > 0)
+                {
+                    pages = ouPages;
+                }
+
                 //var listRoot = currentBlock.Root ?? currentPage.ContentLink.ToPageReference();
-                var compareStartPage = contentLoader.Service.Get<CompareStartPage>(currentPage.ParentLink); //GetCompareStartPage(currentPage);
+                /*var compareStartPage = contentLoader.Service.Get<CompareStartPage>(currentPage.ParentLink); //GetCompareStartPage(currentPage);
 
 
                 if (compareStartPage != null)
@@ -130,16 +138,12 @@ namespace Kristianstad.Controllers.Compare
                     var ouFolderPage = contentLoader.Service.GetChildren<OrganisationalUnitFolderPage>(compareStartPage.ContentLink).FirstOrDefault();
                     if (ouFolderPage != null)
                     {
-                        var ouPages = contentLoader.Service.GetChildren<OrganisationalUnitPage>(ouFolderPage.ContentLink).Where(o => o.Category.Contains(category.ID)).ToList();
-                        if (ouPages != null && ouPages.Count > 0)
-                        {
-                            pages = ouPages;
-                        }
+
                     }
                     //contentLoader.Service.GetChildren<PageData>(compareStartPage.ContentLink.ToPageReference());
                     //PageReference ouPage = CompareInitialization.GetOrganisationalUnitsPageRef(compareStartPage, contentRepository);
 
-                }
+                }*/
             }
 
             return pages ?? new List<PageData>();

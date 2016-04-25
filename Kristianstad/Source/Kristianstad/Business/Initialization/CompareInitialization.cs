@@ -127,16 +127,41 @@ namespace Kristianstad.Business.Initialization
                 {
                     categoryName = ancestorPage.Name;
                     ancestorPage = contentRepository.Get<PageData>(ancestorPage.ParentLink);
+
+                    bool existingOuPage = contentRepository.GetChildren<OrganisationalUnitPage>(ancestorPage.ContentLink).Where(x => x.Name.ToLower() == newOrganisationalUnitName.ToLower()).Any();
+                    if (!existingOuPage)
+                    {
+                        //e.Page.ParentLink = GetOrganisationalUnitsPageRef(ancestorPage, contentRepository);
+
+                        if (!string.IsNullOrWhiteSpace(categoryName))
+                        {
+                            var categoryRepository = ServiceLocator.Current.GetInstance<CategoryRepository>();
+                            Category category = CategoryHelper.FindCompareCategory(categoryRepository, categoryName);
+                            if (category == null)
+                            {
+                                category = CategoryHelper.SaveCompareCategory(categoryRepository, categoryName, categoryName);
+                            }
+
+                            // add category to the ou page
+                            e.Page.Category.Add(category.ID);
+                        }
+                    }
+                    else
+                    {
+                        // cancel, ou page already exists in this comparison content
+                        e.CancelReason = "An organisational unit with the name " + e.Page.Name + " already exists. Please choose another name or edit the existing one.";
+                        e.CancelAction = true;
+                    }
                 }
 
                 if (ancestorPage is CompareStartPage)
                 {
+                    /*
                     //var blockType = contentTypeRepository.Load<OrganisationalUnitBlock>();
                     var block = contentRepository.GetDefault<OrganisationalUnitBlock>(ContentReference.GlobalBlockFolder); //, blockType.ID, ContentLanguage.PreferredCulture);
                     block.Name = newOrganisationalUnitName;
                     contentRepository.Save(block, SaveAction.Publish);
                     
-                    /*
                     //OrganisationalUnitBlock ouBlock = contentRepository.Get<OrganisationalUnitBlock>(new ContentReference(123));
                     ContentAssetFolder assetFolder = contentAssetHelper.GetOrCreateAssetFolder(e.Page.ContentLink);
                     OrganisationalUnitBlock ouBlock = contentRepository.GetDefault<OrganisationalUnitBlock>(assetFolder.ContentLink);
@@ -146,20 +171,15 @@ namespace Kristianstad.Business.Initialization
                     //ouBlock.UserDisplayName = "Arve Systad";
                     ouBlock.Name = newOrganisationalUnitName; // ouBlock.UserDisplayName + "(" + DateTime.Now.ToShortDateString() + ")";
                     contentRepository.Save(ouBlock, SaveAction.Publish, AccessLevel.FullAccess);
-                    */
+                    
                     
                     var ouPage = e.Page as OrganisationalUnitPage;
                     ouPage.OrganisationalUnitBlock = block.ContentLink;
-                }
-                else
-                {
-                    // cancel, no compare start page
-                    e.CancelReason = "Could not find the compare start page";
-                    e.CancelAction = true;
-                }
+                }*/
 
-                /*
-                    var organisationalUnitFolderPage = GetOrganisationalUnitsPageRef(ancestorPage, contentRepository);
+
+
+                    /*var organisationalUnitFolderPage = GetOrganisationalUnitsPageRef(ancestorPage, contentRepository);
                     if (organisationalUnitFolderPage != null)
                     {
                         bool existingOuPage = contentRepository.GetChildren<OrganisationalUnitPage>(organisationalUnitFolderPage).Where(x => x.Name.ToLower() == newOrganisationalUnitName.ToLower()).Any();
@@ -192,9 +212,14 @@ namespace Kristianstad.Business.Initialization
                         // cancel, ou page folder does not exist (and could not be created for some reason)
                         e.CancelReason = "Could not find or create an organisational unit folder within the compare service";
                         e.CancelAction = true;
-                    }
+                    }*/
                 }
-                */
+                else
+                {
+                    // cancel, no compare start page
+                    e.CancelReason = "Could not find the compare start page";
+                    e.CancelAction = true;
+                }
             }
         }
         
