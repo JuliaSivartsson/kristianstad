@@ -18,7 +18,7 @@ namespace Kristianstad.Business.Compare
             SortOrder = 1000;
             PlugInAreas = new[] { PlugInArea.AssetsDefaultGroup };
             Settings.Add(new Setting("repositoryKey", OrganisationalUnitsPaneDescriptor.RepositoryKey));
-            LanguagePath = "/components/organisational-units";
+            LanguagePath = "/components/organisationalUnits";
         }
     }
 }

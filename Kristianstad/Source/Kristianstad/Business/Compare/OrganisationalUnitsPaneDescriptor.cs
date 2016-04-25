@@ -37,5 +37,7 @@ namespace Kristianstad.Business.Compare
         {
             get { return new[] { typeof(ContentFolder) }; }
         }
+
+        public bool EnableContextualContent { get { return true; } }
     }
 }

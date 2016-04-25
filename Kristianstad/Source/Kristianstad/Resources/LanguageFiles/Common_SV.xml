@@ -35,6 +35,14 @@
       <handShake>Handslag</handShake>
       <club>Klubba</club>   
     </icons>
-    
+
+    <components>
+      <organisationalUnits>
+        <title>Aktörer</title>
+      </organisationalUnits>
+      <contacts>
+        <title>Kontakter</title>
+      </contacts>
+    </components>
   </language>
 </languages>
