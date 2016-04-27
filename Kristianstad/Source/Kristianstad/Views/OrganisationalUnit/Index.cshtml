@@ -13,178 +13,66 @@
 
 <div class="column small-12 medium-12 large-8 content-page content">
     @{
-        @* Html.RenderAction("Breadcrumbs", "MenuKr"); *@
+        Html.RenderAction("Breadcrumbs", "MenuKr");
     }
-    <article class="main @(PageEditing.PageIsInEditMode ? "inEditMode" : "")">
-        @if (Model.CurrentPage.EasyToReadPage != null)
-        {
-            <a href="@Html.ContentLink(Model.CurrentPage.EasyToReadPage)">@Html.DisplayNameFor(m => m.CurrentPage)</a>
-        }
 
-        <header>
+    <h1 @Html.EditAttributes(x => x.CurrentPage.PageName)>@Model.CurrentPage.PageName</h1>
 
-            @if (Model.CurrentPage.TitleImage != null || PageEditing.PageIsInEditMode)
+    @if (Model.CurrentPage.TitleImage != null || PageEditing.PageIsInEditMode)
+    {
+        <figure class="title">
+
+            @if (PageEditing.PageIsInEditMode)
             {
-                <figure class="title">
+                <div @Html.EditAttributes(m => m.CurrentPage.TitleImage)>
 
-                    @if (PageEditing.PageIsInEditMode)
-                    {
-                        <div @Html.EditAttributes(m => m.CurrentPage.TitleImage)>
-
-                            @if (Model.CurrentPage.TitleImage != null)
-                            {
-                                <img src="@Url.ContentUrl(Model.CurrentPage.TitleImage)?preset=content-title" />
-                            }
-
-                        </div>
-                    }
-                    else
+                    @if (Model.CurrentPage.TitleImage != null)
                     {
                         <img src="@Url.ContentUrl(Model.CurrentPage.TitleImage)?preset=content-title" />
                     }
 
-                    <figcaption>@Html.PropertyFor(m => m.CurrentPage.TitleImageCaption)</figcaption>
-
-                </figure>
+                </div>
+            }
+            else
+            {
+                <img src="@Url.ContentUrl(Model.CurrentPage.TitleImage)?preset=content-title" />
             }
 
-            <h1>@Html.PropertyFor(m => m.CurrentPage.Title)</h1>
-            <p class="article-preamble" @Html.EditAttributes(x => x.CurrentPage.Preamble)>
-                @Model.CurrentPage.Preamble
-            </p>
-        </header>
+            <figcaption>@Html.PropertyFor(m => m.CurrentPage.TitleImageCaption)</figcaption>
 
-        <aside class="block-area">
-            @Html.PropertyFor(m => m.CurrentPage.TopBlockArea)
-        </aside>
+        </figure>
+    }
 
-        <section class="article-body">
-            @Html.PropertyFor(m => m.CurrentPage.Content)
-        </section>
+    <h3>Beskrivning</h3>
+    <p @Html.EditAttributes(x => x.CurrentPage.ShortDescription)>@Model.CurrentPage.ShortDescription</p>
+    <p @Html.EditAttributes(x => x.CurrentPage.LongDescription)>@Model.CurrentPage.LongDescription</p>
 
-        @if ((Model.CurrentPage.RelatedEServices != null && Model.CurrentPage.RelatedEServices.Any()) ||
-                     (Model.CurrentPage.RelatedDocuments != null && Model.CurrentPage.RelatedDocuments.Any()) ||
-                     (Model.CurrentPage.RelatedLinks != null && Model.CurrentPage.RelatedLinks.Any()))
-        {
-            <aside class="related-info">
-                <h2>Relaterad information</h2>
-                <ul class="row no-bullet small-up-1 medium-up-2 link-lists">
+    <h3>Information</h3>
+    <p @Html.EditAttributes(x => x.CurrentPage.Address)>@Model.CurrentPage.Address</p>
+    <p @Html.EditAttributes(x => x.CurrentPage.Telephone)>@Model.CurrentPage.Telephone</p>
+    <p @Html.EditAttributes(x => x.CurrentPage.Contact)>@Model.CurrentPage.Contact</p>
+    <p @Html.EditAttributes(x => x.CurrentPage.Email)>@Model.CurrentPage.Email</p>
+    <p @Html.EditAttributes(x => x.CurrentPage.OrganisationalForm)>@Model.CurrentPage.OrganisationalForm</p>
+    <p @Html.EditAttributes(x => x.CurrentPage.Latitude)>@Model.CurrentPage.Latitude</p>
+    <p @Html.EditAttributes(x => x.CurrentPage.Longitude)>@Model.CurrentPage.Longitude</p>
 
-                    @if (Model.CurrentPage.RelatedEServices != null && Model.CurrentPage.RelatedEServices.Any())
-                    {
-                        <li class="column">
-                            <div>
-                                <h3>E-tjänster</h3>
-                                <ul class="link-list" @Html.EditAttributes(m => m.CurrentPage.RelatedEServices)>
-                                    @foreach (var item in Model.CurrentPage.RelatedEServices)
-                                    {
-                                        <li><a href="@item.Href" title="@item.Title" target="@item.Target">@item.Text</a></li>
-                                    }
-                                </ul>
-                            </div>
-                        </li>
-                    }
+    <div class="row">
+        <h3>Kontaktpersoner</h3>
+        @Html.PropertyFor(x => x.CurrentPage.Contacts)
 
-                    @if (Model.CurrentPage.RelatedDocuments != null && Model.CurrentPage.RelatedDocuments.Any())
-                    {
-                        <li class="column">
-                            <div>
-                                <h3>Dokument</h3>
-                                <ul class="link-list files" @Html.EditAttributes(m => m.CurrentPage.RelatedDocuments)>
-                                    @foreach (var item in Model.CurrentPage.RelatedDocuments)
-                                    {
-                                        var fileName = Html.GetFileName(item);
-                                        <li><a href="@Url.ContentUrl(item)" title="@fileName">@fileName <span class="file-size">(@Html.GetFileSize(item))</span></a></li>
-                                    }
-                                </ul>
-                            </div>
-                        </li>
-                    }
+    </div>
 
-                    @if (Model.CurrentPage.RelatedLinks != null && Model.CurrentPage.RelatedLinks.Any())
-                    {
-                        <li class="column">
-                            <div>
-                                <h3>Länkar</h3>
-                                <ul class="link-list" @Html.EditAttributes(m => m.CurrentPage.RelatedLinks)>
-                                    @foreach (var item in Model.CurrentPage.RelatedLinks)
-                                    {
-                                        <li><a href="@item.Href" title="@item.Title" target="@item.Target">@item.Text</a></li>
-                                    }
-                                </ul>
-                            </div>
-                        </li>
-                    }
+    <div class="row">
+        <br />
+        @Html.Action("Full", "OrganisationalUnit", new { currentPage = Model.CurrentPage })
 
-                </ul>
-            </aside>
-        }
-
-        <aside class="block-area">
-            @Html.PropertyFor(m => m.CurrentPage.BlockArea)
-        </aside>
-
-        <footer>
-            <p>Senast uppdaterad: @Model.CurrentPage.Saved.ToString("d MMM yyyy kl. HH:mm")</p>
-            <p>Sidansvarig: Elisabeth Andersson</p>
-            <a href="#">Skriv ut sidan</a>
-            <a href="#">Dela sidan</a>
-        </footer>
-
-    </article>
+    </div>
 </div>
 
 <div class="column content-page right-content small-12 medium-12 large-4">
     @{
         Html.RenderAction("SectionMenu", "MenuKr");
     }
-
-    <div class="block-area">
-        @Html.PropertyFor(m => m.CurrentPage.RightBlockArea)
-    </div>
-
-</div>
-
-@* <h3 @Html.EditAttributes(x => x.OrganisationalUnitBlock.Body)>@Model.OrganisationalUnitBlock.Body</h3> *@
-@*Html.PropertyFor(x => x.OrganisationalUnitBlock) *@
-
-
-    <div class="row">
-
-        @Html.Action("Preview", "OrganisationalUnitBlock", new { currentBlock = Model.OrganisationalUnitBlock })
-
-    </div>
-
-
-@* Html.PropertyFor(m => m.CurrentPage.OrganisationalUnitBlock) *@
-@if (Model.CurrentPage.OrganisationalUnitBlock != null)
-{
-    @* Html.PropertyFor(x => x.OrganisationalUnitBlock) *@  
-
-    @* Html.Action("Preview", "OrganisationalUnitBlock", new { currentBlock = Model.OrganisationalUnitBlock }) *@
-
-    @* Html.RenderContentData(Model.OrganisationalUnitBlock, false) *@
-    @* Html.ContentLink(Model.CurrentPage.OrganisationalUnitBlock) *@
-}
-
-
-<h1 @Html.EditAttributes(x => x.CurrentPage.PageName)>@Model.CurrentPage.PageName</h1>
-<p>
-    <div @Html.EditAttributes("PageStartPublish")>
-        @Html.PropertyFor(x => x.CurrentPage.StartPublish, new EPiServer.Web.Mvc.EditHint() { ContentDataPropertyName = "PageStartPublish" })
-    </div>
-</p>
-
-<div class="row">
-
-    @Html.Action("Full", "OrganisationalUnit", new { currentPage = Model.CurrentPage })
-
-</div>
-
-<div class="row">
-
-    @Html.PropertyFor(x => x.CurrentPage.Contacts)
-
 </div>
 
 @{
