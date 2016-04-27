@@ -19,6 +19,19 @@
             <a href="@Html.ContentLink(Model.CurrentPage.EasyToReadPage)">@Html.DisplayNameFor(m => m.CurrentPage)</a>
         }
 
+        <h1 @Html.EditAttributes(x => x.CurrentPage.PageName)>@Model.CurrentPage.PageName</h1>
+        <p>
+            <div @Html.EditAttributes("PageStartPublish")>
+                @Html.PropertyFor(x => x.CurrentPage.StartPublish, new EPiServer.Web.Mvc.EditHint() { ContentDataPropertyName = "PageStartPublish" })
+            </div>
+        </p>
+
+        <div class="row">
+
+            @Html.Action("Full", "OrganisationalUnit", new { currentPage = Model.CurrentPage })
+
+        </div>
+
         <header>
 
             @if (Model.CurrentPage.TitleImage != null || PageEditing.PageIsInEditMode)
@@ -144,19 +157,6 @@
 </div>
 
 
-
+<!-- Måste vi ha den här?
 @Html.PropertyFor(m => m.CurrentPage.OrganisationalUnitBlock)
-
-
-<h1 @Html.EditAttributes(x => x.CurrentPage.PageName)>@Model.CurrentPage.PageName</h1>
-<p>
-    <div @Html.EditAttributes("PageStartPublish")>
-        @Html.PropertyFor(x => x.CurrentPage.StartPublish, new EPiServer.Web.Mvc.EditHint() { ContentDataPropertyName = "PageStartPublish" })
-    </div>
-</p>
-
-<div class="row">
-
-    @Html.Action("Full", "OrganisationalUnit", new { currentPage = Model.CurrentPage })
-
-</div>
+-->
