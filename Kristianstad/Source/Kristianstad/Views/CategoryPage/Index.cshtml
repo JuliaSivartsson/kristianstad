@@ -13,6 +13,22 @@
     @{
         @* Html.RenderAction("Breadcrumbs", "MenuKr"); *@
     }
+
+    <h1 @Html.EditAttributes(x => x.CurrentPage.PageName)>@Model.CurrentPage.PageName</h1>
+    <p>
+        <div @Html.EditAttributes("PageStartPublish")>
+            @Html.PropertyFor(x => x.CurrentPage.StartPublish, new EPiServer.Web.Mvc.EditHint() { ContentDataPropertyName = "PageStartPublish" })
+        </div>
+    </p>
+
+    <div class="row">
+
+        @Html.Action("Full", "Category", new { currentPage = Model.CurrentPage })
+
+    </div>
+
+
+
     <article class="main @(PageEditing.PageIsInEditMode ? "inEditMode" : "")">
         @if (Model.CurrentPage.EasyToReadPage != null)
         {
@@ -142,21 +158,3 @@
     </div>
 
 </div>
-
-
-
-
-
-<h1 @Html.EditAttributes(x => x.CurrentPage.PageName)>@Model.CurrentPage.PageName</h1>
-<p>
-    <div @Html.EditAttributes("PageStartPublish")>
-        @Html.PropertyFor(x => x.CurrentPage.StartPublish, new EPiServer.Web.Mvc.EditHint() { ContentDataPropertyName = "PageStartPublish" })
-    </div>
-</p>
-
-<div class="row">
-    
-    @Html.Action("Full", "Category", new { currentPage = Model.CurrentPage })
-
-</div>
-
