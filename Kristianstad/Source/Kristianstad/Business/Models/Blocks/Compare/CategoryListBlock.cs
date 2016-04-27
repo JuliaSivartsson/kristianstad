@@ -12,7 +12,7 @@ namespace Kristianstad.Business.Models.Blocks.Compare
 
     [ContentType(
         GUID = "cd19dfe8-a1fb-48fc-8085-a5acd670fd8c",
-        GroupName = GroupNames.Content,
+        GroupName = "Compare",
         DisplayName = "Category List Block")]
     public class CategoryListBlock : BlockData
     {

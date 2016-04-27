@@ -70,20 +70,49 @@ namespace Kristianstad.Business.Initialization
                 var contentRepository = ServiceLocator.Current.GetInstance<IContentRepository>();
                 var contentAssetHelper = ServiceLocator.Current.GetInstance<ContentAssetHelper>();
 
+                /*
                 // ContactBlock contact = contentRepository.Get<ContactBlock>(new ContentReference(123));
                 ContentAssetFolder assetFolder = contentAssetHelper.GetOrCreateAssetFolder(e.ContentLink);
                 ContactBlock newContact = contentRepository.GetDefault<ContactBlock>(assetFolder.ContentLink);
                 newContact.Email = "test@test.com";
                 newContact.Name = e.Content.Name + " Svensson";
                 contentRepository.Save(newContact, SaveAction.Publish, AccessLevel.NoAccess);
+                */
 
+                var compareStartPage = contentRepository.GetAncestors(e.Content.ParentLink).Where(x => x is CompareStartPage).FirstOrDefault();
+                if (compareStartPage != null)
+                {
+                    ContentAssetFolder compareAssetFolder = contentAssetHelper.GetOrCreateAssetFolder(compareStartPage.ContentLink);
+                    var newOUBlock = contentRepository.GetDefault<OrganisationalUnitBlock>(compareAssetFolder.ContentLink); //, blockType.ID, ContentLanguage.PreferredCulture);
+                    newOUBlock.Name = e.Content.Name;
+                    newOUBlock.Body = e.Content.Name;
+                    contentRepository.Save(newOUBlock, SaveAction.Publish, AccessLevel.NoAccess);
+
+                    /*
+                    //OrganisationalUnitBlock ouBlock = contentRepository.Get<OrganisationalUnitBlock>(new ContentReference(123));
+                    ContentAssetFolder compareAssetFolder = contentAssetHelper.GetOrCreateAssetFolder(e.Page.ContentLink);
+                    OrganisationalUnitBlock ouBlock = contentRepository.GetDefault<OrganisationalUnitBlock>(assetFolder.ContentLink);
+
+                    //ouBlock.Rating = 5;
+                    //ouBlock.Text = "This is such a nice product";
+                    //ouBlock.UserDisplayName = "Arve Systad";
+                    ouBlock.Name = newOrganisationalUnitName; // ouBlock.UserDisplayName + "(" + DateTime.Now.ToShortDateString() + ")";
+                    contentRepository.Save(ouBlock, SaveAction.Publish, AccessLevel.FullAccess);
+                     */
+
+                    var page = e.Content as OrganisationalUnitPage;
+                    var clonedPage = (OrganisationalUnitPage)page.CreateWritableClone();
+                    //var ouPage = e.Content as OrganisationalUnitPage;
+                    clonedPage.OrganisationalUnitBlock = newOUBlock.ContentLink;
+                    contentRepository.Save(clonedPage, SaveAction.Publish);
+                }
             }
-        }
+    }
 
-        /*
-         * When a page gets created lets see if it is a blog post and if so lets create the date page information for it
-         */
-        void Instance_SavingContent(object sender, ContentEventArgs e)
+    /*
+     * When a page gets created lets see if it is a blog post and if so lets create the date page information for it
+     */
+                void Instance_SavingContent(object sender, ContentEventArgs e)
         {
             if (e.Content is CategoryPage)
             {

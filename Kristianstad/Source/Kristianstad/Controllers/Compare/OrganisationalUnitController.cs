@@ -19,13 +19,18 @@ using EPiServer.Web.Mvc;
 using Kristianstad.Models.Pages;
 using Kristianstad.ViewModels.Compare;
 using Kristianstad.Business.Compare;
+using EPiServer;
+using Kristianstad.Business.Models.Blocks.Shared;
+using EPiCore.ViewModels.Pages;
 
 namespace Kristianstad.Controllers.Compare
 {
-    public class OrganisationalUnitController : Controller
+    public class OrganisationalUnitController : PageController<OrganisationalUnitPage>
     {
-        public int PreviewTextLength { get; set; }
+        private readonly Injected<IContentLoader> _contentLoader;
 
+        public int PreviewTextLength { get; set; }
+        
         public ActionResult Preview(PageData currentPage, OrganisationalUnitListModel organisationalUnitModel)
         {
             var pd = (OrganisationalUnitPage)currentPage;
@@ -68,9 +73,15 @@ namespace Kristianstad.Controllers.Compare
 
         public ActionResult Index(OrganisationalUnitPage currentPage)
         {
-            var model = currentPage; // PageViewModel.Create(currentPage);
+            //var model = new PageViewModel<OrganisationalUnitPage>(currentPage);
+           
+            var model = new OrganisationalUnitPageModel(currentPage); //currentPage; // PageViewModel.Create(currentPage);
+            if (currentPage.OrganisationalUnitBlock != null)
+            {
+                model.OrganisationalUnitBlock = _contentLoader.Service.Get<OrganisationalUnitBlock>(currentPage.OrganisationalUnitBlock);
+            }
 
-            //Connect the view models logotype property to the start page's to make it editable
+            // Connect the view models logotype property to the start page's to make it editable
             var editHints = ViewData.GetEditHints<OrganisationalUnitPage, OrganisationalUnitPage>();
             editHints.AddConnection(m => m.Category, p => p.Category);
             editHints.AddConnection(m => m.StartPublish, p => p.StartPublish);

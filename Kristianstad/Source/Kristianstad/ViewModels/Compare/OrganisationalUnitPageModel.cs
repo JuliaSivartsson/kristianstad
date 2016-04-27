@@ -4,6 +4,9 @@ using EPiServer.Core;
 using System;
 using Kristianstad.Models.Pages;
 using EPiCore.ViewModels.Pages;
+using Kristianstad.Business.Models.Blocks.Shared;
+using System.ComponentModel.DataAnnotations;
+using EPiServer.Web;
 
 namespace Kristianstad.ViewModels.Compare
 {
@@ -15,6 +18,9 @@ namespace Kristianstad.ViewModels.Compare
         }
 
         public OrganisationalUnitPage CurrentPage { get; set; }
+
+        [UIHint(UIHint.Block)]
+        public OrganisationalUnitBlock OrganisationalUnitBlock { get; set; }
 
         public IEnumerable<CategoryItemModel> Categories { get; set; }
      

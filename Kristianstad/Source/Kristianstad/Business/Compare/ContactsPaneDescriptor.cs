@@ -9,6 +9,7 @@ using System.Web;
 
 namespace Kristianstad.Business.Compare
 {
+    /*
     [ServiceConfiguration(typeof(IContentRepositoryDescriptor))]
     public class ContactsPaneDescriptor : ContentRepositoryDescriptorBase
     {
@@ -17,6 +18,13 @@ namespace Kristianstad.Business.Compare
         public override string Key { get { return RepositoryKey; } }
 
         public override string Name { get { return "Contacts"; } }
+        public override int SortOrder
+        {
+            get
+            {
+                return 1001;
+            }
+        }
 
         public override IEnumerable<Type> ContainedTypes
         {
@@ -43,4 +51,5 @@ namespace Kristianstad.Business.Compare
 
         public bool EnableContextualContent { get { return true; } }
     }
+    */
 }

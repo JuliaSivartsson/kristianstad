@@ -5,6 +5,9 @@ using EPiServer.DataAbstraction;
 using EPiServer.DataAnnotations;
 using EPiServer.SpecializedProperties;
 using Kristianstad.Business.Models.Blocks.Shared;
+using EPiServer.Web;
+using EPiCore.Content.Models.Blocks;
+using Kristianstad.Business.Models.Blocks.Compare;
 
 namespace Kristianstad.Models.Pages
 {
@@ -22,9 +25,13 @@ namespace Kristianstad.Models.Pages
         [Display(GroupName = SystemTabNames.Content)]
         public virtual string Author { get; set; }
 
+        [UIHint(UIHint.Block)]
         [AllowedTypes(AllowedTypes = new System.Type[] { typeof(OrganisationalUnitBlock) })]
         public virtual ContentReference OrganisationalUnitBlock { get; set; }
 
+        [AllowedTypes(AllowedTypes = new System.Type[] { typeof(ContactBlock) })]
+        public virtual ContentArea Contacts { get; set; }
+        
         [Display(GroupName = SystemTabNames.Content)]
         public virtual ContentArea RightContentArea { get; set; }
 
