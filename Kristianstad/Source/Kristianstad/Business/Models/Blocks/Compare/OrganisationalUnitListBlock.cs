@@ -11,7 +11,7 @@ namespace Kristianstad.Business.Models.Blocks.Compare
 {
     [ContentType(
         GUID = "fa50f9a5-6b51-4422-95cd-384a4c435025",
-        GroupName = GroupNames.Content,
+        GroupName = "Compare",
         DisplayName = "Organisational Unit List Block")]
     public class OrganisationalUnitListBlock : BlockData
     {

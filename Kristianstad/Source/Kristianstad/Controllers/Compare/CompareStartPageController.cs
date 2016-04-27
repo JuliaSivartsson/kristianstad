@@ -1,5 +1,6 @@
 ﻿using EPiCore.ViewModels.Pages;
 using EPiServer;
+using EPiServer.Web.Mvc;
 using Kristianstad.Models.Pages;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Web.Mvc;
 
 namespace Kristianstad.Controllers.Compare
 {
-    public class CompareStartPageController : Controller
+    public class CompareStartPageController : PageController<CompareStartPage>
     {
         public ActionResult Index(CompareStartPage currentPage)
         {

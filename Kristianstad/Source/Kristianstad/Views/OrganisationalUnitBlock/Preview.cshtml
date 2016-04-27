@@ -1,0 +1,18 @@
+﻿@model Kristianstad.ViewModels.Compare.OrganisationalUnitBlockModel
+
+@if (Model != null)
+{
+    <div @Html.EditAttributes(x => x.CurrentBlock.Body)>
+        @Html.DisplayFor(x => x.CurrentBlock.Body)
+    </div>
+
+    <div>
+        @Html.PropertyFor(x => x.CurrentBlock.Body)
+    </div>
+}
+
+
+
+@{
+    Html.ViewContext.RequestContext.RouteData.Values["currentContent"] = null;
+}

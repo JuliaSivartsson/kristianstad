@@ -21,7 +21,7 @@ using Kristianstad.Models.Pages;
 
 namespace Kristianstad.Controllers.Compare
 {
-    public class CategoryController : Controller
+    public class CategoryController : PageController<CategoryPage>
     {
         public int PreviewTextLength { get; set; }
 
@@ -57,7 +57,7 @@ namespace Kristianstad.Controllers.Compare
 
         public ActionResult Index(CategoryPage currentPage)
         {
-            var model = currentPage; //PageViewModel.Create(currentPage);
+            var model = new CategoryPageModel(currentPage); //PageViewModel.Create(currentPage);
             
             //Connect the view models logotype property to the start page's to make it editable
             var editHints = ViewData.GetEditHints<CategoryPage, CategoryPage>();

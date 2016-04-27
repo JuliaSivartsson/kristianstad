@@ -7,6 +7,7 @@ using System.Web;
 
 namespace Kristianstad.Business.Compare
 {
+    /*
     [Component]
     public class ContactsPaneNavigationComponent : ComponentDefinitionBase
     {
@@ -21,4 +22,5 @@ namespace Kristianstad.Business.Compare
             LanguagePath = "/components/contacts";
         }
     }
+    */
 }
