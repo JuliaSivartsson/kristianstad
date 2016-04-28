@@ -11,7 +11,7 @@
 
 <div class="column small-12 medium-12 large-8 content-page content">
     @{
-        @* Html.RenderAction("Breadcrumbs", "MenuKr"); *@
+        Html.RenderAction("Breadcrumbs", "MenuKr");
     }
 
     <h1 @Html.EditAttributes(x => x.CurrentPage.PageName)>@Model.CurrentPage.PageName</h1>
