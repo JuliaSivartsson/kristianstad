@@ -25,6 +25,10 @@ namespace Kristianstad.Models.Pages
         [Display(GroupName = SystemTabNames.Content)]
         public virtual OrganisationalUnitListBlock OrganisationalUnitList { get; set; }
 
+        // public virtual AddOrganisationalUnitsBlock AddOrganisationalUnits { get; set; }
+        
+        // public virtual PropertyXForm AddOrganisationalUnitsForm { get; set; }
+
         [Display(GroupName = SystemTabNames.Content)]
         public virtual string Author { get; set; }
 

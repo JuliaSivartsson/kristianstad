@@ -13,25 +13,25 @@ namespace Kristianstad.Business.Models.Blocks.Compare
     public class ContactBlock : BlockData
     {
         [Display(
-            GroupName = SystemTabNames.Content,
+            GroupName = "Contact properties",
             Order = 1,
             Name = "Name")]
         public virtual string Name { get; set; }
 
         [Display(
-            GroupName = SystemTabNames.Content,
+            GroupName = "Contact properties",
             Order = 2,
             Name = "Email")]
         public virtual string Email { get; set; }
 
         [Display(
-            GroupName = SystemTabNames.Content,
+            GroupName = "Contact properties",
             Order = 3,
             Name = "Phone number")]
         public virtual string Phone { get; set; }
 
         [Display(
-            GroupName = SystemTabNames.Content,
+            GroupName = "Contact properties",
             Order = 4,
             Name = "Title")]
         public virtual string Title { get; set; }
