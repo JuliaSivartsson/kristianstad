@@ -472,9 +472,9 @@
     <Compile Include="Models\Pages\ContentPage.cs" />
     <Compile Include="Models\Pages\StartPage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UI\Factories\MegaMenuIconSelectionFactory.cs" />
-    <Compile Include="UI\Factories\FooterIconSelectionFactory.cs" />
-    <Compile Include="UI\Factories\VideoTypeSelectionFactory.cs" />
+    <Compile Include="Views\AToZPage\UI\Factories\MegaMenuIconSelectionFactory.cs" />
+    <Compile Include="Views\AToZPage\UI\Factories\FooterIconSelectionFactory.cs" />
+    <Compile Include="Views\AToZPage\UI\Factories\VideoTypeSelectionFactory.cs" />
     <Compile Include="ViewModels\Common\MenuContentViewModel.cs" />
     <Compile Include="ViewModels\Common\HeaderViewModel.cs" />
     <Compile Include="ViewModels\Common\FooterViewModel.cs" />
@@ -871,6 +871,7 @@
     <Content Include="Views\OrganisationalUnitBlock\Index.cshtml" />
     <Content Include="Views\OrganisationalUnitBlock\Preview.cshtml" />
     <Content Include="Views\ContactBlock\Index.cshtml" />
+    <Content Include="Views\CategoryPage\Index.cshtml" />
     <None Include="Web.Acceptance.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -887,7 +888,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Static\" />
-    <Folder Include="Views\CategoryPage\" />
     <Folder Include="Views\OrganisationalUnitPage\" />
     <Folder Include="Views\Util\Editor\tinymce\templates\" />
   </ItemGroup>

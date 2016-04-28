@@ -6,15 +6,13 @@
 @model CategoryPageModel
 
 <div class="span8 clearfix">
-   
-    <div @Html.EditAttributes("OrganisationalUnitList")> @*Category")> *@
+    <div @Html.EditAttributes("OrganisationalUnitList")>
 
         @Html.PropertyFor(x => x.CurrentPage.OrganisationalUnitList)
-        
         
     </div>
 </div>
 
 <div class="span8 clearfix" @Html.EditAttributes(x => x.MainBody)>
-        @Html.DisplayFor(x => x.MainBody)
-    </div>
+    @Html.DisplayFor(x => x.MainBody)
+</div>
