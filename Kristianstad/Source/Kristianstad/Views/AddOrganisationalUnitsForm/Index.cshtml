@@ -1,0 +1,18 @@
+﻿@using Kristianstad.Models.Pages
+@using Kristianstad.Models.Pages.Compare
+
+@model EPiCore.ViewModels.Pages.PageViewModel<AddOrganisationalUnitsFormPage>
+
+@using (Html.BeginForm("Save", "AddOrganisationalUnitsForm", FormMethod.Post))
+{
+    <div role="main" id="main" class="main row">
+
+        <div class="large-8 column">
+
+            @Html.PropertyFor(x => x.CurrentPage.MainContentArea)
+
+        </div>
+    </div>
+
+    <button type="submit">Submit</button>
+}

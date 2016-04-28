@@ -5,6 +5,8 @@ using EPiServer.DataAbstraction;
 using EPiServer.DataAnnotations;
 using EPiServer.SpecializedProperties;
 using Kristianstad.Business.Models.Blocks.Compare;
+using EPiServer.Shell.ObjectEditing;
+using Kristianstad.Business.Compare.EditorDescriptors;
 
 namespace Kristianstad.Models.Pages
 {
@@ -26,14 +28,23 @@ namespace Kristianstad.Models.Pages
         public virtual OrganisationalUnitListBlock OrganisationalUnitList { get; set; }
 
         // public virtual AddOrganisationalUnitsBlock AddOrganisationalUnits { get; set; }
+
+        // public virtual AddOrganisationalUnitsFormPage AddOrganisationalUnitsForm { get; set; }
         
-        // public virtual PropertyXForm AddOrganisationalUnitsForm { get; set; }
+        /*
+        [Display(GroupName = SystemTabNames.Content)]
+        public virtual PropertyCheckBoxList NewOrganisationalUnits { get; set; }
+        */
 
         [Display(GroupName = SystemTabNames.Content)]
         public virtual string Author { get; set; }
 
         [Display(GroupName = SystemTabNames.Content)]
         public virtual ContentArea RightContentArea { get; set; }
+
+
+        [SelectMany(SelectionFactoryType = typeof(OrganisationalUnitSelectionFactory))]
+        public virtual string NewOrganisationalUnits { get; set; }
 
 
         #region IInitializableContent
