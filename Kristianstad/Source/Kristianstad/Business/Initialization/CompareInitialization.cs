@@ -82,11 +82,19 @@ namespace Kristianstad.Business.Initialization
                 var compareStartPage = contentRepository.GetAncestors(e.Content.ParentLink).Where(x => x is CompareStartPage).FirstOrDefault();
                 if (compareStartPage != null)
                 {
+                    /*
                     ContentAssetFolder compareAssetFolder = contentAssetHelper.GetOrCreateAssetFolder(compareStartPage.ContentLink);
                     var newOUBlock = contentRepository.GetDefault<OrganisationalUnitBlock>(compareAssetFolder.ContentLink); //, blockType.ID, ContentLanguage.PreferredCulture);
                     newOUBlock.Name = e.Content.Name;
                     newOUBlock.Body = e.Content.Name;
                     contentRepository.Save(newOUBlock, SaveAction.Publish, AccessLevel.NoAccess);
+                    
+                    var page = e.Content as OrganisationalUnitPage;
+                    var clonedPage = (OrganisationalUnitPage)page.CreateWritableClone();
+                    //var ouPage = e.Content as OrganisationalUnitPage;
+                    clonedPage.OrganisationalUnitBlock = newOUBlock.ContentLink;
+                    contentRepository.Save(clonedPage, SaveAction.Publish);
+                    */
 
                     /*
                     //OrganisationalUnitBlock ouBlock = contentRepository.Get<OrganisationalUnitBlock>(new ContentReference(123));
@@ -100,31 +108,25 @@ namespace Kristianstad.Business.Initialization
                     contentRepository.Save(ouBlock, SaveAction.Publish, AccessLevel.FullAccess);
                      */
 
-                    var page = e.Content as OrganisationalUnitPage;
-                    var clonedPage = (OrganisationalUnitPage)page.CreateWritableClone();
-                    //var ouPage = e.Content as OrganisationalUnitPage;
-                    clonedPage.OrganisationalUnitBlock = newOUBlock.ContentLink;
-                    contentRepository.Save(clonedPage, SaveAction.Publish);
                 }
             }
-    }
-
-    /*
-     * When a page gets created lets see if it is a blog post and if so lets create the date page information for it
-     */
-                void Instance_SavingContent(object sender, ContentEventArgs e)
+        }
+        
+        void Instance_SavingContent(object sender, ContentEventArgs e)
         {
             if (e.Content is CategoryPage)
             {
+                var savingPage = e.Content as CategoryPage;
+
                 // get current saved page version
                 var contentRepository = ServiceLocator.Current.GetInstance<IContentRepository>();
-                PageData page = contentRepository.Get<PageData>(e.ContentLink);
+                var page = contentRepository.Get<CategoryPage>(e.ContentLink);
 
-                if (page.Name != e.Content.Name)
+                if (page.Name != savingPage.Name)
                 {
                     //renaming name of the page!
                     string oldName = page.Name;
-                    string newName = e.Content.Name;
+                    string newName = savingPage.Name;
 
                     var categoryRepository = ServiceLocator.Current.GetInstance<CategoryRepository>();
                     var category = CategoryHelper.FindCompareCategory(categoryRepository, oldName);
@@ -138,6 +140,12 @@ namespace Kristianstad.Business.Initialization
                     {
                         CategoryHelper.SaveCompareCategory(categoryRepository, newName, newName);
                     }
+                }
+
+                if (savingPage.NewOrganisationalUnits != page.NewOrganisationalUnits)
+                {
+                    // Create new pages now (if needed)
+
                 }
             }
         }

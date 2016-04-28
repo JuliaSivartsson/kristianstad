@@ -76,10 +76,10 @@ namespace Kristianstad.Controllers.Compare
             //var model = new PageViewModel<OrganisationalUnitPage>(currentPage);
            
             var model = new OrganisationalUnitPageModel(currentPage); //currentPage; // PageViewModel.Create(currentPage);
-            if (currentPage.OrganisationalUnitBlock != null)
-            {
-                model.OrganisationalUnitBlock = _contentLoader.Service.Get<OrganisationalUnitBlock>(currentPage.OrganisationalUnitBlock);
-            }
+            //if (currentPage.OrganisationalUnitBlock != null)
+            //{
+            //    model.OrganisationalUnitBlock = _contentLoader.Service.Get<OrganisationalUnitBlock>(currentPage.OrganisationalUnitBlock);
+            //}
 
             // Connect the view models logotype property to the start page's to make it editable
             var editHints = ViewData.GetEditHints<OrganisationalUnitPage, OrganisationalUnitPage>();

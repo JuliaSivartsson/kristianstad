@@ -49,9 +49,11 @@ namespace Kristianstad.Models.Pages
         [Display(GroupName = SystemTabNames.Content)]
         public virtual double? Longitude { get; set; }
 
+        /*
         [UIHint(UIHint.Block)]
         [AllowedTypes(AllowedTypes = new System.Type[] { typeof(OrganisationalUnitBlock) })]
         public virtual ContentReference OrganisationalUnitBlock { get; set; }
+        */
 
         [AllowedTypes(AllowedTypes = new System.Type[] { typeof(ContactBlock) })]
         public virtual ContentArea Contacts { get; set; }

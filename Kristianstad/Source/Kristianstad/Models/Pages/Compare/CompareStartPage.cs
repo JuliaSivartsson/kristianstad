@@ -6,6 +6,7 @@ using EPiServer.DataAnnotations;
 using EPiServer.SpecializedProperties;
 using Kristianstad.Business.Models.Blocks.Compare;
 using EPiServer.Filters;
+using Kristianstad.Models.Pages.Compare;
 
 namespace Kristianstad.Models.Pages
 {
@@ -16,7 +17,7 @@ namespace Kristianstad.Models.Pages
         Description = "The start page for the compare service, listing all the categories")]
     [AvailableContentTypes(
         Availability.Specific,
-        Include = new[] { typeof(CategoryPage), typeof(OrganisationalUnitFolderPage) })]  // Pages we can create under the start page...
+        Include = new[] { typeof(CategoryPage), typeof(OrganisationalUnitFolderPage), typeof(AddOrganisationalUnitsFormPage) })]  // Pages we can create under the start page...
   
     public class CompareStartPage : ContentPage
     {
