@@ -416,6 +416,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Business\Compare\CategoryHelper.cs" />
+    <Compile Include="Business\Compare\CompareContentUiDescriptor.cs" />
     <Compile Include="Business\Compare\ContactsPaneDescriptor.cs" />
     <Compile Include="Business\Compare\OrganisationalUnitsPaneDescriptor.cs" />
     <Compile Include="Business\Compare\ContactsPaneNavigationComponent.cs" />
@@ -431,6 +432,7 @@
     <Compile Include="Business\Map\MapService.cs" />
     <Compile Include="Business\Map\Properties.cs" />
     <Compile Include="Business\Models\Blocks\CategoryBlock.cs" />
+    <Compile Include="Business\Models\Blocks\Compare\AddOrganisationalUnitsBlock.cs" />
     <Compile Include="Business\Models\Blocks\Compare\CategoryListBlock.cs" />
     <Compile Include="Business\Models\Blocks\Compare\ContactBlock.cs" />
     <Compile Include="Business\Models\Blocks\Shared\ContactBlock.cs" />
@@ -449,6 +451,7 @@
     <Compile Include="Controllers\Compare\CompareStartPageController.cs" />
     <Compile Include="Controllers\Compare\OrganisationalUnitBlockController.cs" />
     <Compile Include="Controllers\Compare\OrganisationalUnitController.cs" />
+    <Compile Include="Controllers\Compare\AddOrganisationalUnitsBlockController.cs" />
     <Compile Include="Controllers\Compare\OrganisationalUnitListBlockController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
