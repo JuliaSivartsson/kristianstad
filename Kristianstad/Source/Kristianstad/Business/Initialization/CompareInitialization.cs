@@ -17,6 +17,8 @@ using Kristianstad.Models.Pages;
 using EPiServer.DataAbstraction.RuntimeModel;
 using Kristianstad.Business.Models.Blocks.Shared;
 using EPiServer.Globalization;
+using Kristianstad.CompareDomain.Abstract;
+using Compare;
 
 namespace Kristianstad.Business.Initialization
 {
@@ -145,7 +147,9 @@ namespace Kristianstad.Business.Initialization
                 if (savingPage.NewOrganisationalUnits != page.NewOrganisationalUnits)
                 {
                     // Create new pages now (if needed)
-
+                    
+                // IService compareService = ServiceFactory.Instance;
+                    // compareService.
                 }
             }
         }

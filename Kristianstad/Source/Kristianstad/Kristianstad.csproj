@@ -898,6 +898,12 @@
     <Folder Include="Views\OrganisationalUnitPage\" />
     <Folder Include="Views\Util\Editor\tinymce\templates\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\CompareDomain\CompareDomain.csproj">
+      <Project>{0f877a99-75c0-4dfa-bade-5ebe132cbd00}</Project>
+      <Name>CompareDomain</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
