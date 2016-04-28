@@ -43,7 +43,7 @@ namespace Kristianstad.Business.Models.Blocks
         [Display(
             Order = 1000,
             GroupName = TabNames.Content)]
-        [ScaffoldColumn(false)]
+        [Required(AllowEmptyStrings = false)]
         public virtual double Latitude { get; set; }
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace Kristianstad.Business.Models.Blocks
         [Display(
             Order = 1100,
             GroupName = TabNames.Content)]
-        [ScaffoldColumn(false)]
+        [Required(AllowEmptyStrings = false)]
         public virtual double Longitude { get; set; }
     }
 }
