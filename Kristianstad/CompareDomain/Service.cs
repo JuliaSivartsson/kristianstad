@@ -55,18 +55,23 @@ namespace Kristianstad.CompareDomain
 
         public List<OrganisationalUnit> GetWebServiceOrganisationalUnits()
         {
-            string id = _settings.MunicipalityId;
-            string cacheKey = $"{"getAllOrganisationalUnitsFromWebService"}{id}";
-
-            if (_cache.HasValue(cacheKey))
+            if (!string.IsNullOrWhiteSpace(_settings.MunicipalityId))
             {
-                return (List<OrganisationalUnit>)_cache.GetCache(cacheKey);
+                string id = _settings.MunicipalityId;
+                string cacheKey = $"{"getAllOrganisationalUnitsFromWebService"}{id}";
+
+                if (_cache.HasValue(cacheKey))
+                {
+                    return (List<OrganisationalUnit>)_cache.GetCache(cacheKey);
+                }
+
+                var allOU = _townWebService.GetAllOrganisationalUnits(_settings.MunicipalityId);
+                _cache.SetCache(cacheKey, allOU, _settings.CacheSeconds_OrganisationalUnits);
+
+                return allOU;
             }
 
-            var allOU = _townWebService.GetAllOrganisationalUnits(_settings.MunicipalityId);
-            _cache.SetCache(cacheKey, allOU, _settings.CacheSeconds_OrganisationalUnits);
-
-            return allOU;
+            return null;
         }
 
         public List<PropertyQueryGroup> GetWebServicePropertyQueries()

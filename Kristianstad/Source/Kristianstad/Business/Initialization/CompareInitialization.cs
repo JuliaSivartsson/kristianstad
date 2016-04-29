@@ -36,6 +36,7 @@ namespace Kristianstad.Business.Initialization
             //DataFactory.Instance.CreatingContent += Instance_CreatingContent;
 
             DataFactory.Instance.SavingContent += Instance_SavingContent;
+            DataFactory.Instance.SavedContent += Instance_SavedContent;
 
 
             DataFactory.Instance.CreatedContent += Instance_CreatedContent;
@@ -114,7 +115,57 @@ namespace Kristianstad.Business.Initialization
                 }
             }
         }
-        
+
+        void Instance_SavedContent(object sender, ContentEventArgs e)
+        {
+            if (e.Content is CategoryPage)
+            {
+                var page = e.Content as CategoryPage;
+                if (!string.IsNullOrWhiteSpace(page.CreateNewOrganisationalUnits))
+                {
+                    // changed organisational units, if any added then create new pages for them
+                    string[] list = page.CreateNewOrganisationalUnits.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+
+                    // Get a list of organisational units to add (web service and id)
+                    List<OrganisationalUnit> addedOrganisationalUnitWebServiceInfo = OrganisationalUnitHelper.GetModelsFromCheckboxValues(list);
+
+                    // Compare against existing OU pages
+                    var contentRepository = ServiceLocator.Current.GetInstance<IContentRepository>();
+                    var ouPagesInCategory = contentRepository.GetChildren<PageData>(page.ContentLink, LanguageSelector.AutoDetect(true)).OfType<OrganisationalUnitPage>();
+
+                    // Get organisational unit info from web service(s)
+                    var organisationalUnits = CompareServiceFactory.Instance.GetWebServiceOrganisationalUnits();
+
+                    // Create list of the OU to add
+                    var organisationalUnitsToAdd = organisationalUnits.Where(x => addedOrganisationalUnitWebServiceInfo.Any(x2 => x.WebServiceName == x2.WebServiceName && x.OrganisationalUnitId == x2.OrganisationalUnitId));
+                    
+                    // Create new pages
+                    foreach (var newOU in organisationalUnitsToAdd)
+                    {
+                        var existingPage = ouPagesInCategory.Where(x => x.Name.ToLower() == newOU.Name.ToLower()).FirstOrDefault();
+                        if (existingPage != null)
+                        {
+                            // e.CancelReason = "A organisational unit page with the name \"" + existingPage.Name + "\" already exists.";
+                            // e.CancelAction = true;
+                            existingPage = existingPage;
+                        }
+                        else
+                        {
+                            var newPage = contentRepository.GetDefault<OrganisationalUnitPage>(page.ContentLink); //, blockType.ID, ContentLanguage.PreferredCulture);
+                            newPage.Name = newOU.Name;
+                            newPage.WebServiceName = newOU.WebServiceName;
+                            newPage.OrganisationalUnitId = newOU.OrganisationalUnitId;
+                            newPage.MenuTitle = newOU.Name;
+                            newPage.MenuDescription = newOU.Name;
+
+                            // save the page
+                            contentRepository.Save(newPage, SaveAction.Save);
+                        }
+                    }
+                }
+            }
+        }
+
         void Instance_SavingContent(object sender, ContentEventArgs e)
         {
             if (e.Content is CategoryPage)
@@ -145,6 +196,7 @@ namespace Kristianstad.Business.Initialization
                     }
                 }
 
+                /*
                 if (savingPage.NewOrganisationalUnits != page.NewOrganisationalUnits)
                 {
                     // changed organisational units, if any added create new pages for them
@@ -185,6 +237,7 @@ namespace Kristianstad.Business.Initialization
                         }
                     }
                 }
+                */
             }
         }
         

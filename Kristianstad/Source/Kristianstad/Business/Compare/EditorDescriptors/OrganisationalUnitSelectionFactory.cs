@@ -25,15 +25,18 @@ namespace Kristianstad.Business.Compare.EditorDescriptors
 
                 if (ownerContent is CategoryPage)
                 {
-                    var contentLoader = ServiceLocator.Current.GetInstance<IContentLoader>();
                     var categoryPage = ownerContent as CategoryPage;
-                    var categoryOUPages = contentLoader.GetChildren<PageData>(categoryPage.ContentLink).OfType<OrganisationalUnitPage>();
+                    if (categoryPage.ContentLink.ID > 0)
+                    {
+                        var contentLoader = ServiceLocator.Current.GetInstance<IContentLoader>();
+                        var categoryOUPages = contentLoader.GetChildren<PageData>(categoryPage.ContentLink, LanguageSelector.AutoDetect(true)).OfType<OrganisationalUnitPage>();
 
-                    // Get organisational unit info from web service(s)
-                    List<OrganisationalUnit> organisationalUnits = CompareServiceFactory.Instance.GetWebServiceOrganisationalUnits();
-                    IEnumerable<OrganisationalUnit> organisationalUnitsToAdd = organisationalUnits.Where(x => !categoryOUPages.Any(x2 => x.WebServiceName == x2.WebServiceName && x.OrganisationalUnitId == x2.OrganisationalUnitId));
+                        // Get organisational unit info from web service(s)
+                        List<OrganisationalUnit> organisationalUnits = CompareServiceFactory.Instance.GetWebServiceOrganisationalUnits();
+                        var organisationalUnitsNotInCategory = organisationalUnits.Where(x => !categoryOUPages.Any(x2 => x.WebServiceName == x2.WebServiceName && x.OrganisationalUnitId == x2.OrganisationalUnitId));
 
-                    return OrganisationalUnitHelper.GetSelectItems(organisationalUnitsToAdd);
+                        return OrganisationalUnitHelper.GetSelectItems(organisationalUnitsNotInCategory);
+                    }
                 }
             }
 

@@ -34,7 +34,7 @@ namespace Kristianstad.Business.Compare
             return items;
         }
 
-        public static List<OrganisationalUnit> GetModelsFromCheckboxValues(IEnumerable<string> values)
+        public static List<OrganisationalUnit> GetModelsFromCheckboxValues(string[] values)
         {
             List<OrganisationalUnit> items = new List<OrganisationalUnit>();
             foreach (var value in values)

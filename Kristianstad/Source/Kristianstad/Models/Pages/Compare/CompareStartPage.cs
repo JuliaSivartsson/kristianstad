@@ -17,7 +17,7 @@ namespace Kristianstad.Models.Pages
         Description = "The start page for the compare service, listing all the categories")]
     [AvailableContentTypes(
         Availability.Specific,
-        Include = new[] { typeof(CategoryPage), typeof(OrganisationalUnitFolderPage), typeof(AddOrganisationalUnitsFormPage) })]  // Pages we can create under the start page...
+        Include = new[] { typeof(CategoryPage) })] //, typeof(OrganisationalUnitFolderPage), typeof(AddOrganisationalUnitsFormPage) })]  // Pages we can create under the start page...
   
     public class CompareStartPage : ContentPage
     {
