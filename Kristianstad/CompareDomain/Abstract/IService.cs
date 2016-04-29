@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Kristianstad.CompareDomain.Entities;
 using Kristianstad.CompareDomain.Models;
 using Kristianstad.CompareDomain.WebServices.Models;
 
@@ -11,16 +10,15 @@ namespace Kristianstad.CompareDomain.Abstract
 {
     public interface IService
     {
-        /*
         OrganisationalUnit GetWebServiceOrganisationalUnit(string id);
 
         List<OrganisationalUnit> GetWebServiceOrganisationalUnits();
 
         List<PropertyQueryGroup> GetWebServicePropertyQueries();
 
-        List<PropertyQueryWithResults> GetWebServicePropertyResults(Category category, List<OrganisationalUnitInfo> organisationalUnits); //(List<string> queryIds, List<string> organisationalUnitIds);
+        List<PropertyQueryWithResults> GetWebServicePropertyResults(List<PropertyQuery> queries, List<OrganisationalUnit> organisationalUnits); //(List<string> queryIds, List<string> organisationalUnitIds);
 
-
+        /*
         List<GroupCategory> GetAllCategories();
         List<Category> GetAllCategoriesBasedOnAlphabet();
 

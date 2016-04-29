@@ -32,7 +32,7 @@ namespace Kristianstad.CompareDomain
         public Settings(bool load = false)
         {
 
-            string pathAppData = AppDomain.CurrentDomain.BaseDirectory + "/App_Data/"; // HttpContext.Current.ApplicationInstance.Server.MapPath("~/App_Data/");
+            string pathAppData = AppDomain.CurrentDomain.BaseDirectory + "App_Data"; // HttpContext.Current.ApplicationInstance.Server.MapPath("~/App_Data/");
             _filePath = Path.Combine(pathAppData, FILENAME);
 
             Initialize(load);

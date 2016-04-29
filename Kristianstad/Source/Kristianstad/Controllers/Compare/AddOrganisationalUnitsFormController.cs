@@ -30,7 +30,7 @@ namespace Kristianstad.Controllers.Compare
             return View(model);
         }
 
-        public ActionResult Save(AddOrganisationalUnitsFormPage currentPage, OrganisationalUnit organisationalUnit)
+        public ActionResult Save(AddOrganisationalUnitsFormPage currentPage, OrganisationalUnitModel organisationalUnit)
         {
             if (currentPage.MainContentArea != null || currentPage.MainContentArea.Items.Any())
             {

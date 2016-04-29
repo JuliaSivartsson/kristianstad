@@ -9,6 +9,7 @@ using EPiServer.Web;
 using EPiCore.Content.Models.Blocks;
 using Kristianstad.Business.Models.Blocks.Compare;
 using Kristianstad.Business.Models.Blocks;
+using Kristianstad.Models.Pages.Compare;
 
 namespace Kristianstad.Models.Pages
 {
@@ -21,8 +22,16 @@ namespace Kristianstad.Models.Pages
      Availability.Specific,
      Include = new System.Type[] { })]
 
-    public class OrganisationalUnitPage : ContentPage
+    public class OrganisationalUnitPage : ContentWithSourceInfoPage
     {
+        [Ignore]
+        [Display(GroupName = SystemTabNames.Content)]
+        public virtual string WebServiceName { get; set; }
+
+        [Ignore]
+        [Display(GroupName = SystemTabNames.Content)]
+        public virtual string OrganisationalUnitId { get; set; }
+
         [Display(GroupName = SystemTabNames.Content)]
         public virtual string ShortDescription { get; set; }
 

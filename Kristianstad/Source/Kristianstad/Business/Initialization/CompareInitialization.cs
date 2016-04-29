@@ -18,7 +18,9 @@ using EPiServer.DataAbstraction.RuntimeModel;
 using Kristianstad.Business.Models.Blocks.Shared;
 using EPiServer.Globalization;
 using Kristianstad.CompareDomain.Abstract;
-using Compare;
+using System.Collections.Generic;
+using Kristianstad.CompareDomain.Models;
+using Kristianstad.CompareDomain;
 
 namespace Kristianstad.Business.Initialization
 {
@@ -109,7 +111,6 @@ namespace Kristianstad.Business.Initialization
                     ouBlock.Name = newOrganisationalUnitName; // ouBlock.UserDisplayName + "(" + DateTime.Now.ToShortDateString() + ")";
                     contentRepository.Save(ouBlock, SaveAction.Publish, AccessLevel.FullAccess);
                      */
-
                 }
             }
         }
@@ -126,7 +127,7 @@ namespace Kristianstad.Business.Initialization
 
                 if (page.Name != savingPage.Name)
                 {
-                    //renaming name of the page!
+                    // renaming name of the page, do the same for the category
                     string oldName = page.Name;
                     string newName = savingPage.Name;
 
@@ -146,14 +147,47 @@ namespace Kristianstad.Business.Initialization
 
                 if (savingPage.NewOrganisationalUnits != page.NewOrganisationalUnits)
                 {
-                    // Create new pages now (if needed)
-                    
-                // IService compareService = ServiceFactory.Instance;
-                    // compareService.
+                    // changed organisational units, if any added create new pages for them
+                    string[] newList = savingPage.NewOrganisationalUnits.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+                    string[] earlierList = page.NewOrganisationalUnits.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+                    IEnumerable<string> addedOrganisationalUnits = newList.Where(x => !earlierList.Any(x2 => x == x2));
+
+                    // Get a list of organisational units to add (web service and id)
+                    List<OrganisationalUnit> addedOrganisationalUnitWebServiceInfo = OrganisationalUnitHelper.GetModelsFromCheckboxValues(addedOrganisationalUnits);
+
+                    // Get organisational unit info from web service(s)
+                    List<OrganisationalUnit> organisationalUnits = CompareServiceFactory.Instance.GetWebServiceOrganisationalUnits();
+                    IEnumerable<OrganisationalUnit> organisationalUnitsToAdd = organisationalUnits.Where(x => addedOrganisationalUnitWebServiceInfo.Any(x2 => x.WebServiceName == x2.WebServiceName && x.OrganisationalUnitId == x2.OrganisationalUnitId));
+
+                    var ouPagesInCategory = contentRepository.GetChildren<PageData>(savingPage.ContentLink).OfType<OrganisationalUnitPage>();
+
+                    // Create new pages
+                    foreach (var newOU in organisationalUnitsToAdd)
+                    {
+                        var existingPage = ouPagesInCategory.Where(x => x.Name.ToLower() == newOU.Name.ToLower()).FirstOrDefault();
+                        if (existingPage != null)
+                        {
+                            // e.CancelReason = "A organisational unit page with the name \"" + existingPage.Name + "\" already exists.";
+                            // e.CancelAction = true;
+                            existingPage = existingPage;
+                        }
+                        else
+                        {
+                            var newPage = contentRepository.GetDefault<OrganisationalUnitPage>(savingPage.ContentLink); //, blockType.ID, ContentLanguage.PreferredCulture);
+                            newPage.Name = newOU.Name;
+                            newPage.WebServiceName = newOU.WebServiceName;
+                            newPage.OrganisationalUnitId = newOU.OrganisationalUnitId;
+                            newPage.MenuTitle = newOU.Name;
+                            newPage.MenuDescription = newOU.Name;
+
+                            // save the page
+                            contentRepository.Save(newPage, SaveAction.Save);
+                        }
+                    }
                 }
             }
         }
-
+        
         void Instance_CreatingPage(object sender, PageEventArgs e)
         {
             if (this.IsImport() || e.Content == null)

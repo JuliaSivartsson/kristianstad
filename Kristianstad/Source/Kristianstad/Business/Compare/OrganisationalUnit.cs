@@ -5,7 +5,7 @@ using System.Web;
 
 namespace Kristianstad.Business.Compare
 {
-    public class OrganisationalUnit
+    public class OrganisationalUnitModel
     {
         public string Name { get; set; }
 

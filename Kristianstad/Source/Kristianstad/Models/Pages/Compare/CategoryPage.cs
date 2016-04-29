@@ -41,8 +41,8 @@ namespace Kristianstad.Models.Pages
 
         [Display(GroupName = SystemTabNames.Content)]
         public virtual ContentArea RightContentArea { get; set; }
-
-
+        
+        [Display(GroupName = SystemTabNames.Content)]
         [SelectMany(SelectionFactoryType = typeof(OrganisationalUnitSelectionFactory))]
         public virtual string NewOrganisationalUnits { get; set; }
 

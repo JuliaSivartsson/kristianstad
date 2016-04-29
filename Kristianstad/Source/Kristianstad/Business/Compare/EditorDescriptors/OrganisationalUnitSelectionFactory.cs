@@ -9,6 +9,8 @@ using System.Web.Mvc;
 using EPiServer.Cms.Shell.UI.ObjectEditing;
 using EPiServer;
 using EPiServer.ServiceLocation;
+using Kristianstad.CompareDomain;
+using Kristianstad.CompareDomain.Models;
 
 namespace Kristianstad.Business.Compare.EditorDescriptors
 {
@@ -24,21 +26,14 @@ namespace Kristianstad.Business.Compare.EditorDescriptors
                 if (ownerContent is CategoryPage)
                 {
                     var contentLoader = ServiceLocator.Current.GetInstance<IContentLoader>();
-
                     var categoryPage = ownerContent as CategoryPage;
-                    var childOUs = contentLoader.GetChildren<PageData>(categoryPage.ContentLink).OfType<OrganisationalUnitPage>();
+                    var categoryOUPages = contentLoader.GetChildren<PageData>(categoryPage.ContentLink).OfType<OrganisationalUnitPage>();
 
-                    List<SelectItem> items = new List<SelectItem>();
-                    foreach (OrganisationalUnitPage ou in childOUs)
-                    {
-                        items.Add(new SelectItem
-                        {
-                            Text = ou.Name,
-                            Value = ou.Name
-                        });
-                    }
+                    // Get organisational unit info from web service(s)
+                    List<OrganisationalUnit> organisationalUnits = CompareServiceFactory.Instance.GetWebServiceOrganisationalUnits();
+                    IEnumerable<OrganisationalUnit> organisationalUnitsToAdd = organisationalUnits.Where(x => !categoryOUPages.Any(x2 => x.WebServiceName == x2.WebServiceName && x.OrganisationalUnitId == x2.OrganisationalUnitId));
 
-                    return items;
+                    return OrganisationalUnitHelper.GetSelectItems(organisationalUnitsToAdd);
                 }
             }
 
