@@ -4,11 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Kristianstad.CompareDomain.Abstract;
-using Kristianstad.CompareDomain.Entities;
 using Kristianstad.CompareDomain.Helpers;
 using Kristianstad.CompareDomain.Models;
 using Kristianstad.CompareDomain.WebServices;
-using Kristianstad.CompareDomain.WebServices.Models;
 using Kristianstad.CompareDomain.DAL;
 
 namespace Kristianstad.CompareDomain
@@ -90,12 +88,12 @@ namespace Kristianstad.CompareDomain
             return list;
         }
 
-        public List<PropertyQueryWithResults> GetWebServicePropertyResults(Category category, List<OrganisationalUnitInfo> organisationalUnits) //List<string> queryIds, List<string> organisationalUnitIds) //List<PropertyQuery> queries, List<OrganisationalUnit> organisationalUnits)
+        public List<PropertyQueryWithResults> GetWebServicePropertyResults(List<PropertyQuery> queries, List<OrganisationalUnit> organisationalUnits) //List<string> queryIds, List<string> organisationalUnitIds) //List<PropertyQuery> queries, List<OrganisationalUnit> organisationalUnits)
         {
             //Get id's from All KpiQuestions and OrganisationalUnits in parameter
             //and compund to an unique cacheKey
             
-            var queryIds = from q in category.Queries
+            var queryIds = from q in queries
                            select q.QueryId;
             var organisationalUnitIds = from ou in organisationalUnits
                                         select ou.OrganisationalUnitId;
@@ -110,7 +108,7 @@ namespace Kristianstad.CompareDomain
                 return (List<PropertyQueryWithResults>)_cache.GetCache(cacheKey);
             }
 
-            var returnValue = _townWebService.GetPropertyResults(category.Queries.ToList(), organisationalUnits); //queryIds.ToList(), organisationalUnitIds.ToList());
+            var returnValue = _townWebService.GetPropertyResults(queries, organisationalUnits); //queryIds.ToList(), organisationalUnitIds.ToList());
             _cache.SetCache(cacheKey, returnValue, _settings.CacheSeconds_PropertyResult);
 
             return returnValue;

@@ -15,11 +15,11 @@ namespace Kristianstad.Business.Models.Blocks.Compare
     {
         public OrganisationalUnitBlock()
         {
-            OrganisationalUnit = new OrganisationalUnit();
+            OrganisationalUnit = new OrganisationalUnitModel();
         }
 
         [Ignore]
-        public OrganisationalUnit OrganisationalUnit { get; set; }
+        public OrganisationalUnitModel OrganisationalUnit { get; set; }
 
         [Display(
             Name = "Name",

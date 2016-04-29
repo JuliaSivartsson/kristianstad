@@ -5,13 +5,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Compare
+namespace Kristianstad.CompareDomain
 {
-    public class ServiceFactory
+    public static class CompareServiceFactory
     {
-        private IService _service;
+        private static IService _service;
 
-        public IService Instance
+        public static IService Instance
         {
             get
             {

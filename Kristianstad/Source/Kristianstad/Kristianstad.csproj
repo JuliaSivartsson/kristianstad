@@ -418,6 +418,7 @@
     <Compile Include="Business\Compare\CategoryHelper.cs" />
     <Compile Include="Business\Compare\EditorDescriptors\OrganisationalUnitSelectionFactory.cs" />
     <Compile Include="Business\Compare\OrganisationalUnit.cs" />
+    <Compile Include="Business\Compare\OrganisationalUnitHelper.cs" />
     <Compile Include="Business\Compare\OrganisationalUnitsPaneDescriptor.cs" />
     <Compile Include="Business\Compare\OrganisationalUnitsPaneNavigationComponent.cs" />
     <Compile Include="Business\Compare\PageTypeExtensions.cs" />
@@ -470,6 +471,7 @@
     <Compile Include="Models\Pages\Compare\AddOrganisationalUnitsFormPage.cs" />
     <Compile Include="Models\Pages\Compare\CategoryPage.cs" />
     <Compile Include="Models\Pages\Compare\CompareStartPage.cs" />
+    <Compile Include="Models\Pages\Compare\ContentWithSourceInfoPage.cs" />
     <Compile Include="Models\Pages\Compare\OrganisationalUnitFolderPage.cs" />
     <Compile Include="Models\Pages\Compare\OrganisationalUnitPage.cs" />
     <Compile Include="Models\Pages\SectionPage.cs" />
@@ -874,7 +876,6 @@
     <Content Include="Views\OrganisationalUnit\Full.cshtml" />
     <Content Include="Views\OrganisationalUnit\Preview.cshtml" />
     <Content Include="Views\OrganisationalUnitBlock\Index.cshtml" />
-    <Content Include="Views\OrganisationalUnitBlock\Preview.cshtml" />
     <Content Include="Views\ContactBlock\Index.cshtml" />
     <Content Include="Views\CategoryPage\Index.cshtml" />
     <Content Include="Views\AddOrganisationalUnitsForm\Index.cshtml" />

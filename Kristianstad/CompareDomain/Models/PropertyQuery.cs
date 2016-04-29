@@ -22,19 +22,22 @@ namespace Kristianstad.CompareDomain.Models
         public string Title { get; set; } // name/title of the query
 
         public string Type { get; set; }
-        
+
+        public int? Period { get; set; } //which period (year) that should be used, default should be latest
+
 
         //Constructors
         public PropertyQuery()
         {
             // Empty
         }
-        public PropertyQuery(string webServiceName, string queryId, string title, string type)
+        public PropertyQuery(string webServiceName, string queryId, string title, string type, int? period = null)
         {
             WebServiceName = webServiceName;
             QueryId = queryId;
             Title = title;
             Type = type;
+            Period = period;
         }
     }
 }

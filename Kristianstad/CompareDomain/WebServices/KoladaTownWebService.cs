@@ -7,7 +7,6 @@ using Kristianstad.CompareDomain.Abstract;
 using System.Net;
 using System.IO;
 using Kristianstad.CompareDomain.WebServices.Models;
-using Kristianstad.CompareDomain.Entities;
 using Kristianstad.CompareDomain.Models;
 using Newtonsoft.Json;
 
@@ -37,7 +36,7 @@ namespace Kristianstad.CompareDomain.WebServices
             return new OrganisationalUnit(this.GetName(), theOu.Id, theOu.Title);
         }
         
-        public override List<PropertyQueryWithResults> GetPropertyResults(List<PropertyQueryInfo> queries, List<OrganisationalUnitInfo> organisationalUnits) //List<PropertyQuery> queries, List<OrganisationalUnit> organisationalUnits)
+        public override List<PropertyQueryWithResults> GetPropertyResults(List<PropertyQuery> queries, List<OrganisationalUnit> organisationalUnits) //List<PropertyQuery> queries, List<OrganisationalUnit> organisationalUnits)
         {
             var rawJson = string.Empty;
 
@@ -54,10 +53,10 @@ namespace Kristianstad.CompareDomain.WebServices
 
             //create correct models
             List<PropertyQueryWithResults> results = new List<PropertyQueryWithResults>();
-            foreach(PropertyQueryInfo query in queries)
+            foreach(var query in queries)
             {
                 PropertyQueryWithResults queryWithResults = new PropertyQueryWithResults(query);
-                foreach (OrganisationalUnitInfo ou in organisationalUnits)
+                foreach (var ou in organisationalUnits)
                 {
                     queryWithResults.Results.Add(new PropertyQueryResult(ou.OrganisationalUnitId, kpiAnswers.Where(a => a.Kpi == query.QueryId && a.Ou == ou.OrganisationalUnitId)
                                                                                                                 .Select(a => new PropertyQueryResultForPeriod(a.Period, 
