@@ -42,9 +42,9 @@ namespace Kristianstad.Models.Pages
         [Display(GroupName = SystemTabNames.Content)]
         public virtual ContentArea RightContentArea { get; set; }
         
-        [Display(GroupName = SystemTabNames.Content)]
+        [Display(GroupName = SystemTabNames.Content, Name = "Organisational units from data sources (check to auto-create page)")]
         [SelectMany(SelectionFactoryType = typeof(OrganisationalUnitSelectionFactory))]
-        public virtual string NewOrganisationalUnits { get; set; }
+        public virtual string CreateNewOrganisationalUnits { get; set; }
 
 
         #region IInitializableContent

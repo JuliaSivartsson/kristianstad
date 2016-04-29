@@ -237,6 +237,7 @@
     <Content Include="Content\core\font\opensans\Bold\OpenSans-Bold.woff" />
     <Content Include="Content\core\font\opensans\Bold\OpenSans-Bold.ttf" />
     <Content Include="Content\core\font\opensans\Bold\OpenSans-Bold.eot" />
+    <Content Include="App_Data\compare-settings.json" />
     <None Include="Hunspellx64.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

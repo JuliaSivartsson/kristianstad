@@ -18,6 +18,15 @@
 
     <h1 @Html.EditAttributes(x => x.CurrentPage.PageName)>@Model.CurrentPage.PageName</h1>
 
+
+    @if (PageEditing.PageIsInEditMode)
+    {
+        <div>
+            WebServiceName: @Html.DisplayFor(x => x.CurrentPage.WebServiceName)
+            OrganisationalUnitId: @Html.DisplayFor(x => x.CurrentPage.OrganisationalUnitId)
+        </div>
+    }
+
     @if (Model.CurrentPage.TitleImage != null || PageEditing.PageIsInEditMode)
     {
         <figure class="title">
@@ -66,9 +75,6 @@
     </div>
 </div>
 
-
-
-@Html.PropertyFor(x => x.OrganisationalUnitBlock)
 
 
 <div class="column content-page right-content small-12 medium-12 large-4">

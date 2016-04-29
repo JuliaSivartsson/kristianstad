@@ -24,11 +24,9 @@ namespace Kristianstad.Models.Pages
 
     public class OrganisationalUnitPage : ContentWithSourceInfoPage
     {
-        [Ignore]
         [Display(GroupName = SystemTabNames.Content)]
         public virtual string WebServiceName { get; set; }
-
-        [Ignore]
+        
         [Display(GroupName = SystemTabNames.Content)]
         public virtual string OrganisationalUnitId { get; set; }
 
