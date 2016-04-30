@@ -418,12 +418,11 @@
   <ItemGroup>
     <Compile Include="Business\Compare\CategoryHelper.cs" />
     <Compile Include="Business\Compare\EditorDescriptors\OrganisationalUnitSelectionFactory.cs" />
-    <Compile Include="Business\Compare\OrganisationalUnit.cs" />
     <Compile Include="Business\Compare\OrganisationalUnitHelper.cs" />
     <Compile Include="Business\Compare\OrganisationalUnitsPaneDescriptor.cs" />
     <Compile Include="Business\Compare\OrganisationalUnitsPaneNavigationComponent.cs" />
     <Compile Include="Business\Compare\PageTypeExtensions.cs" />
-    <Compile Include="Business\Initialization\CompareInitialization.cs" />
+    <Compile Include="Business\Initialization\Compare\CompareInitialization.cs" />
     <Compile Include="Business\Initialization\MapBlockInitializationModule.cs" />
     <Compile Include="Business\Map\AddressResult.cs" />
     <Compile Include="Business\Map\Feature.cs" />
@@ -433,10 +432,9 @@
     <Compile Include="Business\Map\MapService.cs" />
     <Compile Include="Business\Map\Properties.cs" />
     <Compile Include="Business\Models\Blocks\CategoryBlock.cs" />
-    <Compile Include="Business\Models\Blocks\Compare\AddOrganisationalUnitsBlock.cs" />
     <Compile Include="Business\Models\Blocks\Compare\CategoryListBlock.cs" />
     <Compile Include="Business\Models\Blocks\Compare\ContactBlock.cs" />
-    <Compile Include="Business\Models\Blocks\Compare\OrganisationalUnitBlock.cs" />
+    <Compile Include="Business\Models\Blocks\Compare\OrganisationalUnitSourceInfoBlock.cs" />
     <Compile Include="Business\Models\Blocks\Shared\ContactBlock.cs" />
     <Compile Include="Business\Models\Blocks\Compare\OrganisationalUnitListBlock.cs" />
     <Compile Include="Business\Models\Blocks\MapBlock.cs" />
@@ -447,14 +445,10 @@
     <Compile Include="Controllers\Common\FooterKrController.cs" />
     <Compile Include="Controllers\Common\MegaMenuController.cs" />
     <Compile Include="Controllers\Common\MenuKrController.cs" />
-    <Compile Include="Controllers\Compare\API\CompareAPIController.cs" />
     <Compile Include="Controllers\Compare\CategoryController.cs" />
-    <Compile Include="Controllers\Compare\ContactBlockController.cs" />
     <Compile Include="Controllers\Compare\CategoryListBlockController.cs" />
     <Compile Include="Controllers\Compare\CompareStartPageController.cs" />
-    <Compile Include="Controllers\Compare\OrganisationalUnitBlockController.cs" />
     <Compile Include="Controllers\Compare\OrganisationalUnitController.cs" />
-    <Compile Include="Controllers\Compare\AddOrganisationalUnitsFormController.cs" />
     <Compile Include="Controllers\Compare\OrganisationalUnitListBlockController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -469,11 +463,8 @@
     <Compile Include="Models\Blocks\FooterLinkListBlock.cs" />
     <Compile Include="Models\Misc\MenuItem.cs" />
     <Compile Include="Models\Misc\TabNames.cs" />
-    <Compile Include="Models\Pages\Compare\AddOrganisationalUnitsFormPage.cs" />
     <Compile Include="Models\Pages\Compare\CategoryPage.cs" />
     <Compile Include="Models\Pages\Compare\CompareStartPage.cs" />
-    <Compile Include="Models\Pages\Compare\ContentWithSourceInfoPage.cs" />
-    <Compile Include="Models\Pages\Compare\OrganisationalUnitFolderPage.cs" />
     <Compile Include="Models\Pages\Compare\OrganisationalUnitPage.cs" />
     <Compile Include="Models\Pages\SectionPage.cs" />
     <Compile Include="Models\Pages\SettingsPage.cs" />
@@ -867,20 +858,16 @@
     <Content Include="Views\ContactCardBlock\Index.cshtml" />
     <Content Include="Views\AToZPage\Index.cshtml" />
     <Content Include="Views\CategoryListBlock\Index.cshtml" />
-    <Content Include="Views\Category\Index.cshtml" />
     <Content Include="Views\Category\Full.cshtml" />
     <Content Include="Views\Category\Preview.cshtml" />
     <Content Include="Views\CompareStartPage\Index.cshtml" />
     <Content Include="Views\OrganisationalUnitListBlock\Index.cshtml" />
     <Content Include="Views\OrganisationalUnit\Index.cshtml" />
-    <Content Include="Views\OrganisationalUnitsFolderPage\Index.cshtml" />
     <Content Include="Views\OrganisationalUnit\Full.cshtml" />
     <Content Include="Views\OrganisationalUnit\Preview.cshtml" />
     <Content Include="Views\OrganisationalUnitBlock\Index.cshtml" />
     <Content Include="Views\ContactBlock\Index.cshtml" />
-    <Content Include="Views\CategoryPage\Index.cshtml" />
-    <Content Include="Views\AddOrganisationalUnitsForm\Index.cshtml" />
-    <Content Include="Views\Shared\OrganisationalUnitBlock.cshtml" />
+    <Content Include="Views\Category\Index.cshtml" />
     <None Include="Web.Acceptance.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -897,7 +884,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Static\" />
-    <Folder Include="Views\OrganisationalUnitPage\" />
     <Folder Include="Views\Util\Editor\tinymce\templates\" />
   </ItemGroup>
   <ItemGroup>

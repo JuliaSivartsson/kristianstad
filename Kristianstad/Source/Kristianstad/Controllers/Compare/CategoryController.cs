@@ -24,79 +24,32 @@ namespace Kristianstad.Controllers.Compare
     public class CategoryController : PageController<CategoryPage>
     {
         public int PreviewTextLength { get; set; }
-
-        public ActionResult Preview(PageData currentPage, CategoryListModel categoryModel)
-        {
-            var pd = (CategoryPage)currentPage;
-            PreviewTextLength = 200;
-
-            var model = new CategoryPageModel(pd)
-            {
-                PreviewText = GetPreviewText(pd)
-            };
-
-            return PartialView("Preview", model);
-        }
-
+        
         public ActionResult Full(CategoryPage currentPage)
         {
             PreviewTextLength = 200;
 
             var model = new CategoryPageModel(currentPage)
             {
-                PreviewText = GetPreviewText(currentPage),
-                //MainBody = currentPage.MainBody,
-                StartPublish = currentPage.StartPublish
+
             };
 
             var editHints = ViewData.GetEditHints<CategoryPageModel, CategoryPage>();
             editHints.AddFullRefreshFor(p => p.StartPublish);
-            
+
             return PartialView("Full", model);
         }
 
         public ActionResult Index(CategoryPage currentPage)
         {
             var model = new CategoryPageModel(currentPage); //PageViewModel.Create(currentPage);
-            
+
             //Connect the view models logotype property to the start page's to make it editable
-            var editHints = ViewData.GetEditHints<CategoryPage, CategoryPage>();
-            editHints.AddConnection(m => m.Category, p => p.Category);
+            var editHints = ViewData.GetEditHints<CategoryPageModel, CategoryPage>();
+            //editHints.AddConnection(m => m.Category, p => p.Category);
             editHints.AddConnection(m => m.StartPublish, p => p.StartPublish);
-            
+
             return View(model);
         }
-        
-        protected string GetPreviewText(CategoryPage page)
-        {
-            if (PreviewTextLength <= 0)
-            {
-                return string.Empty;
-            }
-
-            string previewText = String.Empty;
-
-            /*
-            if (page.MainBody != null)
-            {
-                previewText = page.MainBody.ToHtmlString();
-            }
-            */
-
-            if (String.IsNullOrEmpty(previewText))
-            {
-                return string.Empty;
-            }
-
-            //If the MainBody contains DynamicContents, replace those with an empty string
-            StringBuilder regexPattern = new StringBuilder(@"<span[\s\W\w]*?classid=""");
-            regexPattern.Append(DynamicContentFactory.Instance.DynamicContentId.ToString());
-            regexPattern.Append(@"""[\s\W\w]*?</span>");
-            previewText = Regex.Replace(previewText, regexPattern.ToString(), string.Empty, RegexOptions.IgnoreCase | RegexOptions.Multiline);
-
-            return TextIndexer.StripHtml(previewText, PreviewTextLength);
-        }
-
-    
     }
 }

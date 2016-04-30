@@ -24,13 +24,13 @@ namespace Kristianstad.Controllers.Compare
     {
         public int PreviewTextLength { get; set; }
 
-        private readonly Injected<IContentLoader> contentLoader; // private IContentLoader contentLoader;
-        
+        private readonly Injected<IContentLoader> contentLoader;
+
         public override ActionResult Index(CategoryListBlock currentBlock)
         {
             var categories = FindPages(currentBlock);
             categories = Sort(categories, currentBlock.SortOrder);
-            
+
             var model = new CategoryListModel() // (currentBlock)
             {
                 Categories = categories
@@ -38,7 +38,7 @@ namespace Kristianstad.Controllers.Compare
 
             return PartialView(model);
         }
-        
+
         public ActionResult Preview(PageData currentPage, CategoryListModel categoryListModel)
         {
             var pd = (CategoryPage)currentPage;
@@ -46,43 +46,13 @@ namespace Kristianstad.Controllers.Compare
 
             var model = new CategoryPageModel(pd)
             {
-                PreviewText = GetPreviewText(pd),
+
             };
 
             return PartialView("Preview", model);
         }
 
-        protected string GetPreviewText(CategoryPage page)
-        {
-            if (PreviewTextLength <= 0)
-            {
-                return string.Empty;
-            }
-
-            string previewText = String.Empty;
-
-            /*
-            if (page.MainBody != null)
-            {
-                previewText = page.MainBody.ToHtmlString();
-            }
-            */
-
-            if (String.IsNullOrEmpty(previewText))
-            {
-                return string.Empty;
-            }
-
-            //If the MainBody contains DynamicContents, replace those with an empty string
-            StringBuilder regexPattern = new StringBuilder(@"<span[\s\W\w]*?classid=""");
-            regexPattern.Append(DynamicContentFactory.Instance.DynamicContentId.ToString());
-            regexPattern.Append(@"""[\s\W\w]*?</span>");
-            previewText = Regex.Replace(previewText, regexPattern.ToString(), string.Empty, RegexOptions.IgnoreCase | RegexOptions.Multiline);
-
-            return TextIndexer.StripHtml(previewText, PreviewTextLength);
-        }
-
-        private IEnumerable<PageData> FindPages(CategoryListBlock currentBlock) //, Category categoryParameter)
+        private IEnumerable<PageData> FindPages(CategoryListBlock currentBlock)
         {
             IEnumerable<PageData> pages = null;
 
@@ -105,7 +75,5 @@ namespace Kristianstad.Controllers.Compare
             sortFilter.Sort(asCollection);
             return asCollection;
         }
-
-      
     }
 }

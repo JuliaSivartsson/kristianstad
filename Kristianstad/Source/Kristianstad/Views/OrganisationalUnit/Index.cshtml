@@ -6,11 +6,6 @@
 @model Kristianstad.ViewModels.Compare.OrganisationalUnitPageModel
 @* model EPiCore.ViewModels.Pages.PageViewModel<OrganisationalUnitPage> *@
 
-@* {
-        Layout = "~/Views/Shared/_Layout.cshtml";
-    }*@
-
-
 <div class="column small-12 medium-12 large-8 content-page content">
     @{
         Html.RenderAction("Breadcrumbs", "MenuKr");
@@ -18,71 +13,15 @@
 
     <h1 @Html.EditAttributes(x => x.CurrentPage.PageName)>@Model.CurrentPage.PageName</h1>
 
-
-    @if (PageEditing.PageIsInEditMode)
-    {
-        <div>
-            WebServiceName: @Html.DisplayFor(x => x.CurrentPage.WebServiceName)
-            OrganisationalUnitId: @Html.DisplayFor(x => x.CurrentPage.OrganisationalUnitId)
-        </div>
-    }
-
-    @if (Model.CurrentPage.TitleImage != null || PageEditing.PageIsInEditMode)
-    {
-        <figure class="title">
-
-            @if (PageEditing.PageIsInEditMode)
-            {
-                <div @Html.EditAttributes(m => m.CurrentPage.TitleImage)>
-
-                    @if (Model.CurrentPage.TitleImage != null)
-                    {
-                        <img src="@Url.ContentUrl(Model.CurrentPage.TitleImage)?preset=content-title" />
-                    }
-
-                </div>
-            }
-            else
-            {
-                <img src="@Url.ContentUrl(Model.CurrentPage.TitleImage)?preset=content-title" />
-            }
-
-            <figcaption>@Html.PropertyFor(m => m.CurrentPage.TitleImageCaption)</figcaption>
-
-        </figure>
-    }
-
-    <h3>Beskrivning</h3>
-    <p @Html.EditAttributes(x => x.CurrentPage.ShortDescription)>@Model.CurrentPage.ShortDescription</p>
-    <p @Html.EditAttributes(x => x.CurrentPage.LongDescription)>@Model.CurrentPage.LongDescription</p>
-
-    <h3>Information</h3>
-    <p @Html.EditAttributes(x => x.CurrentPage.Address)>@Model.CurrentPage.Address</p>
-    <p @Html.EditAttributes(x => x.CurrentPage.Telephone)>@Model.CurrentPage.Telephone</p>
-    <p @Html.EditAttributes(x => x.CurrentPage.Contact)>@Model.CurrentPage.Contact</p>
-    <p @Html.EditAttributes(x => x.CurrentPage.Email)>@Model.CurrentPage.Email</p>
-    <p @Html.EditAttributes(x => x.CurrentPage.OrganisationalForm)>@Model.CurrentPage.OrganisationalForm</p>
-    <p @Html.EditAttributes(x => x.CurrentPage.Latitude)>@Model.CurrentPage.Latitude</p>
-    <p @Html.EditAttributes(x => x.CurrentPage.Longitude)>@Model.CurrentPage.Longitude</p>
-
     <div class="row">
-        <h3>Kontaktpersoner</h3>
-        @Html.PropertyFor(x => x.CurrentPage.Contacts)
-    </div>
 
-    <div class="row">
-        @Html.PropertyFor(x => x.CurrentPage.Map)
+        @Html.Action("Full", "OrganisationalUnit", new { currentPage = Model.CurrentPage })
+
     </div>
 </div>
-
-
 
 <div class="column content-page right-content small-12 medium-12 large-4">
     @{
         Html.RenderAction("SectionMenu", "MenuKr");
     }
 </div>
-
-@{
-    Html.ViewContext.RequestContext.RouteData.Values["currentContent"] = null;
-}

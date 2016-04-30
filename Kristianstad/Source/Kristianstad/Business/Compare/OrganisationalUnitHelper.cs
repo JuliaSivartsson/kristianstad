@@ -12,12 +12,14 @@ namespace Kristianstad.Business.Compare
     public static class OrganisationalUnitHelper
     {
         private static readonly string SEPARATOR = "|";
+        private static readonly string INFO_READ_AT_STRING = " (från {0}, ID: {1})"; // {0} = WebServiceName, {1} Id, {2} = Date/Time
 
+        /*
         public static List<OrganisationalUnitModel> GetOrganisationalUnitsFromWebservice(List<OrganisationalUnitPage> exclude = null)
         {
-            if (exclude == null) { exclude = new List<OrganisationalUnitPage>(); } 
-            return CompareServiceFactory.Instance.GetWebServiceOrganisationalUnits().Where(x => !exclude.Any(x2 => x2.EntityId == x.OrganisationalUnitId)).Select(x => new OrganisationalUnitModel() { Name = x.Name,  }).ToList();
+            return CompareServiceFactory.Instance.GetWebServiceOrganisationalUnits().Where(x => exclude == null || !exclude.Any(x2 => x2.EntityId == x.OrganisationalUnitId)).Select(x => new OrganisationalUnitModel() { Name = x.Name,  }).ToList();
         }
+        */
 
         public static List<SelectItem> GetSelectItems(IEnumerable<OrganisationalUnit> organisationalUnits)
         {
@@ -26,7 +28,7 @@ namespace Kristianstad.Business.Compare
             {
                 items.Add(new SelectItem
                 {
-                    Text = organisationalUnit.Name,
+                    Text = organisationalUnit.Name + string.Format(INFO_READ_AT_STRING, organisationalUnit.WebServiceName, organisationalUnit.OrganisationalUnitId, organisationalUnit.InfoReadAt),
                     Value = organisationalUnit.WebServiceName + SEPARATOR + organisationalUnit.OrganisationalUnitId
                 });
             }

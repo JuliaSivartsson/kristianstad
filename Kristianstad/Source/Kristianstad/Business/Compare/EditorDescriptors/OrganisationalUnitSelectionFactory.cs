@@ -33,7 +33,7 @@ namespace Kristianstad.Business.Compare.EditorDescriptors
 
                         // Get organisational unit info from web service(s)
                         List<OrganisationalUnit> organisationalUnits = CompareServiceFactory.Instance.GetWebServiceOrganisationalUnits();
-                        var organisationalUnitsNotInCategory = organisationalUnits.Where(x => !categoryOUPages.Any(x2 => x.WebServiceName == x2.WebServiceName && x.OrganisationalUnitId == x2.OrganisationalUnitId));
+                        var organisationalUnitsNotInCategory = organisationalUnits.Where(x => !categoryOUPages.Any(x2 => x2.SourceInfo != null && (x.WebServiceName == x2.SourceInfo.WebServiceName && x.OrganisationalUnitId == x2.SourceInfo.OrganisationalUnitId)));
 
                         return OrganisationalUnitHelper.GetSelectItems(organisationalUnitsNotInCategory);
                     }
