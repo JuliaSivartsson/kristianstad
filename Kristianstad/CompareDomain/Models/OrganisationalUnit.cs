@@ -14,16 +14,20 @@ namespace Kristianstad.CompareDomain.Models
 
         public string Name { get; set; }
 
+        public DateTime? InfoReadAt { get; set; }
+
+
         //Constructors
         public OrganisationalUnit()
         {
             // Empty
         }
-        public OrganisationalUnit(string webServiceName, string organisationalUnitId, string name)
+        public OrganisationalUnit(string webServiceName, string organisationalUnitId, string name, DateTime? infoReadAt = null)
         {
             WebServiceName = webServiceName;
             OrganisationalUnitId = organisationalUnitId;
             Name = name;
+            InfoReadAt = infoReadAt;
         }
     }
 }

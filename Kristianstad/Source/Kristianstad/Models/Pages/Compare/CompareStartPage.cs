@@ -6,7 +6,6 @@ using EPiServer.DataAnnotations;
 using EPiServer.SpecializedProperties;
 using Kristianstad.Business.Models.Blocks.Compare;
 using EPiServer.Filters;
-using Kristianstad.Models.Pages.Compare;
 
 namespace Kristianstad.Models.Pages
 {

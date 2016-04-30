@@ -33,7 +33,7 @@ namespace Kristianstad.CompareDomain.WebServices
             var ou = JsonConvert.DeserializeObject<OUs>(rawJson).Values;
             OU theOu = ou.First();
 
-            return new OrganisationalUnit(this.GetName(), theOu.Id, theOu.Title);
+            return new OrganisationalUnit(this.GetName(), theOu.Id, theOu.Title, DateTime.Now);
         }
         
         public override List<PropertyQueryWithResults> GetPropertyResults(List<PropertyQuery> queries, List<OrganisationalUnit> organisationalUnits) //List<PropertyQuery> queries, List<OrganisationalUnit> organisationalUnits)
@@ -103,8 +103,10 @@ namespace Kristianstad.CompareDomain.WebServices
 
             rawJson = RawJson(BaseUrl + apiRequest);
 
+            var currentTime = DateTime.Now;
+
             var OUs = JsonConvert.DeserializeObject<OUs>(rawJson).Values;
-            return OUs.Select(o => new OrganisationalUnit(this.GetName(), o.Id, o.Title)).ToList();
+            return OUs.Select(o => new OrganisationalUnit(this.GetName(), o.Id, o.Title, currentTime)).ToList();
         }
 
         /// <summary>

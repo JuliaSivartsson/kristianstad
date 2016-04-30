@@ -12,8 +12,8 @@ namespace Kristianstad.Models.Pages
 {
     [ContentType(
         GroupName = "Compare",
-        GUID = "5f852296-61b7-4364-bb16-3a1a9567b1db", 
-        DisplayName = "Category page", 
+        GUID = "5f852296-61b7-4364-bb16-3a1a9567b1db",
+        DisplayName = "Category page",
         Description = "A category page for comparison service")]
     [AvailableContentTypes(
        Availability.Specific,
@@ -21,32 +21,19 @@ namespace Kristianstad.Models.Pages
 
     public class CategoryPage : ContentPage
     {
-        [Display(GroupName = SystemTabNames.Content)]
+        [Display(GroupName = SystemTabNames.Content, Order = 1)]
         public virtual string Heading { get; set; }
 
-        [Display(GroupName = SystemTabNames.Content)]
+        [Display(GroupName = SystemTabNames.Content, Order = 2)]
         public virtual OrganisationalUnitListBlock OrganisationalUnitList { get; set; }
 
-        // public virtual AddOrganisationalUnitsBlock AddOrganisationalUnits { get; set; }
-
-        // public virtual AddOrganisationalUnitsFormPage AddOrganisationalUnitsForm { get; set; }
-        
-        /*
-        [Display(GroupName = SystemTabNames.Content)]
-        public virtual PropertyCheckBoxList NewOrganisationalUnits { get; set; }
-        */
-
-        [Display(GroupName = SystemTabNames.Content)]
-        public virtual string Author { get; set; }
-
-        [Display(GroupName = SystemTabNames.Content)]
+        [Display(GroupName = SystemTabNames.Content, Order = 3)]
         public virtual ContentArea RightContentArea { get; set; }
-        
-        [Display(GroupName = SystemTabNames.Content, Name = "Organisational units from data sources (check to auto-create page)")]
+
+        [Display(GroupName = SystemTabNames.Content, Order = 10, Name = "Organisational units from data sources (check to auto-create page)")]
         [SelectMany(SelectionFactoryType = typeof(OrganisationalUnitSelectionFactory))]
         public virtual string CreateNewOrganisationalUnits { get; set; }
-
-
+        
         #region IInitializableContent
 
         /// <summary>
