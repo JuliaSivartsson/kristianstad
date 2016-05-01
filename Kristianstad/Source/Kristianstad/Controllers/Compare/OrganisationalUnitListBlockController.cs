@@ -14,7 +14,7 @@ using EPiServer.Core.Html;
 using EPiServer.DynamicContent;
 using EPiServer;
 using Kristianstad.Business.Models.Blocks.Compare;
-using Kristianstad.Models.Pages;
+using Kristianstad.Models.Pages.Compare;
 using Kristianstad.Business.Compare;
 using Kristianstad.ViewModels.Compare;
 
@@ -37,6 +37,19 @@ namespace Kristianstad.Controllers.Compare
             return PartialView(model);
         }
 
+        public ActionResult Preview(PageData currentPage, OrganisationalUnitListModel organisationalUnitModel)
+        {
+            var pd = (OrganisationalUnitPage)currentPage;
+
+            var model = new OrganisationalUnitPageModel(pd)
+            {
+                // Categories = CategoryHelper.GetCategoryViewModels(pd)
+            };
+
+            return PartialView("Preview", model);
+        }
+
+        /*
         public ActionResult Preview(PageData currentPage, OrganisationalUnitListModel organisationalUnitListModel)
         {
             var pd = (OrganisationalUnitPage)currentPage;
@@ -48,6 +61,7 @@ namespace Kristianstad.Controllers.Compare
 
             return PartialView("Preview", model);
         }
+        */
 
         private IEnumerable<PageData> FindPages(OrganisationalUnitListBlock currentBlock)
         {

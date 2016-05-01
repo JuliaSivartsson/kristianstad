@@ -1,6 +1,6 @@
 ﻿using EPiServer.DataAbstraction;
 using EPiServer.ServiceLocation;
-using Kristianstad.Models.Pages;
+using Kristianstad.Models.Pages.Compare;
 using Kristianstad.ViewModels.Compare;
 using System;
 using System.Collections.Generic;

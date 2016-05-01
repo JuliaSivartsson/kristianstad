@@ -24,13 +24,16 @@ namespace Kristianstad.Business.Compare
         public static List<SelectItem> GetSelectItems(IEnumerable<OrganisationalUnit> organisationalUnits)
         {
             List<SelectItem> items = new List<SelectItem>();
-            foreach (var organisationalUnit in organisationalUnits)
+            if (organisationalUnits != null)
             {
-                items.Add(new SelectItem
+                foreach (var organisationalUnit in organisationalUnits)
                 {
-                    Text = organisationalUnit.Name + string.Format(INFO_READ_AT_STRING, organisationalUnit.WebServiceName, organisationalUnit.OrganisationalUnitId, organisationalUnit.InfoReadAt),
-                    Value = organisationalUnit.WebServiceName + SEPARATOR + organisationalUnit.OrganisationalUnitId
-                });
+                    items.Add(new SelectItem
+                    {
+                        Text = organisationalUnit.Title + string.Format(INFO_READ_AT_STRING, organisationalUnit.SourceName, organisationalUnit.SourceId, organisationalUnit.InfoReadAt),
+                        Value = organisationalUnit.SourceName + SEPARATOR + organisationalUnit.SourceId
+                    });
+                }
             }
 
             return items;
@@ -48,8 +51,8 @@ namespace Kristianstad.Business.Compare
                     {
                         items.Add(new OrganisationalUnit
                         {
-                            WebServiceName = separated[0],
-                            OrganisationalUnitId = separated[1]
+                            SourceName = separated[0],
+                            SourceId = separated[1]
                         });
                     }
                 }

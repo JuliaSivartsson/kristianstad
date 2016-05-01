@@ -6,20 +6,21 @@ using System.Threading.Tasks;
 
 namespace Kristianstad.CompareDomain.Models
 {
-    public class PropertyQuery
+    public class PropertyQuery : SourceInfo
     {
         public static readonly string TYPE_STANDARD = "standard";
         public static readonly string TYPE_YESNO = "yesno";
         public static readonly string TYPE_PERCENT = "percent";
         public static readonly string TYPE_PERCENTAGE = "percentage";
         // if/when adding more TYPE's, also add to property AllTypes in TownComparisons.MVC.ViewModels.Admin.PropertyQueryInfoViewModel
-
-
+        
+        /*
         public string WebServiceName { get; set; }
 
         public string QueryId { get; set; } // Kpi id if using Kolada
 
         public string Title { get; set; } // name/title of the query
+        */
 
         public string Type { get; set; }
 
@@ -31,6 +32,7 @@ namespace Kristianstad.CompareDomain.Models
         {
             // Empty
         }
+        /*
         public PropertyQuery(string webServiceName, string queryId, string title, string type, int? period = null)
         {
             WebServiceName = webServiceName;
@@ -39,5 +41,6 @@ namespace Kristianstad.CompareDomain.Models
             Type = type;
             Period = period;
         }
+        */
     }
 }

@@ -33,7 +33,7 @@ namespace Kristianstad.CompareDomain.WebServices
             var ou = JsonConvert.DeserializeObject<OUs>(rawJson).Values;
             OU theOu = ou.First();
 
-            return new OrganisationalUnit(this.GetName(), theOu.Id, theOu.Title, DateTime.Now);
+            return new OrganisationalUnit() { SourceName = this.GetName(), SourceId = theOu.Id, Title = theOu.Title, InfoReadAt = DateTime.Now };
         }
         
         public override List<PropertyQueryWithResults> GetPropertyResults(List<PropertyQuery> queries, List<OrganisationalUnit> organisationalUnits) //List<PropertyQuery> queries, List<OrganisationalUnit> organisationalUnits)
@@ -42,8 +42,8 @@ namespace Kristianstad.CompareDomain.WebServices
 
             //Set the Kolada url
             var apiRequest = "oudata/kpi/";
-            apiRequest += string.Join(",", queries.Select(q => q.QueryId).ToList());
-            apiRequest += "/ou/" + string.Join(",", organisationalUnits.Select(o => o.OrganisationalUnitId).ToList());
+            apiRequest += string.Join(",", queries.Select(q => q.SourceId).ToList());
+            apiRequest += "/ou/" + string.Join(",", organisationalUnits.Select(o => o.SourceId).ToList());
             
             //Load the data from Kolada
             rawJson = RawJson(BaseUrl + apiRequest);
@@ -58,7 +58,7 @@ namespace Kristianstad.CompareDomain.WebServices
                 PropertyQueryWithResults queryWithResults = new PropertyQueryWithResults(query);
                 foreach (var ou in organisationalUnits)
                 {
-                    queryWithResults.Results.Add(new PropertyQueryResult(ou.OrganisationalUnitId, kpiAnswers.Where(a => a.Kpi == query.QueryId && a.Ou == ou.OrganisationalUnitId)
+                    queryWithResults.Results.Add(new PropertyQueryResult(ou.SourceId, kpiAnswers.Where(a => a.Kpi == query.SourceId && a.Ou == ou.SourceId)
                                                                                                                 .Select(a => new PropertyQueryResultForPeriod(a.Period, 
                                                                                                                                                                         a.Values.Select(v => new PropertyQueryResultValue(v.Gender, v.Status, v.Value)).ToList()))
                                                                                                                 .ToList(), query.Period));
@@ -76,7 +76,8 @@ namespace Kristianstad.CompareDomain.WebServices
             rawJson = RawJson(BaseUrl + apiRequest);
             var kpi = JsonConvert.DeserializeObject<KpiGroups>(rawJson).Values;
 
-            return kpi.Select(k => new PropertyQueryGroup(this.GetName(), k.Id, k.Title, k.Members.Select(m => new PropertyQuery(this.GetName(), m.Member_id, m.Member_title, GuessPropertyQueryType(m.Member_title))).ToList())).ToList();
+            DateTime infoReadAt = DateTime.Now;
+            return kpi.Select(k => new PropertyQueryGroup() { SourceName = this.GetName(), SourceId = k.Id, Title = k.Title, InfoReadAt = infoReadAt, Queries = k.Members.Select(m => new PropertyQuery() { SourceName = this.GetName(), SourceId = m.Member_id, Title = m.Member_title, InfoReadAt = infoReadAt, Type = GuessPropertyQueryType(m.Member_title) }).ToList() }).ToList();
         }
         private string GuessPropertyQueryType(string title)
         {
@@ -106,7 +107,7 @@ namespace Kristianstad.CompareDomain.WebServices
             var currentTime = DateTime.Now;
 
             var OUs = JsonConvert.DeserializeObject<OUs>(rawJson).Values;
-            return OUs.Select(o => new OrganisationalUnit(this.GetName(), o.Id, o.Title, currentTime)).ToList();
+            return OUs.Select(o => new OrganisationalUnit() { SourceName = this.GetName(), SourceId = o.Id, Title = o.Title, InfoReadAt = currentTime }).ToList();
         }
 
         /// <summary>

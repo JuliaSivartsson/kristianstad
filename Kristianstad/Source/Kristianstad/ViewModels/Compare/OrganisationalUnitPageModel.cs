@@ -2,7 +2,7 @@
 using System.Web;
 using EPiServer.Core;
 using System;
-using Kristianstad.Models.Pages;
+using Kristianstad.Models.Pages.Compare;
 using EPiCore.ViewModels.Pages;
 using Kristianstad.Business.Models.Blocks.Shared;
 using System.ComponentModel.DataAnnotations;

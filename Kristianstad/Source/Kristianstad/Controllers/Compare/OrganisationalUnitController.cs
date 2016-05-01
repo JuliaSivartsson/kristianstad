@@ -16,7 +16,7 @@ using EPiServer.DynamicContent;
 using EPiServer.ServiceLocation;
 using EPiServer.Web.Routing;
 using EPiServer.Web.Mvc;
-using Kristianstad.Models.Pages;
+using Kristianstad.Models.Pages.Compare;
 using Kristianstad.ViewModels.Compare;
 using Kristianstad.Business.Compare;
 using EPiServer;
@@ -29,18 +29,6 @@ namespace Kristianstad.Controllers.Compare
     {
         private readonly Injected<IContentLoader> _contentLoader;
         
-        public ActionResult Preview(PageData currentPage, OrganisationalUnitListModel organisationalUnitModel)
-        {
-            var pd = (OrganisationalUnitPage)currentPage;
-
-            var model = new OrganisationalUnitPageModel(pd)
-            {
-                // Categories = CategoryHelper.GetCategoryViewModels(pd)
-            };
-
-            return PartialView("Preview", model);
-        }
-
         public ActionResult Full(OrganisationalUnitPage currentPage)
         {
             var model = new OrganisationalUnitPageModel(currentPage)

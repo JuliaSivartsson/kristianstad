@@ -11,19 +11,19 @@ namespace Kristianstad.Business.Models.Blocks.Compare
         DisplayName = "Organisational Unit Block",
         GUID = "bf55f223-9e75-4bdb-9775-698ec9d6ad59",
         Description = "")]
-    public class OrganisationalUnitSourceInfoBlock : BlockData
+    public class SourceInfoBlock : BlockData
     {
         [Display(
-            Name = "WebServiceName",
+            Name = "SourceName",
             GroupName = SystemTabNames.Content,
             Order = 100)]
-        public virtual string WebServiceName { get; set; }
+        public virtual string SourceName { get; set; }
 
         [Display(
-            Name = "OrganisationalUnitId",
+            Name = "SourceId",
             GroupName = SystemTabNames.Content,
             Order = 200)]
-        public virtual string OrganisationalUnitId { get; set; }
+        public virtual string SourceId { get; set; }
 
         [Display(
             Name = "Name",

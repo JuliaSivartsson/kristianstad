@@ -10,7 +10,7 @@ using EPiCore.Content.Models.Blocks;
 using Kristianstad.Business.Models.Blocks.Compare;
 using Kristianstad.Business.Models.Blocks;
 
-namespace Kristianstad.Models.Pages
+namespace Kristianstad.Models.Pages.Compare
 {
     [ContentType(
         GroupName = "Compare",
@@ -62,7 +62,7 @@ namespace Kristianstad.Models.Pages
         [AllowedTypes(AllowedTypes = new System.Type[] { typeof(MapBlock) })]
         public virtual ContentArea Map { get; set; }
 
-        public virtual OrganisationalUnitSourceInfoBlock SourceInfo { get; set; }
+        public virtual SourceInfoBlock SourceInfo { get; set; }
 
         [Display(GroupName = SystemTabNames.Content)]
         public virtual ContentArea RightContentArea { get; set; }

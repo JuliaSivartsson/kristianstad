@@ -13,7 +13,7 @@ using System.Web.Routing;
 using EPiServer.Web.Routing;
 using EPiServer;
 using Kristianstad.Business.Compare;
-using Kristianstad.Models.Pages;
+using Kristianstad.Models.Pages.Compare;
 using EPiServer.DataAbstraction.RuntimeModel;
 using Kristianstad.Business.Models.Blocks.Shared;
 using EPiServer.Globalization;
@@ -72,12 +72,12 @@ namespace Kristianstad.Business.Initialization
                     var organisationalUnits = CompareServiceFactory.Instance.GetWebServiceOrganisationalUnits();
 
                     // Create list of the OU to add
-                    var organisationalUnitsToAdd = organisationalUnits.Where(x => addedOrganisationalUnitWebServiceInfo.Any(x2 => x.WebServiceName == x2.WebServiceName && x.OrganisationalUnitId == x2.OrganisationalUnitId));
+                    var organisationalUnitsToAdd = organisationalUnits.Where(x => addedOrganisationalUnitWebServiceInfo.Any(x2 => x.SourceName == x2.SourceName && x.SourceId == x2.SourceId));
 
                     // Create new pages
                     foreach (var newOU in organisationalUnitsToAdd)
                     {
-                        var existingPage = ouPagesInCategory.Where(x => x.Name.ToLower() == newOU.Name.ToLower()).FirstOrDefault();
+                        var existingPage = ouPagesInCategory.Where(x => x.Name.ToLower() == newOU.Title.ToLower()).FirstOrDefault();
                         if (existingPage != null)
                         {
                             // e.CancelReason = "A organisational unit page with the name \"" + existingPage.Name + "\" already exists.";
@@ -88,15 +88,15 @@ namespace Kristianstad.Business.Initialization
                         {
                             // Create a new organisational unit page
                             var newPage = contentRepository.GetDefault<OrganisationalUnitPage>(page.ContentLink);
-                            newPage.Name = newOU.Name;
-                            newPage.MenuTitle = newOU.Name;
-                            newPage.MenuDescription = newOU.Name;
+                            newPage.Name = newOU.Title;
+                            newPage.MenuTitle = newOU.Title;
+                            newPage.MenuDescription = newOU.Title;
 
                             // Add a source info block
-                            var sourceInfoBlock = contentRepository.GetDefault<OrganisationalUnitSourceInfoBlock>(page.ContentLink);
-                            sourceInfoBlock.Name = newOU.Name;
-                            sourceInfoBlock.WebServiceName = newOU.WebServiceName;
-                            sourceInfoBlock.OrganisationalUnitId = newOU.OrganisationalUnitId;
+                            var sourceInfoBlock = contentRepository.GetDefault<SourceInfoBlock>(page.ContentLink);
+                            sourceInfoBlock.Name = newOU.Title;
+                            sourceInfoBlock.SourceName = newOU.SourceName;
+                            sourceInfoBlock.SourceId = newOU.SourceId;
                             sourceInfoBlock.InfoReadAt = newOU.InfoReadAt;
 
                             // Save block to the page
@@ -114,6 +114,7 @@ namespace Kristianstad.Business.Initialization
         {
             if (e.Content is CategoryPage)
             {
+                /*
                 var savingPage = e.Content as CategoryPage;
 
                 // get current saved page version
@@ -139,6 +140,7 @@ namespace Kristianstad.Business.Initialization
                         CategoryHelper.SaveCompareCategory(categoryRepository, newName, newName);
                     }
                 }
+                */
             }
         }
 
@@ -151,16 +153,18 @@ namespace Kristianstad.Business.Initialization
 
             if (string.Equals(e.Page.PageTypeName, typeof(CompareStartPage).GetPageType().Name, StringComparison.OrdinalIgnoreCase))
             {
-
+                // Empty
             }
             else if (string.Equals(e.Page.PageTypeName, typeof(CategoryPage).GetPageType().Name, StringComparison.OrdinalIgnoreCase))
             {
+                /*
                 var categoryRepository = ServiceLocator.Current.GetInstance<CategoryRepository>();
                 var category = CategoryHelper.FindCompareCategory(categoryRepository, e.Page.Name);
                 if (category == null)
                 {
                     CategoryHelper.SaveCompareCategory(categoryRepository, e.Page.Name, e.Page.Name);
                 }
+                */
             }
             else if (string.Equals(e.Page.PageTypeName, typeof(OrganisationalUnitPage).GetPageType().Name, StringComparison.OrdinalIgnoreCase))
             {
