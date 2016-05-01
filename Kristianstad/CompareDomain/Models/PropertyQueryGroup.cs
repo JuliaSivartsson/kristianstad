@@ -6,14 +6,15 @@ using System.Threading.Tasks;
 
 namespace Kristianstad.CompareDomain.Models
 {
-    public class PropertyQueryGroup
+    public class PropertyQueryGroup : SourceInfo
     {
+        /*
         public string WebServiceName { get; set; }
 
         public string QueryGroupId { get; set; } // Kpi group id if using Kolada
 
         public string Title { get; set; } // name/title of the query
-
+        */
 
         public List<PropertyQuery> Queries { get; set; }
 
@@ -23,6 +24,7 @@ namespace Kristianstad.CompareDomain.Models
         {
             Queries = new List<PropertyQuery>();
         }
+        /*
         public PropertyQueryGroup(string webServiceName, string queryGroupId, string title, List<PropertyQuery> queries)
         {
             WebServiceName = webServiceName;
@@ -30,5 +32,6 @@ namespace Kristianstad.CompareDomain.Models
             Title = title;
             Queries = queries;
         }
+        */
     }
 }

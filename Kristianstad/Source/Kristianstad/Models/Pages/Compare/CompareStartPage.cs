@@ -7,7 +7,7 @@ using EPiServer.SpecializedProperties;
 using Kristianstad.Business.Models.Blocks.Compare;
 using EPiServer.Filters;
 
-namespace Kristianstad.Models.Pages
+namespace Kristianstad.Models.Pages.Compare
 {
     [ContentType(
         GroupName = "Compare",

@@ -36,6 +36,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -57,6 +58,7 @@
     <Compile Include="Models\PropertyQueryResultForPeriod.cs" />
     <Compile Include="Models\PropertyQueryResultValue.cs" />
     <Compile Include="Models\PropertyQueryWithResults.cs" />
+    <Compile Include="Models\SourceInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service.cs" />
     <Compile Include="CompareServiceFactory.cs" />

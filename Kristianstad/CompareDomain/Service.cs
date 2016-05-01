@@ -44,7 +44,8 @@ namespace Kristianstad.CompareDomain
 
             if (_cache.HasValue(cacheKey))
             {
-                return (OrganisationalUnit)_cache.GetCache(cacheKey);
+                var value = (OrganisationalUnit)_cache.GetCache(cacheKey);
+                if (value != null) { return value; }
             }
 
             var ou = _townWebService.GetOrganisationalUnit(id);
@@ -62,7 +63,8 @@ namespace Kristianstad.CompareDomain
 
                 if (_cache.HasValue(cacheKey))
                 {
-                    return (List<OrganisationalUnit>)_cache.GetCache(cacheKey);
+                    var value = (List<OrganisationalUnit>)_cache.GetCache(cacheKey);
+                    if (value != null) { return value; }
                 }
 
                 var allOU = _townWebService.GetAllOrganisationalUnits(_settings.MunicipalityId);
@@ -82,7 +84,8 @@ namespace Kristianstad.CompareDomain
             //returns from cache if value is present, else returns from Webservice
             if (_cache.HasValue(cacheKey))
             {
-                return (List<PropertyQueryGroup>)_cache.GetCache(cacheKey);
+                var value = (List<PropertyQueryGroup>)_cache.GetCache(cacheKey);
+                if (value != null) { return value; }
             }
 
             //Get from webService
@@ -99,9 +102,9 @@ namespace Kristianstad.CompareDomain
             //and compund to an unique cacheKey
             
             var queryIds = from q in queries
-                           select q.QueryId;
+                           select q.SourceId;
             var organisationalUnitIds = from ou in organisationalUnits
-                                        select ou.OrganisationalUnitId;
+                                        select ou.SourceId;
             
 
             //adding all KPIQuestionId + ouIds 
@@ -110,7 +113,8 @@ namespace Kristianstad.CompareDomain
 
             if (_cache.HasValue(cacheKey))
             {
-                return (List<PropertyQueryWithResults>)_cache.GetCache(cacheKey);
+                var value = (List<PropertyQueryWithResults>)_cache.GetCache(cacheKey);
+                if (value != null) { return value; }
             }
 
             var returnValue = _townWebService.GetPropertyResults(queries, organisationalUnits); //queryIds.ToList(), organisationalUnitIds.ToList());

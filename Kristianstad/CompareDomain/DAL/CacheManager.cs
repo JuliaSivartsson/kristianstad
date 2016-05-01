@@ -3,6 +3,7 @@ using Kristianstad.CompareDomain.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Caching;
 // using System.Runtime.Caching;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,8 +12,8 @@ namespace Kristianstad.CompareDomain.DAL
 {
     public class CacheManager : ICacheManager
     {
-        // private static readonly MemoryCache Cache = MemoryCache.Default;
-        
+        private static readonly MemoryCache Cache = MemoryCache.Default;
+
         /// <summary>
         /// Get cached data from memory
         /// </summary>
@@ -32,7 +33,6 @@ namespace Kristianstad.CompareDomain.DAL
         /// <param name="cacheItemPolicy">Lifetime of cache in seconds</param>
         public void SetCache(string key, object value, int cacheItemPolicy)
         {
-            /*
             if (key != null && value != null)
             {
                 CacheItem cacheItem = new CacheItem(key, value);
@@ -43,7 +43,6 @@ namespace Kristianstad.CompareDomain.DAL
 
                 Cache.Add(cacheItem.Key, cacheItem.Value, policy);
             }
-            */
         }
 
         /// <summary>
@@ -54,7 +53,6 @@ namespace Kristianstad.CompareDomain.DAL
         /// <param name="value">Value to save in cache</param>
         public void SetCache(string key, object value)
         {
-            /*
             if (key != null && value != null)
             {
                 CacheItem cacheItem = new CacheItem(key, value);
@@ -65,7 +63,6 @@ namespace Kristianstad.CompareDomain.DAL
 
                 Cache.Add(cacheItem.Key, cacheItem.Value, policy);
             }
-            */
         }
 
 
@@ -76,8 +73,7 @@ namespace Kristianstad.CompareDomain.DAL
         /// <returns>bool</returns>
         public bool HasValue(string key)
         {
-            return false;
-            // return Cache.Contains(key);
+            return Cache.Contains(key);
         }
 
         /// <summary>
@@ -86,12 +82,10 @@ namespace Kristianstad.CompareDomain.DAL
         /// <param name="key">Key name</param>
         public void RemoveFromCache(string key)
         {
-            /*
             if (this.HasValue(key))
             {
                 Cache.Remove(key);
-            }   
-            */
+            }
         }
     }
 }

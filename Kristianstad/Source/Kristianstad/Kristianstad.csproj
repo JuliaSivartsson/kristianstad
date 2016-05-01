@@ -422,7 +422,7 @@
     <Compile Include="Business\Compare\OrganisationalUnitsPaneDescriptor.cs" />
     <Compile Include="Business\Compare\OrganisationalUnitsPaneNavigationComponent.cs" />
     <Compile Include="Business\Compare\PageTypeExtensions.cs" />
-    <Compile Include="Business\Initialization\Compare\CompareInitialization.cs" />
+    <Compile Include="Business\Initialization\CompareInitialization.cs" />
     <Compile Include="Business\Initialization\MapBlockInitializationModule.cs" />
     <Compile Include="Business\Map\AddressResult.cs" />
     <Compile Include="Business\Map\Feature.cs" />
@@ -434,7 +434,8 @@
     <Compile Include="Business\Models\Blocks\CategoryBlock.cs" />
     <Compile Include="Business\Models\Blocks\Compare\CategoryListBlock.cs" />
     <Compile Include="Business\Models\Blocks\Compare\ContactBlock.cs" />
-    <Compile Include="Business\Models\Blocks\Compare\OrganisationalUnitSourceInfoBlock.cs" />
+    <Compile Include="Business\Models\Blocks\Compare\SourceInfoBlock.cs" />
+    <Compile Include="Business\Models\Blocks\Compare\ResultQueryBlock.cs" />
     <Compile Include="Business\Models\Blocks\Shared\ContactBlock.cs" />
     <Compile Include="Business\Models\Blocks\Compare\OrganisationalUnitListBlock.cs" />
     <Compile Include="Business\Models\Blocks\MapBlock.cs" />
@@ -471,6 +472,9 @@
     <Compile Include="Models\Pages\ContentPage.cs" />
     <Compile Include="Models\Pages\StartPage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\Compare\ResultQueryGroupModel.cs" />
+    <Compile Include="ViewModels\Compare\SourceInfoModel.cs" />
+    <Compile Include="ViewModels\Compare\ResultQueryModel.cs" />
     <Compile Include="Views\AToZPage\UI\Factories\MegaMenuIconSelectionFactory.cs" />
     <Compile Include="Views\AToZPage\UI\Factories\FooterIconSelectionFactory.cs" />
     <Compile Include="Views\AToZPage\UI\Factories\VideoTypeSelectionFactory.cs" />
@@ -483,7 +487,6 @@
     <Compile Include="ViewModels\Compare\CategoryItemModel.cs" />
     <Compile Include="ViewModels\Compare\CategoryListModel.cs" />
     <Compile Include="ViewModels\Compare\CategoryPageModel.cs" />
-    <Compile Include="ViewModels\Compare\OrganisationalUnitBlockModel.cs" />
     <Compile Include="ViewModels\Compare\OrganisationalUnitListModel.cs" />
     <Compile Include="ViewModels\Compare\OrganisationalUnitPageModel.cs" />
   </ItemGroup>
@@ -858,14 +861,12 @@
     <Content Include="Views\ContactCardBlock\Index.cshtml" />
     <Content Include="Views\AToZPage\Index.cshtml" />
     <Content Include="Views\CategoryListBlock\Index.cshtml" />
-    <Content Include="Views\Category\Full.cshtml" />
     <Content Include="Views\Category\Preview.cshtml" />
     <Content Include="Views\CompareStartPage\Index.cshtml" />
     <Content Include="Views\OrganisationalUnitListBlock\Index.cshtml" />
     <Content Include="Views\OrganisationalUnit\Index.cshtml" />
     <Content Include="Views\OrganisationalUnit\Full.cshtml" />
     <Content Include="Views\OrganisationalUnit\Preview.cshtml" />
-    <Content Include="Views\OrganisationalUnitBlock\Index.cshtml" />
     <Content Include="Views\ContactBlock\Index.cshtml" />
     <Content Include="Views\Category\Index.cshtml" />
     <None Include="Web.Acceptance.config">

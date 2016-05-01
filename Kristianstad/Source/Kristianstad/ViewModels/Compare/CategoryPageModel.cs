@@ -3,7 +3,7 @@ using System.Web;
 using EPiServer.Core;
 using System;
 using EPiCore.ViewModels.Pages;
-using Kristianstad.Models.Pages;
+using Kristianstad.Models.Pages.Compare;
 
 namespace Kristianstad.ViewModels.Compare
 {
@@ -18,27 +18,7 @@ namespace Kristianstad.ViewModels.Compare
         }
 
         public CategoryPage CurrentPage { get; set; }
-
-        // public IEnumerable<TagItem> Tags { get; set; }
-     
-        public string PreviewText { get; set; }
-        public DateTime StartPublish { get; set; }
-        public XhtmlString MainBody { get; set; }
-
-        /*
-        public bool ShowPublishDate { get; set; }
-
-        public bool ShowIntroduction { get; set; }
         
-        public CategoryList Category { get; set; }
-        */
-
-        /*
-        public class TagItem
-        {
-            public string Title { get; set; }
-            public string Url { get; set; }
-        }
-        */
+        public List<ResultQueryGroupModel> ResultQueryGroups { get; set; }
     }
 }

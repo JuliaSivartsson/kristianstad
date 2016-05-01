@@ -15,7 +15,7 @@ using EPiServer.DynamicContent;
 using EPiServer;
 using Kristianstad.Business.Models.Blocks.Compare;
 using Kristianstad.ViewModels.Compare;
-using Kristianstad.Models.Pages;
+using Kristianstad.Models.Pages.Compare;
 using Kristianstad.Business.Compare;
 
 namespace Kristianstad.Controllers.Compare

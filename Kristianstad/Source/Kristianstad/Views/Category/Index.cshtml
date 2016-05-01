@@ -1,4 +1,4 @@
-﻿@using Kristianstad.Models.Pages
+﻿@using Kristianstad.Models.Pages.Compare
 @using EPiServer.Editor
 @using EPiServer.Security
 
@@ -13,9 +13,69 @@
 
     <div class="row">
 
-        @Html.Action("Full", "Category", new { currentPage = Model.CurrentPage })
+        <div class="span8 clearfix">
+            <div @Html.EditAttributes("OrganisationalUnitList")>
+
+                @Html.PropertyFor(x => x.CurrentPage.OrganisationalUnitList)
+
+            </div>
+        </div>
 
     </div>
+
+@if (PageEditing.PageIsInEditMode)
+{
+    <div class="row">
+
+        <div class="span8 clearfix">
+
+            @using (Html.BeginForm("SaveResultQueries", "Category"))
+            {
+            <table>
+                <thead>
+                    <tr>
+                        <th>Use</th>
+                        <th>Name</th>
+                        <th>Id</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        for (int i = 0; i < Model.ResultQueryGroups.Count; i++)
+                        {
+                            <tr>
+                                <td colspan="3">
+                                    @Model.ResultQueryGroups[i].Name
+                                </td>
+                            </tr>
+
+                            for (int j = 0; j < Model.ResultQueryGroups[i].ResultQueries.Count; j++)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.CheckBoxFor(x => x.ResultQueryGroups[i].ResultQueries[j].Use)
+                                    </td>
+                                    <td>
+                                        @Model.ResultQueryGroups[i].ResultQueries[j].Name
+                                    </td>
+                                    <td>
+                                        @Model.ResultQueryGroups[i].ResultQueries[j].SourceId
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    }
+                </tbody>
+            </table>
+
+            <input type="submit" value="Add queries" />
+
+            }
+
+        </div>
+
+    </div>
+}
 </div>
 
 <div class="column content-page right-content small-12 medium-12 large-4">
