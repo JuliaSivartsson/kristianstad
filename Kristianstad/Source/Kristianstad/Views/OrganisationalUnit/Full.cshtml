@@ -12,9 +12,6 @@
         @Html.DisplayFor(x => x.CurrentPage.SourceInfo)
     }
 
-
-    @if (Model.CurrentPage.TitleImage != null || PageEditing.PageIsInEditMode)
-    {
         <figure class="title">
 
             @if (PageEditing.PageIsInEditMode)
@@ -25,18 +22,30 @@
                     {
                         <img src="@Url.ContentUrl(Model.CurrentPage.TitleImage)?preset=content-title" />
                     }
+                    else
+                    {
+                        //Default image
+                        <img src="~/Content/img/template/img-innehallssida.jpg" alt="Default Image" />
+                    }
 
                 </div>
             }
             else
             {
-                <img src="@Url.ContentUrl(Model.CurrentPage.TitleImage)?preset=content-title" />
+                if (Model.CurrentPage.TitleImage != null)
+                {
+                    <img src="@Url.ContentUrl(Model.CurrentPage.TitleImage)?preset=content-title" />
+                }
+                else
+                {
+                    //Default image
+                    <img src="~/Content/img/template/img-innehallssida.jpg" alt="Default Image" />
+                }
             }
 
             <figcaption>@Html.PropertyFor(m => m.CurrentPage.TitleImageCaption)</figcaption>
 
         </figure>
-    }
 
     <h3>Beskrivning</h3>
     <p @Html.EditAttributes(x => x.CurrentPage.ShortDescription)>@Model.CurrentPage.ShortDescription</p>
