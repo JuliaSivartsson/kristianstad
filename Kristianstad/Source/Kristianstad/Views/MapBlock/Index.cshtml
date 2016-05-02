@@ -11,7 +11,6 @@
 }
 
 <div class="block map-block">
-    <h2>Karta</h2>
     <div id="@blockId" class="map" style="height: auto; width: 100%;"></div>
     <div id="@(blockId)-popup">
         <a href="#" class="closer"></a>
@@ -30,9 +29,9 @@
             proj4.defs("EPSG:3857", "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@@null +wktext  +no_defs");
             proj4.defs("EPSG:3008", "+proj=tmerc +lat_0=0 +lon_0=13.5 +k=1 +x_0=150000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs");
  
-            @*var popupContainer = $("#@(blockId)-popup");
+            var popupContainer = $("#@(blockId)-popup");
             var popupCloser = popupContainer.find(".closer");
-            var popupContent = popupContainer.find(".content");*@
+            var popupContent = popupContainer.find(".content");
 
             var cords = ol.proj.transform([lat, long], 'EPSG:3008', 'EPSG:3857');
 
@@ -52,7 +51,7 @@
                     anchorXUnits: 'fraction',
                     anchorYUnits: 'pixels',
                     opacity: 0.9,
-                    src: 'http://193.17.67.229/cgi-bin/kkarta_responsiv/lib/leaflet/dist/images/marker-icon.png'
+                    src: 'http://www.megaicons.net/static/img/icons_sizes/15/534/32/map-marker-push-pin-1-left-pink-icon.png'
                 }))
             });
             var vectorLayer = new ol.layer.Vector({
