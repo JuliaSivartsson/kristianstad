@@ -869,6 +869,7 @@
     <Content Include="Views\OrganisationalUnit\Preview.cshtml" />
     <Content Include="Views\ContactBlock\Index.cshtml" />
     <Content Include="Views\Category\Index.cshtml" />
+    <Content Include="Views\Shared\ContactBlock.cshtml" />
     <None Include="Web.Acceptance.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
