@@ -23,7 +23,8 @@ namespace Kristianstad.Controllers.Compare
 {
     public class OrganisationalUnitListBlockController : BlockController<OrganisationalUnitListBlock>
     {
-        private readonly Injected<IContentLoader> contentLoader; // private IContentLoader contentLoader;
+        private const string CookieName = "compare";
+        private readonly Injected<IContentLoader> _contentLoader; // private IContentLoader contentLoader;
 
         public override ActionResult Index(OrganisationalUnitListBlock currentBlock)
         {
@@ -36,7 +37,7 @@ namespace Kristianstad.Controllers.Compare
                 OrganisationalUnits = organisationalUnits
             };
 
-            ViewData.Add("cookies", GetCookie("grundskola"));
+            ViewData.Add("cookies", GetCookie(CookieName + GetCategoryPageId(currentBlock)));
 
             return PartialView(model);
         }
@@ -44,42 +45,24 @@ namespace Kristianstad.Controllers.Compare
         public ActionResult Preview(PageData currentPage, OrganisationalUnitListModel organisationalUnitModel)
         {
             var pd = (OrganisationalUnitPage)currentPage;
-
-            var model = new OrganisationalUnitPageModel(pd)
-            {
-                // Categories = CategoryHelper.GetCategoryViewModels(pd)
-            };
+            var model = new OrganisationalUnitPageModel(pd);
 
             return PartialView("Preview", model);
         }
-
-        /*
-        public ActionResult Preview(PageData currentPage, OrganisationalUnitListModel organisationalUnitListModel)
-        {
-            var pd = (OrganisationalUnitPage)currentPage;
-
-            var model = new OrganisationalUnitPageModel(pd)
-            {
-                // Categories = CategoryHelper.GetCategoryViewModels(pd)
-            };
-
-            return PartialView("Preview", model);
-        }
-        */
 
         private IEnumerable<PageData> FindPages(OrganisationalUnitListBlock currentBlock)
         {
             IEnumerable<PageData> pages = null;
 
             var pageRouteHelper = ServiceLocator.Current.GetInstance<PageRouteHelper>();
-            PageData currentPage = pageRouteHelper.Page ?? contentLoader.Service.Get<PageData>(ContentReference.StartPage);
+            PageData currentPage = pageRouteHelper.Page ?? _contentLoader.Service.Get<PageData>(ContentReference.StartPage);
 
-            var categoryRepository = ServiceLocator.Current.GetInstance<CategoryRepository>();
-            var category = CategoryHelper.FindCompareCategory(categoryRepository, currentPage.Name);
+            //var categoryRepository = ServiceLocator.Current.GetInstance<CategoryRepository>();
+            //var category = CategoryHelper.FindCompareCategory(categoryRepository, currentPage.Name);
 
-            if (category != null && currentPage is CategoryPage)
+            if (currentPage is CategoryPage)
             {
-                pages = contentLoader.Service.GetChildren<PageData>(currentPage.ContentLink).OfType<OrganisationalUnitPage>(); // .Where(o => o.Category.Contains(category.ID)).ToList();
+                pages = _contentLoader.Service.GetChildren<PageData>(currentPage.ContentLink).OfType<OrganisationalUnitPage>(); // .Where(o => o.Category.Contains(category.ID)).ToList();
             }
 
             return pages ?? new List<PageData>();
@@ -106,6 +89,24 @@ namespace Kristianstad.Controllers.Compare
             }
 
             return cookie.Select(o => (int)o).ToList();
+        }
+
+        private int GetCategoryPageId(OrganisationalUnitListBlock currentBlock)
+        {
+            var pageRouteHelper = ServiceLocator.Current.GetInstance<PageRouteHelper>();
+            PageData currentPage = pageRouteHelper.Page ?? _contentLoader.Service.Get<PageData>(ContentReference.StartPage);
+
+            if (currentPage.PageTypeName == typeof(OrganisationalUnitPage).GetPageType().Name)
+            {
+                return currentPage.ParentLink.ID;
+            }
+
+            if (currentPage.PageTypeName == typeof(CategoryPage).GetPageType().Name)
+            {
+                return currentPage.ContentLink.ID;
+            }
+
+            return currentPage.ParentLink.ID;
         }
     }
 }

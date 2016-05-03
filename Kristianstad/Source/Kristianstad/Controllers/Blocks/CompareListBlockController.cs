@@ -20,6 +20,7 @@ namespace Kristianstad.Controllers.Blocks
 {
     public class CompareListBlockController : BaseBlockController<CompareListBlock>
     {
+        private const string CookieName = "compare";
         private readonly Injected<IContentLoader> _contentLoader;
 
         public override ActionResult Index(CompareListBlock currentBlock)
@@ -27,46 +28,6 @@ namespace Kristianstad.Controllers.Blocks
             CompareListModel compareOUs = GetCompareObjects(currentBlock);
 
             return PartialView("~/Views/CompareList/Index.cshtml", compareOUs);
-        }
-
-        public ActionResult AddOuToCompare(int id, PageData currentPage)
-        {
-            AddCookie("grundskola", id);
-            return RedirectToAction("Index");
-        }
-
-        private void AddCookie(string cookieName, int id)
-        {
-            List<int> cookieCollection = GetCookie(cookieName);
-
-            bool isAlreadyInCookie = false;
-            foreach (int item in cookieCollection)
-            {
-                if (item == id)
-                {
-                    isAlreadyInCookie = true;
-                    break;
-                }
-            }
-
-            List<int> newCookieCollection = new List<int>();
-            if (isAlreadyInCookie)
-            {
-                foreach (int item in cookieCollection)
-                {
-                    if (item != id)
-                    {
-                        newCookieCollection.Add(item);
-                    }
-                }
-            }
-            else
-            {
-                newCookieCollection = cookieCollection;
-                newCookieCollection.Add(id);
-            }
-
-            Response.Cookies[cookieName].Value = JsonConvert.SerializeObject(newCookieCollection);
         }
 
         private List<int> GetCookie(string cookieName)
@@ -85,7 +46,7 @@ namespace Kristianstad.Controllers.Blocks
         }
 
         private IEnumerable<PageData> FindOrganisationalUnits(CompareListBlock currentBlock)
-       {
+        {
             IEnumerable<PageData> pages = null;
 
             var pageRouteHelper = ServiceLocator.Current.GetInstance<PageRouteHelper>();
@@ -105,12 +66,30 @@ namespace Kristianstad.Controllers.Blocks
             return pages ?? new List<PageData>();
         }
 
+        private int GetCategoryId(CompareListBlock currentBlock)
+        {
+            var pageRouteHelper = ServiceLocator.Current.GetInstance<PageRouteHelper>();
+            PageData currentPage = pageRouteHelper.Page ?? _contentLoader.Service.Get<PageData>(ContentReference.StartPage);
+
+            if (currentPage.PageTypeName == typeof(OrganisationalUnitPage).GetPageType().Name)
+            {
+                return currentPage.ParentLink.ID;
+            }
+
+            if (currentPage.PageTypeName == typeof(CategoryPage).GetPageType().Name)
+            {
+                return currentPage.ContentLink.ID;
+            }
+
+            return currentPage.ParentLink.ID;
+        }
+
         private CompareListModel GetCompareObjects(CompareListBlock currentBlock)
         {
             List<PageData> ouPages = FindOrganisationalUnits(currentBlock).ToList();
             CompareListModel comparePages = new CompareListModel();
 
-            foreach (int ou in GetCookie("grundskola"))
+            foreach (int ou in GetCookie(CookieName + GetCategoryId(currentBlock)))
             {
                 PageData page = ouPages.Where(o => o.ContentLink.ID == ou).First();
                 if (page != null)
