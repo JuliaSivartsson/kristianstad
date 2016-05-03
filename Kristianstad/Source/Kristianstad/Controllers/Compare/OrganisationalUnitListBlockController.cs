@@ -69,17 +69,13 @@ namespace Kristianstad.Controllers.Compare
 
             var pageRouteHelper = ServiceLocator.Current.GetInstance<PageRouteHelper>();
             PageData currentPage = pageRouteHelper.Page ?? contentLoader.Service.Get<PageData>(ContentReference.StartPage);
-            
+
             var categoryRepository = ServiceLocator.Current.GetInstance<CategoryRepository>();
             var category = CategoryHelper.FindCompareCategory(categoryRepository, currentPage.Name);
 
             if (category != null && currentPage is CategoryPage)
             {
-                var ouPages = contentLoader.Service.GetChildren<OrganisationalUnitPage>(currentPage.ContentLink).Where(o => o.Category.Contains(category.ID)).ToList();
-                if (ouPages != null && ouPages.Count > 0)
-                {
-                    pages = ouPages;
-                }
+                pages = contentLoader.Service.GetChildren<PageData>(currentPage.ContentLink).OfType<OrganisationalUnitPage>(); // .Where(o => o.Category.Contains(category.ID)).ToList();
             }
 
             return pages ?? new List<PageData>();

@@ -37,13 +37,13 @@ namespace Kristianstad.Controllers.Compare
             if (PageEditing.PageIsInEditMode)
             {
                 // Get existing queries in category page (if found)
-                List<ResultQueryBlock> existingQueries = GetExistingQueries(currentPage);
+                List<ResultQueryBlock> existingQueries = GetExistingQueryBlocks(currentPage);
 
                 // Get all web service queries
                 var webServiceQueries = CompareServiceFactory.Instance.GetWebServicePropertyQueries();
 
                 // Set queries to view model
-                model.ResultQueryGroups = webServiceQueries.Select(g => new ResultQueryGroupModel()
+                model.ResultQueryGroupsFromSources = webServiceQueries.Select(g => new ResultQueryGroupModel()
                 {
                     Name = g.Title,
                     SourceName = g.SourceName,
@@ -63,67 +63,73 @@ namespace Kristianstad.Controllers.Compare
 
             return View(model);
         }
-
-        public ActionResult SaveResultQueries(CompareResultPage currentPage, List<ResultQueryGroupModel> resultQueryGroups)
+        
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult SaveResultQueries(CompareResultPage currentPage, List<ResultQueryGroupModel> resultQueryGroupsFromSources)
         {
             var contentRepository = ServiceLocator.Current.GetInstance<IContentRepository>();
+            var contentAssetHelper = ServiceLocator.Current.GetInstance<ContentAssetHelper>();
+            ContentAssetFolder folder = contentAssetHelper.GetOrCreateAssetFolder(currentPage.ContentLink);
+
             bool anyChanges = false;
 
             // Create writable clone of the page to be able to update it
             var writablePage = (CompareResultPage)currentPage.CreateWritableClone();
 
-            foreach (var group in resultQueryGroups)
+            if (resultQueryGroupsFromSources != null)
             {
-                foreach(var query in group.ResultQueries)
+                foreach (var group in resultQueryGroupsFromSources)
                 {
-                    if (query.Use != query.UseBefore)
+                    foreach (var query in group.ResultQueries)
                     {
-                        if (query.Use)
+                        if (query.Use != query.UseBefore)
                         {
-                            anyChanges = true;
-
-                            // Add a result query block..
-                            var block = contentRepository.GetDefault<ResultQueryBlock>(ContentReference.GlobalBlockFolder);
-                            block.Title = query.Name;
-
-                            // .. with a source info block
-                            // var sourceInfoBlock = contentRepository.GetDefault<SourceInfoBlock>(ContentReference.GlobalBlockFolder);
-                            block.SourceInfo.Name = query.Name;
-                            block.SourceInfo.SourceName = query.SourceName;
-                            block.SourceInfo.SourceId = query.SourceId;
-                            block.SourceInfo.InfoReadAt = query.InfoReadAt;
-                            // contentRepository.Save((IContent)sourceInfoBlock, SaveAction.Publish);
-
-                            // block.SourceInfo = sourceInfoBlock;
-                            var contentBlock = (IContent)block;
-                            contentBlock.Name = query.Name;
-                            contentRepository.Save(contentBlock, SaveAction.Publish);
-
-                            // Make sure the page queries content area is created
-                            if (writablePage.ResultQueries == null)
-                            {
-                                writablePage.ResultQueries = new ContentArea();
-                            }
-
-                            // Add the new block to the page queries content area
-                            writablePage.ResultQueries.Items.Add(new ContentAreaItem
-                            {
-                                ContentLink = ((IContent)block).ContentLink
-                            });
-                        }
-                        else if (!query.Use)
-                        {
-                            // Try to find the block
-                            var existingBlock = currentPage.ResultQueries.Items.OfType<ResultQueryBlock>().Where(b => b.SourceInfo != null && b.SourceInfo.SourceName == query.SourceName && b.SourceInfo.SourceId == query.SourceId).FirstOrDefault();
-                            if (existingBlock != null)
+                            if (query.Use)
                             {
                                 anyChanges = true;
 
-                                // Remove the block from the page queries content area
-                                writablePage.ResultQueries.Items.Remove(new ContentAreaItem
+                                // Add a result query block..
+                                var block = contentRepository.GetDefault<ResultQueryBlock>(folder.ContentLink);
+                                block.Title = query.Name;
+
+                                // .. with a source info block
+                                block.SourceInfo.Name = query.Name;
+                                block.SourceInfo.SourceName = query.SourceName;
+                                block.SourceInfo.SourceId = query.SourceId;
+                                block.SourceInfo.InfoReadAt = query.InfoReadAt;
+
+                                // Save the block
+                                var contentBlock = (IContent)block;
+                                contentBlock.Name = query.Name;
+                                contentRepository.Save(contentBlock, SaveAction.Publish);
+
+                                // Make sure the page queries content area is created
+                                if (writablePage.ResultQueries == null)
                                 {
-                                    ContentLink = ((IContent)existingBlock).ContentLink
+                                    writablePage.ResultQueries = new ContentArea();
+                                }
+
+                                // Add the new block to the page queries content area
+                                writablePage.ResultQueries.Items.Add(new ContentAreaItem
+                                {
+                                    ContentLink = ((IContent)block).ContentLink
                                 });
+                            }
+                            else if (!query.Use)
+                            {
+                                // Try to find the block
+                                var existingBlock = currentPage.ResultQueries.Items.OfType<ResultQueryBlock>().Where(b => b.SourceInfo != null && b.SourceInfo.SourceName == query.SourceName && b.SourceInfo.SourceId == query.SourceId).FirstOrDefault();
+                                if (existingBlock != null)
+                                {
+                                    anyChanges = true;
+
+                                    // Remove the block from the page queries content area
+                                    writablePage.ResultQueries.Items.Remove(new ContentAreaItem
+                                    {
+                                        ContentLink = ((IContent)existingBlock).ContentLink
+                                    });
+                                }
                             }
                         }
                     }
@@ -135,11 +141,11 @@ namespace Kristianstad.Controllers.Compare
                 // Save the page
                 contentRepository.Save((IContent)writablePage, SaveAction.Save);
             }
-
-            return Index(currentPage);
+            
+            return RedirectToAction("Index");
         }
 
-        private List<ResultQueryBlock> GetExistingQueries(CompareResultPage currentPage)
+        private List<ResultQueryBlock> GetExistingQueryBlocks(CompareResultPage currentPage)
         {
             List<ResultQueryBlock> values = new List<ResultQueryBlock>();
             if (currentPage.ResultQueries != null)

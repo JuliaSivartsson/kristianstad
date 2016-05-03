@@ -2,7 +2,7 @@
 
 @model EPiCore.ViewModels.Pages.PageViewModel<CompareStartPage>
 
-@{ Layout = "~/Views/Shared/_Layout.cshtml"; }
+@Html.CssLink("~/Content/compare.css")
 
 
 <h1 @Html.EditAttributes(x => x.CurrentPage.PageName)>@Model.CurrentPage.PageName</h1>

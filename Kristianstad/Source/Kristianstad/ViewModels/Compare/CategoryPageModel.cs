@@ -15,8 +15,11 @@ namespace Kristianstad.ViewModels.Compare
         public CategoryPageModel(CategoryPage currentPage)
         {
             CurrentPage = currentPage;
+            OrganisationalUnitsFromSources = new List<OrganisationalUnitModel>();
         }
 
         public CategoryPage CurrentPage { get; set; }
+
+        public List<OrganisationalUnitModel> OrganisationalUnitsFromSources { get; set; }
     }
 }

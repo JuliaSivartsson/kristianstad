@@ -6,7 +6,6 @@ using EPiServer.DataAnnotations;
 using EPiServer.SpecializedProperties;
 using Kristianstad.Business.Models.Blocks.Compare;
 using EPiServer.Shell.ObjectEditing;
-using Kristianstad.Business.Compare.EditorDescriptors;
 
 namespace Kristianstad.Models.Pages.Compare
 {
@@ -29,10 +28,6 @@ namespace Kristianstad.Models.Pages.Compare
 
         [Display(GroupName = SystemTabNames.Content, Order = 5)]
         public virtual ContentArea RightContentArea { get; set; }
-
-        [Display(GroupName = SystemTabNames.Content, Order = 10, Name = "Organisational units from data sources (check to auto-create page)")]
-        [SelectMany(SelectionFactoryType = typeof(OrganisationalUnitSelectionFactory))]
-        public virtual string CreateNewOrganisationalUnits { get; set; }
 
         #region IInitializableContent
 

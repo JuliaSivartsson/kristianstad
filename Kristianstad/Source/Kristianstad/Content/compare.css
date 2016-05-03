@@ -1,0 +1,22 @@
+﻿
+.accordion-title {
+    font-size: 0.9rem;
+}
+
+input.small {
+    font-size: 12px;
+
+}
+
+.editor-only-element {
+    border: 2px solid #0094ff;
+    border-radius: 2px;
+    margin-top: 30px;
+    padding: 5px;
+}
+.editor-only-element table tbody td {
+    padding: 0.3rem 0.4rem 0.4rem;
+}
+.editor-only-element table input {
+    margin-bottom: 0;
+}

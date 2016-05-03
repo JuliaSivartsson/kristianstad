@@ -4,12 +4,16 @@
 
 @model Kristianstad.ViewModels.Compare.CompareResultPageModel
 
+@Html.CssLink("~/Content/compare.css")
+
 <div class="column small-12 medium-12 large-8 content-page content">
     @{
         Html.RenderAction("Breadcrumbs", "MenuKr");
     }
     
     <h1 @Html.EditAttributes(x => x.CurrentPage.PageName)>@Model.CurrentPage.PageName</h1>
+
+    @Html.PropertyFor(x => x.CurrentPage.Description)
 
     <div class="row">
 
@@ -25,20 +29,22 @@
 
 @if (PageEditing.PageIsInEditMode)
 {
-    <div class="row">
+    <div class="row editor-only-element">
 
-        <h3>Lägg till/ta bort frågor</h3>
+        <h3>Lägg till/ta bort frågor till jämförelsen</h3>
 
         <div class="span8 clearfix">
 
             @using (Html.BeginForm("SaveResultQueries", "CompareResultPage"))
             {
+                @Html.AntiForgeryToken()
+
                 <ul class="accordion" data-accordion data-multi-expand="true"  data-allow-all-closed="true">
 
-                    @for (int i = 0; i < Model.ResultQueryGroups.Count; i++)
+                    @for (int i = 0; i < Model.ResultQueryGroupsFromSources.Count; i++)
                     {
                         <li class="accordion-item accordion-navigation" data-accordion-item>
-                            <a href="#panel@(i)" class="accordion-title">@Model.ResultQueryGroups[i].Name</a>
+                            <a href="#panel@(i)" class="accordion-title">@Model.ResultQueryGroupsFromSources[i].Name</a>
                             <div id="panel@(i)" class="accordion-content" data-tab-content>
 
                                 <table>
@@ -51,22 +57,21 @@
                                     </thead>
                                     <tbody>
 
-                                        @for (int j = 0; j < Model.ResultQueryGroups[i].ResultQueries.Count; j++)
+                                        @for (int j = 0; j < Model.ResultQueryGroupsFromSources[i].ResultQueries.Count; j++)
                                         {
                                             <tr>
                                                 <td>
-                                                    @Html.CheckBoxFor(x => x.ResultQueryGroups[i].ResultQueries[j].Use)
-                                                    @Html.HiddenFor(x => x.ResultQueryGroups[i].ResultQueries[j].UseBefore)
-                                                    @Html.HiddenFor(x => x.ResultQueryGroups[i].ResultQueries[j].SourceName)
-                                                    @Html.HiddenFor(x => x.ResultQueryGroups[i].ResultQueries[j].SourceId)
-                                                    @Html.HiddenFor(x => x.ResultQueryGroups[i].ResultQueries[j].Name)
-                                                    @Html.HiddenFor(x => x.ResultQueryGroups[i].ResultQueries[j].SourceName)
+                                                    @Html.CheckBoxFor(x => x.ResultQueryGroupsFromSources[i].ResultQueries[j].Use, new { title = Model.ResultQueryGroupsFromSources[i].ResultQueries[j].Use ? "Kryssa ur för att ta bort frågan från jämförelsen" : "Kryssa i för att lägga till frågan till jämförelsen" })
+                                                    @Html.HiddenFor(x => x.ResultQueryGroupsFromSources[i].ResultQueries[j].UseBefore)
+                                                    @Html.HiddenFor(x => x.ResultQueryGroupsFromSources[i].ResultQueries[j].SourceName)
+                                                    @Html.HiddenFor(x => x.ResultQueryGroupsFromSources[i].ResultQueries[j].SourceId)
+                                                    @Html.HiddenFor(x => x.ResultQueryGroupsFromSources[i].ResultQueries[j].Name)
                                                 </td>
                                                 <td>
-                                                    @Model.ResultQueryGroups[i].ResultQueries[j].Name
+                                                    @Model.ResultQueryGroupsFromSources[i].ResultQueries[j].Name
                                                 </td>
                                                 <td>
-                                                    @Model.ResultQueryGroups[i].ResultQueries[j].SourceId
+                                                    @Model.ResultQueryGroupsFromSources[i].ResultQueries[j].SourceId
                                                 </td>
                                             </tr>
                                         }
@@ -89,6 +94,8 @@
                         
     </div>
 }
+
+</div>
 
 <div class="column content-page right-content small-12 medium-12 large-4">
     @{
