@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using EPiServer.Core;
 using EPiServer.DataAbstraction;
 using EPiServer.DataAnnotations;
+using System.Web.Mvc;
 
 namespace Kristianstad.Business.Models.Blocks.Compare
 {
@@ -12,16 +13,17 @@ namespace Kristianstad.Business.Models.Blocks.Compare
         Description = "")]
     public class ResultQueryBlock : BlockData
     {
+        // [AllowHtml] // needed because Name can contain < characters and similar
         [Display(
             GroupName = SystemTabNames.Content,
             Order = 1,
-            Name = "Name")]
+            Name = "Title")]
         public virtual string Title { get; set; }
 
         [Display(
             GroupName = SystemTabNames.Content,
             Order = 2,
-            Name = "Email")]
+            Name = "SourceInfo")]
         public virtual SourceInfoBlock SourceInfo { get; set; }
 
         #region IInitializableContent

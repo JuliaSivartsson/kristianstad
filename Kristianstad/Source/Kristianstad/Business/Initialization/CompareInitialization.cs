@@ -87,13 +87,13 @@ namespace Kristianstad.Business.Initialization
                         else
                         {
                             // Create a new organisational unit page
-                            var newPage = contentRepository.GetDefault<OrganisationalUnitPage>(page.ContentLink);
+                            var newPage = contentRepository.GetDefault<OrganisationalUnitPage>(ContentReference.GlobalBlockFolder);
                             newPage.Name = newOU.Title;
                             newPage.MenuTitle = newOU.Title;
                             newPage.MenuDescription = newOU.Title;
 
                             // Add a source info block
-                            var sourceInfoBlock = contentRepository.GetDefault<SourceInfoBlock>(page.ContentLink);
+                            var sourceInfoBlock = contentRepository.GetDefault<SourceInfoBlock>(ContentReference.GlobalBlockFolder);
                             sourceInfoBlock.Name = newOU.Title;
                             sourceInfoBlock.SourceName = newOU.SourceName;
                             sourceInfoBlock.SourceId = newOU.SourceId;

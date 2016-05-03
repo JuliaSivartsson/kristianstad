@@ -18,7 +18,5 @@ namespace Kristianstad.ViewModels.Compare
         }
 
         public CategoryPage CurrentPage { get; set; }
-        
-        public List<ResultQueryGroupModel> ResultQueryGroups { get; set; }
     }
 }

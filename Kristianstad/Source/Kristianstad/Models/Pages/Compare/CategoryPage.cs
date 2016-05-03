@@ -17,7 +17,7 @@ namespace Kristianstad.Models.Pages.Compare
         Description = "A category page for comparison service")]
     [AvailableContentTypes(
        Availability.Specific,
-       Include = new[] { typeof(OrganisationalUnitPage) })]
+       Include = new[] { typeof(OrganisationalUnitPage), typeof(CompareResultPage) })]
 
     public class CategoryPage : ContentPage
     {
@@ -26,10 +26,6 @@ namespace Kristianstad.Models.Pages.Compare
 
         [Display(GroupName = SystemTabNames.Content, Order = 2)]
         public virtual OrganisationalUnitListBlock OrganisationalUnitList { get; set; }
-
-        [Display(GroupName = SystemTabNames.Content, Order = 3)]
-        [AllowedTypes(new Type[] { typeof(ResultQueryBlock) })]
-        public virtual ContentArea ResultQueries { get; set; }
 
         [Display(GroupName = SystemTabNames.Content, Order = 5)]
         public virtual ContentArea RightContentArea { get; set; }
