@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace Kristianstad.ViewModels.Compare
 {
@@ -14,6 +15,7 @@ namespace Kristianstad.ViewModels.Compare
 
         public string SourceId { get; set; }
 
+        [AllowHtml]
         public string Name { get; set; }
 
         public DateTime? InfoReadAt { get; set; }

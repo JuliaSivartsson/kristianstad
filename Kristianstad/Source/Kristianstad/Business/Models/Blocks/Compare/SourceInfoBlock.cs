@@ -4,6 +4,7 @@ using EPiServer.Core;
 using EPiServer.DataAbstraction;
 using EPiServer.DataAnnotations;
 using Kristianstad.Business.Compare;
+using System.Web.Mvc;
 
 namespace Kristianstad.Business.Models.Blocks.Compare
 {
@@ -25,6 +26,7 @@ namespace Kristianstad.Business.Models.Blocks.Compare
             Order = 200)]
         public virtual string SourceId { get; set; }
 
+        // [AllowHtml] // needed because Name can contain < characters and similar
         [Display(
             Name = "Name",
             GroupName = SystemTabNames.Content,

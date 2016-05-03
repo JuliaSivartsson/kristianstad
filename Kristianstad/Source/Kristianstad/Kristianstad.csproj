@@ -446,6 +446,7 @@
     <Compile Include="Controllers\Common\FooterKrController.cs" />
     <Compile Include="Controllers\Common\MegaMenuController.cs" />
     <Compile Include="Controllers\Common\MenuKrController.cs" />
+    <Compile Include="Controllers\Compare\CompareResultPageController.cs" />
     <Compile Include="Controllers\Compare\CategoryController.cs" />
     <Compile Include="Controllers\Compare\CategoryListBlockController.cs" />
     <Compile Include="Controllers\Compare\CompareStartPageController.cs" />
@@ -465,6 +466,7 @@
     <Compile Include="Models\Misc\MenuItem.cs" />
     <Compile Include="Models\Misc\TabNames.cs" />
     <Compile Include="Models\Pages\Compare\CategoryPage.cs" />
+    <Compile Include="Models\Pages\Compare\CompareResultPage.cs" />
     <Compile Include="Models\Pages\Compare\CompareStartPage.cs" />
     <Compile Include="Models\Pages\Compare\OrganisationalUnitPage.cs" />
     <Compile Include="Models\Pages\SectionPage.cs" />
@@ -472,6 +474,7 @@
     <Compile Include="Models\Pages\ContentPage.cs" />
     <Compile Include="Models\Pages\StartPage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\Compare\CompareResultPageModel.cs" />
     <Compile Include="ViewModels\Compare\ResultQueryGroupModel.cs" />
     <Compile Include="ViewModels\Compare\SourceInfoModel.cs" />
     <Compile Include="ViewModels\Compare\ResultQueryModel.cs" />
@@ -870,6 +873,9 @@
     <Content Include="Views\ContactBlock\Index.cshtml" />
     <Content Include="Views\Category\Index.cshtml" />
     <Content Include="Views\Shared\ContactBlock.cshtml" />
+    <Content Include="Views\CompareResultPage\Index.cshtml" />
+    <Content Include="Views\ResultQueryBlock\Preview.cshtml" />
+    <Content Include="Views\Shared\ResultQueryBlock.cshtml" />
     <None Include="Web.Acceptance.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

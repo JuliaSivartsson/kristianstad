@@ -1,0 +1,161 @@
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using EPiServer.Core;
+using EPiServer.Search;
+using EPiServer.Web;
+using EPiServer.Web.Hosting;
+using EPiServer.Web.Mvc.Html;
+using EPiServer.DataAbstraction;
+using System;
+using System.Text;
+using System.Text.RegularExpressions;
+using EPiServer.Core.Html;
+using EPiServer.DynamicContent;
+using EPiServer.ServiceLocation;
+using EPiServer.Web.Routing;
+using EPiServer.Web.Mvc;
+using Kristianstad.ViewModels.Compare;
+using Kristianstad.Models.Pages.Compare;
+using EPiServer.Editor;
+using Kristianstad.Business.Models.Blocks.Compare;
+using EPiServer;
+using Kristianstad.CompareDomain;
+using EPiServer.DataAccess;
+
+namespace Kristianstad.Controllers.Compare
+{
+    public class CompareResultPageController : PageController<CompareResultPage>
+    {
+        private readonly Injected<IContentLoader> _contentLoader;
+
+        public ActionResult Index(CompareResultPage currentPage)
+        {
+            var model = new CompareResultPageModel(currentPage);
+
+            if (PageEditing.PageIsInEditMode)
+            {
+                // Get existing queries in category page (if found)
+                List<ResultQueryBlock> existingQueries = GetExistingQueries(currentPage);
+
+                // Get all web service queries
+                var webServiceQueries = CompareServiceFactory.Instance.GetWebServicePropertyQueries();
+
+                // Set queries to view model
+                model.ResultQueryGroups = webServiceQueries.Select(g => new ResultQueryGroupModel()
+                {
+                    Name = g.Title,
+                    SourceName = g.SourceName,
+                    SourceId = g.SourceId,
+                    InfoReadAt = g.InfoReadAt,
+                    ResultQueries = g.Queries.Select(q => new ResultQueryModel()
+                    {
+                        SourceName = q.SourceName,
+                        SourceId = q.SourceId,
+                        Name = q.Title,
+                        InfoReadAt = q.InfoReadAt,
+                        Use = existingQueries != null && existingQueries.Any(eq => eq.SourceInfo.SourceName == q.SourceName && eq.SourceInfo.SourceId == q.SourceId),
+                        UseBefore = existingQueries != null && existingQueries.Any(eq => eq.SourceInfo.SourceName == q.SourceName && eq.SourceInfo.SourceId == q.SourceId)
+                    }).ToList()
+                }).ToList();
+            }
+
+            return View(model);
+        }
+
+        public ActionResult SaveResultQueries(CompareResultPage currentPage, List<ResultQueryGroupModel> resultQueryGroups)
+        {
+            var contentRepository = ServiceLocator.Current.GetInstance<IContentRepository>();
+            bool anyChanges = false;
+
+            // Create writable clone of the page to be able to update it
+            var writablePage = (CompareResultPage)currentPage.CreateWritableClone();
+
+            foreach (var group in resultQueryGroups)
+            {
+                foreach(var query in group.ResultQueries)
+                {
+                    if (query.Use != query.UseBefore)
+                    {
+                        if (query.Use)
+                        {
+                            anyChanges = true;
+
+                            // Add a result query block..
+                            var block = contentRepository.GetDefault<ResultQueryBlock>(ContentReference.GlobalBlockFolder);
+                            block.Title = query.Name;
+
+                            // .. with a source info block
+                            // var sourceInfoBlock = contentRepository.GetDefault<SourceInfoBlock>(ContentReference.GlobalBlockFolder);
+                            block.SourceInfo.Name = query.Name;
+                            block.SourceInfo.SourceName = query.SourceName;
+                            block.SourceInfo.SourceId = query.SourceId;
+                            block.SourceInfo.InfoReadAt = query.InfoReadAt;
+                            // contentRepository.Save((IContent)sourceInfoBlock, SaveAction.Publish);
+
+                            // block.SourceInfo = sourceInfoBlock;
+                            var contentBlock = (IContent)block;
+                            contentBlock.Name = query.Name;
+                            contentRepository.Save(contentBlock, SaveAction.Publish);
+
+                            // Make sure the page queries content area is created
+                            if (writablePage.ResultQueries == null)
+                            {
+                                writablePage.ResultQueries = new ContentArea();
+                            }
+
+                            // Add the new block to the page queries content area
+                            writablePage.ResultQueries.Items.Add(new ContentAreaItem
+                            {
+                                ContentLink = ((IContent)block).ContentLink
+                            });
+                        }
+                        else if (!query.Use)
+                        {
+                            // Try to find the block
+                            var existingBlock = currentPage.ResultQueries.Items.OfType<ResultQueryBlock>().Where(b => b.SourceInfo != null && b.SourceInfo.SourceName == query.SourceName && b.SourceInfo.SourceId == query.SourceId).FirstOrDefault();
+                            if (existingBlock != null)
+                            {
+                                anyChanges = true;
+
+                                // Remove the block from the page queries content area
+                                writablePage.ResultQueries.Items.Remove(new ContentAreaItem
+                                {
+                                    ContentLink = ((IContent)existingBlock).ContentLink
+                                });
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (anyChanges)
+            {
+                // Save the page
+                contentRepository.Save((IContent)writablePage, SaveAction.Save);
+            }
+
+            return Index(currentPage);
+        }
+
+        private List<ResultQueryBlock> GetExistingQueries(CompareResultPage currentPage)
+        {
+            List<ResultQueryBlock> values = new List<ResultQueryBlock>();
+            if (currentPage.ResultQueries != null)
+            {
+                foreach (var item in currentPage.ResultQueries.Items)
+                {
+                    var content = item.GetContent();
+                    var resultQueryBlock = content as ResultQueryBlock;
+                    if (resultQueryBlock != null)
+                    {
+                        values.Add(resultQueryBlock);
+                    }
+                }
+            }
+
+            return values;
+        }
+    }
+}

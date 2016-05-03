@@ -12,5 +12,6 @@ namespace Kristianstad.ViewModels.Compare
     {
 
         public bool Use { get; set; }
+        public bool UseBefore { get; set; }
     }
 }

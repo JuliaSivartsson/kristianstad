@@ -32,39 +32,6 @@ namespace Kristianstad.Controllers.Compare
         public ActionResult Index(CategoryPage currentPage)
         {
             var model = new CategoryPageModel(currentPage);
-
-            if (PageEditing.PageIsInEditMode)
-            {
-
-                // Get existing queries in category page (if found)
-                IEnumerable<ResultQueryBlock> existingQueries = null;
-                var categoryPage = _contentLoader.Service.GetAncestors(currentPage.ContentLink).OfType<CategoryPage>().FirstOrDefault();
-                if (categoryPage != null)
-                {
-                    existingQueries = categoryPage.ResultQueries != null ? categoryPage.ResultQueries.Items.OfType<ResultQueryBlock>() : null;
-                }
-
-                // Get all web service queries
-                var webServiceQueries = CompareServiceFactory.Instance.GetWebServicePropertyQueries();
-
-                // Set queries to view model
-                model.ResultQueryGroups = webServiceQueries.Select(g => new ResultQueryGroupModel()
-                {
-                    Name = g.Title,
-                    SourceName = g.SourceName,
-                    SourceId = g.SourceId,
-                    InfoReadAt = g.InfoReadAt,
-                    ResultQueries = g.Queries.Select(q => new ResultQueryModel()
-                    {
-                        SourceName = q.SourceName,
-                        SourceId = q.SourceId,
-                        Name = q.Title,
-                        InfoReadAt = q.InfoReadAt,
-                        Use = existingQueries != null && existingQueries.Any(eq => eq.SourceInfo.SourceName == q.SourceName && eq.SourceInfo.SourceId == q.SourceId)
-                    }).ToList()
-                }).ToList();
-            }
-            
             return View(model);
         }
 
