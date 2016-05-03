@@ -1,0 +1,24 @@
+﻿@if (Model.Count > 0)
+{
+    <nav class="section-menu">
+        <h4>Att jämföra</h4>
+        <ul role="navigation">
+            @foreach (var ou in @Model)
+            {
+                <li>
+                    <div class="row">
+                        <div class="column small-12 medium-12 large-8 content">
+                            <a href="@ou.LinkURL">@ou.Name</a>
+                        </div>
+                        <div class="column content-page right-content small-12 medium-12 large-4">
+                            @Html.ActionLink("Ta bort", "AddOuToCompare", "OrganisationalUnit", new { id = ou.ContentLink.ID }, null)
+
+                        </div>
+                    </div>
+                </li>
+            }
+        </ul>
+        
+    </nav>
+    <a href="" class="button">Jämför objekt</a>
+}

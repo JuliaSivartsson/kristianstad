@@ -174,6 +174,7 @@
     <Content Include="Content\img\menu.png" />
     <Content Include="Content\img\svg\logo-kristianstadskommun.svg" />
     <Content Include="Content\img\template\img-puff.jpg" />
+    <Content Include="Content\js\compare\compare.js" />
     <Content Include="Content\js\src\layout\init.js" />
     <Content Include="Content\js\src\map\init.js" />
     <Content Include="Content\css\vendor\ol.css" />
@@ -433,6 +434,7 @@
     <Compile Include="Business\Map\MapService.cs" />
     <Compile Include="Business\Map\Properties.cs" />
     <Compile Include="Business\Models\Blocks\CategoryBlock.cs" />
+    <Compile Include="Business\Models\Blocks\CompareListBlock.cs" />
     <Compile Include="Business\Models\Blocks\Compare\CategoryListBlock.cs" />
     <Compile Include="Business\Models\Blocks\Compare\ContactBlock.cs" />
     <Compile Include="Business\Models\Blocks\Compare\SourceInfoBlock.cs" />
@@ -449,6 +451,7 @@
     <Compile Include="Controllers\Common\MenuKrController.cs" />
     <Compile Include="Controllers\Compare\CompareResultPageController.cs" />
     <Compile Include="Controllers\Compare\CategoryController.cs" />
+    <Compile Include="Controllers\Blocks\CompareListBlockController.cs" />
     <Compile Include="Controllers\Compare\CategoryListBlockController.cs" />
     <Compile Include="Controllers\Compare\CompareStartPageController.cs" />
     <Compile Include="Controllers\Compare\OrganisationalUnitController.cs" />
@@ -480,6 +483,8 @@
     <Compile Include="ViewModels\Compare\OrganisationalUnitModel.cs" />
     <Compile Include="ViewModels\Compare\SourceInfoModel.cs" />
     <Compile Include="ViewModels\Compare\ResultQueryModel.cs" />
+    <Compile Include="ViewModels\Compare\CompareModel.cs" />
+    <Compile Include="ViewModels\Compare\CompareListModel.cs" />
     <Compile Include="Views\AToZPage\UI\Factories\MegaMenuIconSelectionFactory.cs" />
     <Compile Include="Views\AToZPage\UI\Factories\FooterIconSelectionFactory.cs" />
     <Compile Include="Views\AToZPage\UI\Factories\VideoTypeSelectionFactory.cs" />
@@ -878,6 +883,10 @@
     <Content Include="Views\CompareResultPage\Index.cshtml" />
     <Content Include="Views\ResultQueryBlock\Preview.cshtml" />
     <Content Include="Views\Shared\ResultQueryBlock.cshtml" />
+    <Content Include="Views\CategoryPage\Index.cshtml" />
+    <Content Include="Views\Shared\_CompareMenu.cshtml" />
+    <Content Include="Views\OrganisationalUnit\AddOuToCompare.cshtml" />
+    <Content Include="Views\CompareList\Index.cshtml" />
     <None Include="Web.Acceptance.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

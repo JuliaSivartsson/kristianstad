@@ -17,6 +17,7 @@ using Kristianstad.Business.Models.Blocks.Compare;
 using Kristianstad.Models.Pages.Compare;
 using Kristianstad.Business.Compare;
 using Kristianstad.ViewModels.Compare;
+using Newtonsoft.Json.Linq;
 
 namespace Kristianstad.Controllers.Compare
 {
@@ -30,9 +31,12 @@ namespace Kristianstad.Controllers.Compare
             organisationalUnits = Sort(organisationalUnits, currentBlock.SortOrder);
 
             var model = new OrganisationalUnitListModel()
+
             {
                 OrganisationalUnits = organisationalUnits
             };
+
+            ViewData.Add("cookies", GetCookie("grundskola"));
 
             return PartialView(model);
         }
@@ -89,6 +93,19 @@ namespace Kristianstad.Controllers.Compare
             return asCollection;
         }
 
+        private List<int> GetCookie(string cookieName)
+        {
+            JArray cookie;
+            try
+            {
+                cookie = JArray.Parse(Request.Cookies[cookieName].Value);
+            }
+            catch
+            {
+                cookie = new JArray();
+            }
 
+            return cookie.Select(o => (int)o).ToList();
+        }
     }
 }
