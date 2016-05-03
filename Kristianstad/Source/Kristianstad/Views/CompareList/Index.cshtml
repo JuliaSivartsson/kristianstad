@@ -1,0 +1,26 @@
+﻿@using EPiServer.Framework.Web.Resources
+
+@if (Model.OrganisationalUnits.Count > 0)
+{
+    <nav class="section-menu">
+        <h4>Att jämföra</h4>
+        <ul role="navigation">
+            <ul role="navigation">
+                @foreach (var ou in @Model.OrganisationalUnits)
+                {
+                    <li>
+                        <div class="row">
+                            <div class="column small-12 medium-12 large-8 content">
+                                <a href="@ou.URL">@ou.Name</a>
+                            </div>
+                            <div class="column content-page right-content small-12 medium-12 large-4">
+                                <a href="@String.Format("{0}AddOuToCompare/?id={1}", ou.URL, ou.ID)">Ta bort</a>
+                            </div>
+                        </div>
+                    </li>
+                }
+            </ul>
+        </ul>
+    </nav>
+    <a href="" class="button">Jämför objekt</a>
+}

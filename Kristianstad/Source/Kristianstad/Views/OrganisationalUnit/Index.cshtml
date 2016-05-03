@@ -4,7 +4,6 @@
 @using EPiServer.Security
 
 @model Kristianstad.ViewModels.Compare.OrganisationalUnitPageModel
-
 @Html.CssLink("~/Content/compare.css")
 
 <div class="column small-12 medium-12 large-8 content-page content">
@@ -13,6 +12,20 @@
     }
 
     <h1 @Html.EditAttributes(x => x.CurrentPage.PageName)>@Model.CurrentPage.PageName</h1>
+    @{ 
+        bool isAlreadyInCompareBox = false;
+    }
+
+    @if (ViewData["cookies"] != null)
+    {
+        @Html.ActionLink("Ta bort", "AddOuToCompare", "OrganisationalUnit", new { id = Model.CurrentPage.ContentLink.ID }, new { @class = "button alert" })
+    }
+    else
+    {
+        @Html.ActionLink("Jämför", "AddOuToCompare", "OrganisationalUnit", new { id = Model.CurrentPage.ContentLink.ID }, new { @class = "button" })
+    }
+
+
 
     <div class="row">
 
@@ -25,4 +38,12 @@
     @{
         Html.RenderAction("SectionMenu", "MenuKr");
     }
+
+    <div class="block-area">
+        @Html.PropertyFor(m => m.CurrentPage.RightBlockArea)
+    </div>
 </div>
+
+@{
+    Html.ViewContext.RequestContext.RouteData.Values["currentContent"] = null;
+}

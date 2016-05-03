@@ -22,13 +22,17 @@ using Kristianstad.Business.Compare;
 using EPiServer;
 using Kristianstad.Business.Models.Blocks.Shared;
 using EPiCore.ViewModels.Pages;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 
 namespace Kristianstad.Controllers.Compare
 {
     public class OrganisationalUnitController : PageController<OrganisationalUnitPage>
     {
         private readonly Injected<IContentLoader> _contentLoader;
-        
+
+        public int PreviewTextLength { get; set; }
+
         public ActionResult Full(OrganisationalUnitPage currentPage)
         {
             var model = new OrganisationalUnitPageModel(currentPage)
@@ -50,10 +54,111 @@ namespace Kristianstad.Controllers.Compare
             var model = new OrganisationalUnitPageModel(currentPage);
 
             // Connect the view models logotype property to the start page's to make it editable
-            // var editHints = ViewData.GetEditHints<OrganisationalUnitPageModel, OrganisationalUnitPage>();
-            // editHints.AddConnection(m => m.Category, p => p.Category);
+
+            var editHints = ViewData.GetEditHints<OrganisationalUnitPage, OrganisationalUnitPage>();
+            editHints.AddConnection(m => m.Category, p => p.Category);
+            editHints.AddConnection(m => m.StartPublish, p => p.StartPublish);
+
+            foreach (int item in GetCookie("grundskola"))
+            {
+                if (item == currentPage.ContentLink.ID)
+                {
+                    ViewData.Add("cookies", currentPage.ContentLink.ID);
+                }
+            }
 
             return View(model);
+        }
+
+        protected string GetPreviewText(OrganisationalUnitPage page)
+        {
+            if (PreviewTextLength <= 0)
+            {
+                return string.Empty;
+            }
+
+            string previewText = String.Empty;
+
+            /*
+            if (page.MainBody != null)
+            {
+                previewText = page.MainBody.ToHtmlString();
+            }
+            */
+
+            if (String.IsNullOrEmpty(previewText))
+            {
+                return string.Empty;
+            }
+
+            //If the MainBody contains DynamicContents, replace those with an empty string
+            StringBuilder regexPattern = new StringBuilder(@"<span[\s\W\w]*?classid=""");
+            regexPattern.Append(DynamicContentFactory.Instance.DynamicContentId.ToString());
+            regexPattern.Append(@"""[\s\W\w]*?</span>");
+            previewText = Regex.Replace(previewText, regexPattern.ToString(), string.Empty, RegexOptions.IgnoreCase | RegexOptions.Multiline);
+
+            return TextIndexer.StripHtml(previewText, PreviewTextLength);
+        }
+
+        public ActionResult AddOuToCompare(int id, PageData currentPage)
+        {
+            AddCookie("grundskola", id);
+            //var model = new OrganisationalUnitPageModel(currentPage);
+            //if (currentPage.OrganisationalUnitBlock != null)
+            //{
+            //    model.OrganisationalUnitBlock = _contentLoader.Service.Get<OrganisationalUnitBlock>(currentPage.OrganisationalUnitBlock);
+            //}
+
+            return RedirectToAction("Index");
+        }
+
+        private void AddCookie(string cookieName, int id)
+        {
+            List<int> cookieCollection = GetCookie(cookieName);
+
+            bool isAlreadyInCookie = false;
+            foreach (int item in cookieCollection)
+            {
+                if (item == id)
+                {
+                    isAlreadyInCookie = true;
+                    break;
+                }
+            }
+
+            List<int> newCookieCollection = new List<int>();
+            if (isAlreadyInCookie)
+            {
+                foreach (int item in cookieCollection)
+                {
+                    if (item != id)
+                    {
+                        newCookieCollection.Add(item);
+                    }
+                }
+            }
+            else
+            {
+                newCookieCollection = cookieCollection;
+                newCookieCollection.Add(id);
+            }
+
+            Response.Cookies[cookieName].Value = JsonConvert.SerializeObject(newCookieCollection);
+        }
+
+        private List<int> GetCookie(string cookieName)
+        {
+            JArray cookie;
+            try
+            {
+                cookie = JArray.Parse(Request.Cookies[cookieName].Value);
+            }
+            catch
+            {
+                cookie = new JArray();
+            }
+
+            return cookie.Select(o => (int)o).ToList();
         }
     }
 }

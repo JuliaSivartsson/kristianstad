@@ -63,6 +63,18 @@ namespace Kristianstad.Controllers.Compare
             return View(model);
         }
 
+        //public ActionResult Index(CategoryPage currentPage)
+        //{
+        //    var model = new CategoryPageModel(currentPage); //PageViewModel.Create(currentPage);
+            
+        //    //Connect the view models logotype property to the start page's to make it editable
+        //    var editHints = ViewData.GetEditHints<CategoryPage, CategoryPage>();
+        //    editHints.AddConnection(m => m.Category, p => p.Category);
+        //    editHints.AddConnection(m => m.StartPublish, p => p.StartPublish);
+
+        //    return View(model);
+        //}
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult SaveOrganisationalUnits(CategoryPage currentPage, List<OrganisationalUnitModel> organisationalUnitsFromSources)
