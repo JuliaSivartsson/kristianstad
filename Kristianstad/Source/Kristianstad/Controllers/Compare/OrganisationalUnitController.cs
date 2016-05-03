@@ -29,22 +29,15 @@ namespace Kristianstad.Controllers.Compare
 {
     public class OrganisationalUnitController : PageController<OrganisationalUnitPage>
     {
+        private const string CookieName = "compare";
         private readonly Injected<IContentLoader> _contentLoader;
 
         public int PreviewTextLength { get; set; }
 
         public ActionResult Full(OrganisationalUnitPage currentPage)
         {
-            var model = new OrganisationalUnitPageModel(currentPage)
-            {
-                // Category = currentPage.Category,
-                // Categories = CategoryHelper.GetCategoryViewModels(currentPage)
-            };
-
+            var model = new OrganisationalUnitPageModel(currentPage);
             var editHints = ViewData.GetEditHints<OrganisationalUnitPageModel, OrganisationalUnitPage>();
-            // editHints.AddConnection(m => m.Category, p => p.Category);
-            // editHints.AddFullRefreshFor(p => p.Category);
-            // editHints.AddFullRefreshFor(p => p.StartPublish);
 
             return PartialView("Full", model);
         }
@@ -59,7 +52,8 @@ namespace Kristianstad.Controllers.Compare
             editHints.AddConnection(m => m.Category, p => p.Category);
             editHints.AddConnection(m => m.StartPublish, p => p.StartPublish);
 
-            foreach (int item in GetCookie("grundskola"))
+            // Checks if the CurrentPage is in the CompareList.
+            foreach (int item in GetCookie(CookieName + currentPage.ParentLink.ID))
             {
                 if (item == currentPage.ContentLink.ID)
                 {
@@ -79,19 +73,12 @@ namespace Kristianstad.Controllers.Compare
 
             string previewText = String.Empty;
 
-            /*
-            if (page.MainBody != null)
-            {
-                previewText = page.MainBody.ToHtmlString();
-            }
-            */
-
             if (String.IsNullOrEmpty(previewText))
             {
                 return string.Empty;
             }
 
-            //If the MainBody contains DynamicContents, replace those with an empty string
+            // If the MainBody contains DynamicContents, replace those with an empty string
             StringBuilder regexPattern = new StringBuilder(@"<span[\s\W\w]*?classid=""");
             regexPattern.Append(DynamicContentFactory.Instance.DynamicContentId.ToString());
             regexPattern.Append(@"""[\s\W\w]*?</span>");
@@ -102,12 +89,7 @@ namespace Kristianstad.Controllers.Compare
 
         public ActionResult AddOuToCompare(int id, PageData currentPage)
         {
-            AddCookie("grundskola", id);
-            //var model = new OrganisationalUnitPageModel(currentPage);
-            //if (currentPage.OrganisationalUnitBlock != null)
-            //{
-            //    model.OrganisationalUnitBlock = _contentLoader.Service.Get<OrganisationalUnitBlock>(currentPage.OrganisationalUnitBlock);
-            //}
+            AddCookie(CookieName + currentPage.ParentLink.ID, id);
 
             return RedirectToAction("Index");
         }
