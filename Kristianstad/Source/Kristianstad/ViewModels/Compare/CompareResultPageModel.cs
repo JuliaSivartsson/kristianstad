@@ -15,10 +15,11 @@ namespace Kristianstad.ViewModels.Compare
         public CompareResultPageModel(CompareResultPage currentPage)
         {
             CurrentPage = currentPage;
+            ResultQueryGroupsFromSources = new List<ResultQueryGroupModel>();
         }
 
         public CompareResultPage CurrentPage { get; set; }
         
-        public List<ResultQueryGroupModel> ResultQueryGroups { get; set; }
+        public List<ResultQueryGroupModel> ResultQueryGroupsFromSources { get; set; }
     }
 }

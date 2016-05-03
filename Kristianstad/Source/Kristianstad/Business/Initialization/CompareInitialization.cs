@@ -55,6 +55,7 @@ namespace Kristianstad.Business.Initialization
         {
             if (e.Content is CategoryPage)
             {
+                /*
                 var page = e.Content as CategoryPage;
                 if (!string.IsNullOrWhiteSpace(page.CreateNewOrganisationalUnits))
                 {
@@ -107,6 +108,7 @@ namespace Kristianstad.Business.Initialization
                         }
                     }
                 }
+                */
             }
         }
 
@@ -166,6 +168,7 @@ namespace Kristianstad.Business.Initialization
                 }
                 */
             }
+            /*
             else if (string.Equals(e.Page.PageTypeName, typeof(OrganisationalUnitPage).GetPageType().Name, StringComparison.OrdinalIgnoreCase))
             {
                 var contentRepository = ServiceLocator.Current.GetInstance<IContentRepository>();
@@ -204,6 +207,7 @@ namespace Kristianstad.Business.Initialization
                     }
                 }
             }
+            */
         }
 
         public void Preload(string[] parameters) { }

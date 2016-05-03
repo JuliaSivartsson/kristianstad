@@ -4,11 +4,13 @@
 
 @model Kristianstad.ViewModels.Compare.CategoryPageModel
 
+@Html.CssLink("~/Content/compare.css")
+
 <div class="column small-12 medium-12 large-8 content-page content">
     @{
         Html.RenderAction("Breadcrumbs", "MenuKr");
     }
-    
+
     <h1 @Html.EditAttributes(x => x.CurrentPage.PageName)>@Model.CurrentPage.PageName</h1>
 
     <div class="row">
@@ -22,6 +24,65 @@
         </div>
 
     </div>
+
+
+    @if (PageEditing.PageIsInEditMode)
+    {
+        <div class="row editor-only-element">
+
+            <h3>Lägg till aktörer till kategorin</h3>
+
+            <div class="span8 clearfix">
+
+                @using (Html.BeginForm("SaveOrganisationalUnits", "Category"))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Namn</th>
+                                <th>Id</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @for (int i = 0; i < Model.OrganisationalUnitsFromSources.Count; i++)
+                            {
+                                <tr>
+                                    <td>
+                                        @{ 
+                                            var checkboxHtmlAttributes = new Dictionary<string, object> {{ "title", Model.OrganisationalUnitsFromSources[i].Use ? "Denna aktör finns redan i kategorin" : "Kryssa i för att skapa en ny sida för denna aktör" }};
+                                            if (Model.OrganisationalUnitsFromSources[i].Use)
+                                            {
+                                                checkboxHtmlAttributes.Add("disabled", "disabled");
+                                            }
+                                        }
+                                        @Html.CheckBoxFor(x => x.OrganisationalUnitsFromSources[i].Use, checkboxHtmlAttributes)
+                                        @Html.HiddenFor(x => x.OrganisationalUnitsFromSources[i].UseBefore)
+                                        @Html.HiddenFor(x => x.OrganisationalUnitsFromSources[i].SourceName)
+                                        @Html.HiddenFor(x => x.OrganisationalUnitsFromSources[i].SourceId)
+                                        @Html.HiddenFor(x => x.OrganisationalUnitsFromSources[i].Name)
+                                    </td>
+                                    <td>
+                                        @Html.TextBoxFor(x => x.OrganisationalUnitsFromSources[i].Title, new { @class = "small" })
+                                    </td>
+                                    <td>
+                                        @Model.OrganisationalUnitsFromSources[i].SourceId
+                                    </td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+        
+                    <input type="submit" value="Spara aktörer" />
+                }
+
+            </div>
+        </div>
+    }
 
 </div>
 
