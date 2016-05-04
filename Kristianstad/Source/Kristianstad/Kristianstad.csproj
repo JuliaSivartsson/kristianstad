@@ -454,6 +454,7 @@
     <Compile Include="Controllers\Blocks\CompareListBlockController.cs" />
     <Compile Include="Controllers\Compare\CategoryListBlockController.cs" />
     <Compile Include="Controllers\Compare\CompareStartPageController.cs" />
+    <Compile Include="Controllers\Compare\Modules\CompareAdminPluginController.cs" />
     <Compile Include="Controllers\Compare\OrganisationalUnitController.cs" />
     <Compile Include="Controllers\Compare\OrganisationalUnitListBlockController.cs" />
     <Compile Include="Global.asax.cs">
@@ -831,6 +832,7 @@
     <Content Include="modules\_protected\EPiServer.Forms\1.1.4.9000\ClientResources\epi-forms\themes\sleek\FormsIcons.less" />
     <Content Include="modules\_protected\EPiServer.Forms\1.1.4.9000\ClientResources\epi-forms\themes\sleek\Forms.less" />
     <Content Include="package.json" />
+    <Content Include="modules\CompareAdminPlugin\Index.cshtml" />
     <None Include="Properties\PublishProfiles\Acceptance.pubxml" />
     <None Include="Properties\PublishProfiles\Production.pubxml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
@@ -901,6 +903,8 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Controllers\Compare\Blocks\" />
+    <Folder Include="Controllers\Compare\Pages\" />
     <Folder Include="Static\" />
     <Folder Include="Views\Util\Editor\tinymce\templates\" />
   </ItemGroup>

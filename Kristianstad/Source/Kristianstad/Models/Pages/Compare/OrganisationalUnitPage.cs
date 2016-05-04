@@ -62,6 +62,8 @@ namespace Kristianstad.Models.Pages.Compare
         [AllowedTypes(AllowedTypes = new System.Type[] { typeof(MapBlock) })]
         public virtual ContentArea Map { get; set; }
 
+        public virtual MapBlock MapBlock { get; set; }
+
         public virtual SourceInfoBlock SourceInfo { get; set; }
 
         [Display(GroupName = SystemTabNames.Content)]
