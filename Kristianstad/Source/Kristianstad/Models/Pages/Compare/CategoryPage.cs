@@ -21,7 +21,7 @@ namespace Kristianstad.Models.Pages.Compare
     public class CategoryPage : ContentPage
     {
         [Display(GroupName = SystemTabNames.Content, Order = 1)]
-        public virtual string Heading { get; set; }
+        public virtual string Description { get; set; }
 
         [Display(GroupName = SystemTabNames.Content, Order = 2)]
         public virtual OrganisationalUnitListBlock OrganisationalUnitList { get; set; }

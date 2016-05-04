@@ -10,20 +10,6 @@ namespace Kristianstad.ViewModels.Compare
             // Empty
         }
 
-        /*
-        public OrganisationalUnitListModel(OrganisationalUnitListBlock block)
-        {
-            //Heading = block.Heading;
-            //ShowIntroduction = block.IncludeIntroduction;
-            //ShowPublishDate = block.IncludePublishDate;
-        }
-        */
-        /*
-        public string Heading { get; set; }
-        public bool ShowIntroduction { get; set; }
-        public bool ShowPublishDate { get; set; }
-        */
-
         public PageData CurrentPage { get; set; }
 
         public IEnumerable<PageData> OrganisationalUnits { get; set; }

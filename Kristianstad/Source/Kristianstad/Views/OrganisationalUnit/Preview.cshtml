@@ -8,6 +8,9 @@
         <h3>
             @Html.PageLink(Model.CurrentPage)
         </h3>
+     
+        @Html.DisplayFor(x => x.CurrentPage.ShortDescription)
+
          @*
         @if(Model.ShowPublishDate)
         {
