@@ -24,6 +24,8 @@ namespace Kristianstad.ViewModels.Compare
         public bool ShowPublishDate { get; set; }
         */
 
+        public PageData CurrentPage { get; set; }
+
         public IEnumerable<PageData> OrganisationalUnits { get; set; }
     }
 }

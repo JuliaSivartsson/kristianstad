@@ -15,6 +15,7 @@ using EPiServer.Web.Routing;
 using Kristianstad.Business.Compare;
 using Kristianstad.ViewModels.Compare;
 using Kristianstad.Models.Pages.Compare;
+using Kristianstad.HtmlHelpers;
 
 namespace Kristianstad.Controllers.Blocks
 {
@@ -25,26 +26,10 @@ namespace Kristianstad.Controllers.Blocks
 
         public override ActionResult Index(CompareListBlock currentBlock)
         {
-            CompareListModel compareOUs = GetCompareObjects(currentBlock);
-
-            return PartialView("~/Views/CompareList/Index.cshtml", compareOUs);
+            CompareListModel model = CreateModel(currentBlock);
+            return PartialView(model);
         }
-
-        private List<int> GetCookie(string cookieName)
-        {
-            JArray cookie;
-            try
-            {
-                cookie = JArray.Parse(Request.Cookies[cookieName].Value);
-            }
-            catch
-            {
-                cookie = new JArray();
-            }
-
-            return cookie.Select(o => (int)o).ToList();
-        }
-
+        
         private IEnumerable<PageData> FindOrganisationalUnits(CompareListBlock currentBlock)
         {
             IEnumerable<PageData> pages = null;
@@ -84,10 +69,10 @@ namespace Kristianstad.Controllers.Blocks
             return currentPage.ParentLink.ID;
         }
 
-        private CompareListModel GetCompareObjects(CompareListBlock currentBlock)
+        private CompareListModel CreateModel(CompareListBlock currentBlock)
         {
             List<PageData> ouPages = FindOrganisationalUnits(currentBlock).ToList();
-            CompareListModel comparePages = new CompareListModel();
+            CompareListModel model = new CompareListModel();
 
             foreach (int ou in GetCookie(CookieName + GetCategoryId(currentBlock)))
             {
@@ -98,24 +83,28 @@ namespace Kristianstad.Controllers.Blocks
                     {
                         Name = page.Name,
                         ID = page.ContentLink.ID,
-                        URL = GetExternalUrl(page)
+                        URL = CompareHelper.GetExternalUrl(page)
                     };
-                    comparePages.OrganisationalUnits.Add(cm);
+                    model.OrganisationalUnits.Add(cm);
                 }
             }
 
-            return comparePages;
+            return model;
         }
 
-        public static string GetExternalUrl(IContent content)
+        private List<int> GetCookie(string cookieName)
         {
-            var internalUrl = UrlResolver.Current.GetUrl(content.ContentLink);
+            JArray cookie;
+            try
+            {
+                cookie = JArray.Parse(Request.Cookies[cookieName].Value);
+            }
+            catch
+            {
+                cookie = new JArray();
+            }
 
-            var url = new UrlBuilder(internalUrl);
-            Global.UrlRewriteProvider.ConvertToExternal(url, null, System.Text.Encoding.UTF8);
-
-            var friendlyUrl = UriSupport.AbsoluteUrlBySettings(url.ToString());
-            return friendlyUrl;
+            return cookie.Select(o => (int)o).ToList();
         }
     }
 }

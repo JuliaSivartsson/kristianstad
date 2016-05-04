@@ -883,10 +883,9 @@
     <Content Include="Views\CompareResultPage\Index.cshtml" />
     <Content Include="Views\ResultQueryBlock\Preview.cshtml" />
     <Content Include="Views\Shared\ResultQueryBlock.cshtml" />
-    <Content Include="Views\CategoryPage\Index.cshtml" />
     <Content Include="Views\Shared\_CompareMenu.cshtml" />
     <Content Include="Views\OrganisationalUnit\AddOuToCompare.cshtml" />
-    <Content Include="Views\CompareList\Index.cshtml" />
+    <Content Include="Views\CompareListBlock\Index.cshtml" />
     <None Include="Web.Acceptance.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
