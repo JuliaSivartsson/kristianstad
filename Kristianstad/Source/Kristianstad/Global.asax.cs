@@ -4,11 +4,14 @@
 
 namespace Kristianstad
 {
+    using EPiServer;
+    using EPiServer.ServiceLocation;
+    using EPiServer.Web.Routing.Segments;
     using System.Web.Mvc;
     using System.Web.Optimization;
-    /// <summary>
-    /// The <see cref="Global" /> class.
-    /// </summary>
+    using System.Web.Routing;    /// <summary>
+                                 /// The <see cref="Global" /> class.
+                                 /// </summary>
     public class Global : EPiCore.Global
     {
         /// <summary>
@@ -24,5 +27,23 @@ namespace Kristianstad
         private void RegisterBundles(BundleCollection bundles)
         {
         }
+
+        protected override void RegisterRoutes(RouteCollection routes)
+        {
+            base.RegisterRoutes(routes);
+
+            IContentLoader contentLoader;
+            ServiceLocator.Current.TryGetExistingInstance(out contentLoader);
+
+            IRoutingSegmentLoader routingSegmentLoader;
+            ServiceLocator.Current.TryGetExistingInstance(out routingSegmentLoader);
+
+            if (contentLoader != null && routingSegmentLoader != null)
+            {
+                routes.MapRoute("CompareAdminPlugin", "CompareAdminPlugin/{action}",
+                                new { controller = "CompareAdminPlugin", action = "Index" });
+            }
+        }
+
     }
 }

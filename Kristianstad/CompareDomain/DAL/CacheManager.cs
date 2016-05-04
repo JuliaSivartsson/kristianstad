@@ -21,7 +21,7 @@ namespace Kristianstad.CompareDomain.DAL
         /// <returns>Cached data as an Object</returns>
         public object GetCache(string key)
         {
-            return null; // return Cache[key];
+            return Cache[key];
         }
 
         /// <summary>

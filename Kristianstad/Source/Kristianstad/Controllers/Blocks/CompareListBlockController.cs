@@ -29,7 +29,7 @@ namespace Kristianstad.Controllers.Blocks
             CompareListModel model = CreateModel(currentBlock);
             return PartialView(model);
         }
-        
+
         private IEnumerable<PageData> FindOrganisationalUnits(CompareListBlock currentBlock)
         {
             IEnumerable<PageData> pages = null;
