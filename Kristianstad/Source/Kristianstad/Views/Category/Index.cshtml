@@ -13,6 +13,8 @@
 
     <h1 @Html.EditAttributes(x => x.CurrentPage.PageName)>@Model.CurrentPage.PageName</h1>
 
+    @Html.PropertyFor(x => x.CurrentPage.Description)
+
     <div class="row">
 
         <div class="span8 clearfix">
