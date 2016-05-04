@@ -64,32 +64,14 @@ namespace Kristianstad.Controllers.Compare
             return View(model);
         }
 
-        protected string GetPreviewText(OrganisationalUnitPage page)
-        {
-            if (PreviewTextLength <= 0)
-            {
-                return string.Empty;
-            }
-
-            string previewText = String.Empty;
-
-            if (String.IsNullOrEmpty(previewText))
-            {
-                return string.Empty;
-            }
-
-            // If the MainBody contains DynamicContents, replace those with an empty string
-            StringBuilder regexPattern = new StringBuilder(@"<span[\s\W\w]*?classid=""");
-            regexPattern.Append(DynamicContentFactory.Instance.DynamicContentId.ToString());
-            regexPattern.Append(@"""[\s\W\w]*?</span>");
-            previewText = Regex.Replace(previewText, regexPattern.ToString(), string.Empty, RegexOptions.IgnoreCase | RegexOptions.Multiline);
-
-            return TextIndexer.StripHtml(previewText, PreviewTextLength);
-        }
-
-        public ActionResult AddOuToCompare(int id, PageData currentPage)
+        public ActionResult AddOuToCompare(PageData currentPage, int id, string redirectBackTo = null)
         {
             AddCookie(CookieName + currentPage.ParentLink.ID, id);
+
+            if (!string.IsNullOrWhiteSpace(redirectBackTo))
+            {
+                return Redirect(redirectBackTo);
+            }
 
             return RedirectToAction("Index");
         }

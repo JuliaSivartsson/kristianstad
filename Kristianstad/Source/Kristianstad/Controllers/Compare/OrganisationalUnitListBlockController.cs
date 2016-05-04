@@ -28,12 +28,15 @@ namespace Kristianstad.Controllers.Compare
 
         public override ActionResult Index(OrganisationalUnitListBlock currentBlock)
         {
+            var pageRouteHelper = ServiceLocator.Current.GetInstance<PageRouteHelper>();
+            PageData currentPage = pageRouteHelper.Page; // ?? _contentLoader.Service.Get<PageData>(ContentReference.StartPage);
+
             var organisationalUnits = FindPages(currentBlock);
             organisationalUnits = Sort(organisationalUnits, currentBlock.SortOrder);
 
             var model = new OrganisationalUnitListModel()
-
             {
+                CurrentPage = currentPage,
                 OrganisationalUnits = organisationalUnits
             };
 
@@ -57,12 +60,9 @@ namespace Kristianstad.Controllers.Compare
             var pageRouteHelper = ServiceLocator.Current.GetInstance<PageRouteHelper>();
             PageData currentPage = pageRouteHelper.Page ?? _contentLoader.Service.Get<PageData>(ContentReference.StartPage);
 
-            //var categoryRepository = ServiceLocator.Current.GetInstance<CategoryRepository>();
-            //var category = CategoryHelper.FindCompareCategory(categoryRepository, currentPage.Name);
-
             if (currentPage is CategoryPage)
             {
-                pages = _contentLoader.Service.GetChildren<PageData>(currentPage.ContentLink).OfType<OrganisationalUnitPage>(); // .Where(o => o.Category.Contains(category.ID)).ToList();
+                pages = _contentLoader.Service.GetChildren<PageData>(currentPage.ContentLink).OfType<OrganisationalUnitPage>();
             }
 
             return pages ?? new List<PageData>();
