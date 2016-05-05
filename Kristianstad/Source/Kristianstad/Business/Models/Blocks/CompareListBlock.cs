@@ -13,12 +13,12 @@ namespace Kristianstad.Business.Models.Blocks
         GroupName = GroupNames.Content)]
     public class CompareListBlock : BaseBlock
     {
-        [Display(
-            Name = "Header",
-            Description = "Enter a header for the block",
-            GroupName = SystemTabNames.Content,
-            Order = 1)]
-        [Required]
-        public virtual string Header { get; set; }
+        //[Display(
+        //    Name = "Header",
+        //    Description = "Enter a header for the block",
+        //    GroupName = SystemTabNames.Content,
+        //    Order = 1)]
+        //[Required]
+        //public virtual string Header { get; set; }
     }
 }

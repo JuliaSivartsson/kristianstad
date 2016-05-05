@@ -419,6 +419,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Business\Compare\CategoryHelper.cs" />
+    <Compile Include="Business\Compare\CookieHelper.cs" />
     <Compile Include="Business\Compare\OrganisationalUnitHelper.cs" />
     <Compile Include="Business\Compare\OrganisationalUnitsPaneDescriptor.cs" />
     <Compile Include="Business\Compare\OrganisationalUnitsPaneNavigationComponent.cs" />

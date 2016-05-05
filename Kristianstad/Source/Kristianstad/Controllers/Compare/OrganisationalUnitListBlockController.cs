@@ -23,8 +23,13 @@ namespace Kristianstad.Controllers.Compare
 {
     public class OrganisationalUnitListBlockController : BlockController<OrganisationalUnitListBlock>
     {
-        private const string CookieName = "compare";
-        private readonly Injected<IContentLoader> _contentLoader; // private IContentLoader contentLoader;
+        private readonly Injected<IContentLoader> _contentLoader;
+        private CookieHelper _cookieHelper;
+
+        public OrganisationalUnitListBlockController()
+        {
+            _cookieHelper = new CookieHelper();
+        }
 
         public override ActionResult Index(OrganisationalUnitListBlock currentBlock)
         {
@@ -40,7 +45,7 @@ namespace Kristianstad.Controllers.Compare
                 OrganisationalUnits = organisationalUnits
             };
 
-            ViewData.Add("cookies", GetCookie(CookieName + GetCategoryPageId(currentBlock)));
+            ViewData.Add("cookies", _cookieHelper.GetCookie(GetCategoryPageId(currentBlock)));
 
             return PartialView(model);
         }
@@ -74,21 +79,6 @@ namespace Kristianstad.Controllers.Compare
             var sortFilter = new FilterSort(sortOrder);
             sortFilter.Sort(asCollection);
             return asCollection;
-        }
-
-        private List<int> GetCookie(string cookieName)
-        {
-            JArray cookie;
-            try
-            {
-                cookie = JArray.Parse(Request.Cookies[cookieName].Value);
-            }
-            catch
-            {
-                cookie = new JArray();
-            }
-
-            return cookie.Select(o => (int)o).ToList();
         }
 
         private int GetCategoryPageId(OrganisationalUnitListBlock currentBlock)

@@ -1,12 +1,14 @@
 ﻿@using Kristianstad.Models.Pages.Compare
+@using Kristianstad.ViewModels.Compare
 @using EPiServer.Editor
 @using EPiServer.Security
+@using EPiServer.Web.Mvc.Html
 
 @model Kristianstad.ViewModels.Compare.CompareResultPageModel
 
 @Html.CssLink("~/Content/compare.css")
 
-<div class="column small-12 medium-12 large-8 content-page content">
+<div class="column small-12 medium-12 large-12 content-page content">
     @{
         Html.RenderAction("Breadcrumbs", "MenuKr");
     }
@@ -15,7 +17,107 @@
 
     @Html.PropertyFor(x => x.CurrentPage.Description)
 
-    <div class="row">
+
+    <div class="compare-main-box">
+        <table class="compare-table">
+            <thead>
+                <tr>
+                    <td></td>
+                    @foreach (OrganisationalUnitModel ou in Model.OrganisationalUnits)
+                    {
+                        <td>
+                            <div>
+                                <p>@ou.Title</p>
+                            </div>
+                            <div>
+                                @if (ou.TitleImage != null)
+                                {
+                                    <img src="@Url.ContentUrl(ou.TitleImage)" />
+                                }
+                                else
+                                {
+                                    <img src="~/Content/img/template/img-innehallssida.jpg" />
+                                }
+                            </div>
+                        </td>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="query"><p>Address</p></td>
+                    @foreach (OrganisationalUnitModel ou in Model.OrganisationalUnits)
+                    {
+                        <td class="result">
+                            @if (ou.Adress != null)
+                            {
+                                <p>@ou.Adress</p>
+                            }
+                            else
+                            {
+                                <p class="noValue">Inget värde.</p>
+                            }
+                        </td>
+                    }
+                </tr>
+
+                <tr>
+                    <td class="query"><p>Telefon</p></td>
+                    @foreach (OrganisationalUnitModel ou in Model.OrganisationalUnits)
+                    {
+                        <td class="result">
+                            @if (ou.Telephone != null)
+                            {
+                                <p>@ou.Telephone</p>
+                            }
+                            else
+                            {
+                                <p class="noValue">Inget värde.</p>
+                            }
+                        </td>
+                    }
+                </tr>
+
+                <tr>
+                    <td class="query"><p>E-mail</p></td>
+                    @foreach (OrganisationalUnitModel ou in Model.OrganisationalUnits)
+                    {
+                        <td class="result">
+                            @if (ou.Email != null)
+                            {
+                                <p><a href="mailto:@ou.Email">@ou.Email</a></p>
+                            }
+                            else
+                            {
+                                <p class="noValue">Inget värde.</p>
+                            }
+                        </td>
+                    }
+                </tr>
+
+                @foreach (ResultQueryGroupModel rqgm in Model.ResultQueryGroupsFromSources)
+                {
+                    foreach (ResultQueryModel rqm in rqgm.ResultQueries)
+                    {
+                        if (rqm.Use)
+                        {
+                            <tr>
+                                <td class="query">@rqm.Name</td>
+                                @foreach (OrganisationalUnitModel ou in Model.OrganisationalUnits)
+                                {
+                                    <td class="result">
+                                        <p>hej</p>
+                                    </td>
+                                }
+                            </tr>
+                        }
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+
+    @*<div class="row">
 
         <div class="span8 clearfix">
             <div @Html.EditAttributes("ResultQueries")>
@@ -25,85 +127,75 @@
             </div>
         </div>
 
-    </div>
+    </div>*@
 
-@if (PageEditing.PageIsInEditMode)
-{
-    <div class="row editor-only-element">
+    @if (PageEditing.PageIsInEditMode)
+    {
+        <div class="row editor-only-element">
 
-        <h3>Lägg till/ta bort frågor till jämförelsen</h3>
+            <h3>Lägg till/ta bort frågor till jämförelsen</h3>
 
-        <div class="span8 clearfix">
+            <div class="span8 clearfix">
 
-            @using (Html.BeginForm("SaveResultQueries", "CompareResultPage"))
-            {
-                @Html.AntiForgeryToken()
+                @using (Html.BeginForm("SaveResultQueries", "CompareResultPage"))
+                {
+                    @Html.AntiForgeryToken()
 
-                <ul class="accordion" data-accordion data-multi-expand="true"  data-allow-all-closed="true">
+                    <ul class="accordion" data-accordion data-multi-expand="true"  data-allow-all-closed="true">
 
-                    @for (int i = 0; i < Model.ResultQueryGroupsFromSources.Count; i++)
-                    {
-                        <li class="accordion-item accordion-navigation" data-accordion-item>
-                            <a href="#panel@(i)" class="accordion-title">@Model.ResultQueryGroupsFromSources[i].Name</a>
-                            <div id="panel@(i)" class="accordion-content" data-tab-content>
+                        @for (int i = 0; i < Model.ResultQueryGroupsFromSources.Count; i++)
+                        {
+                            <li class="accordion-item accordion-navigation" data-accordion-item>
+                                <a href="#panel@(i)" class="accordion-title">@Model.ResultQueryGroupsFromSources[i].Name</a>
+                                <div id="panel@(i)" class="accordion-content" data-tab-content>
 
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th>Använd</th>
-                                            <th>Titel</th>
-                                            <th>Id</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-
-                                        @for (int j = 0; j < Model.ResultQueryGroupsFromSources[i].ResultQueries.Count; j++)
-                                        {
+                                    <table>
+                                        <thead>
                                             <tr>
-                                                <td>
-                                                    @Html.CheckBoxFor(x => x.ResultQueryGroupsFromSources[i].ResultQueries[j].Use, new { title = Model.ResultQueryGroupsFromSources[i].ResultQueries[j].Use ? "Kryssa ur för att ta bort frågan från jämförelsen" : "Kryssa i för att lägga till frågan till jämförelsen" })
-                                                    @Html.HiddenFor(x => x.ResultQueryGroupsFromSources[i].ResultQueries[j].UseBefore)
-                                                    @Html.HiddenFor(x => x.ResultQueryGroupsFromSources[i].ResultQueries[j].SourceName)
-                                                    @Html.HiddenFor(x => x.ResultQueryGroupsFromSources[i].ResultQueries[j].SourceId)
-                                                    @Html.HiddenFor(x => x.ResultQueryGroupsFromSources[i].ResultQueries[j].Name)
-                                                </td>
-                                                <td>
-                                                    @Model.ResultQueryGroupsFromSources[i].ResultQueries[j].Name
-                                                </td>
-                                                <td>
-                                                    @Model.ResultQueryGroupsFromSources[i].ResultQueries[j].SourceId
-                                                </td>
+                                                <th>Använd</th>
+                                                <th>Titel</th>
+                                                <th>Id</th>
                                             </tr>
-                                        }
+                                        </thead>
+                                        <tbody>
 
-                                    </tbody>
-                                </table>
+                                            @for (int j = 0; j < Model.ResultQueryGroupsFromSources[i].ResultQueries.Count; j++)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        @Html.CheckBoxFor(x => x.ResultQueryGroupsFromSources[i].ResultQueries[j].Use, new { title = Model.ResultQueryGroupsFromSources[i].ResultQueries[j].Use ? "Kryssa ur för att ta bort frågan från jämförelsen" : "Kryssa i för att lägga till frågan till jämförelsen" })
+                                                        @Html.HiddenFor(x => x.ResultQueryGroupsFromSources[i].ResultQueries[j].UseBefore)
+                                                        @Html.HiddenFor(x => x.ResultQueryGroupsFromSources[i].ResultQueries[j].SourceName)
+                                                        @Html.HiddenFor(x => x.ResultQueryGroupsFromSources[i].ResultQueries[j].SourceId)
+                                                        @Html.HiddenFor(x => x.ResultQueryGroupsFromSources[i].ResultQueries[j].Name)
+                                                    </td>
+                                                    <td>
+                                                        @Model.ResultQueryGroupsFromSources[i].ResultQueries[j].Name
+                                                    </td>
+                                                    <td>
+                                                        @Model.ResultQueryGroupsFromSources[i].ResultQueries[j].SourceId
+                                                    </td>
+                                                </tr>
+                                            }
 
-                            </div>
+                                        </tbody>
+                                    </table>
 
-                        </li>
-                    }
+                                </div>
 
-                </ul>
+                            </li>
+                        }
 
-                <input type="submit" value="Spara frågor" />
-            }
+                    </ul>
 
-        </div>
+                    <input type="submit" value="Spara frågor" />
+                }
+
+            </div>
 
                         
-    </div>
-}
-
-</div>
-
-<div class="column content-page right-content small-12 medium-12 large-4">
-    @{
-        Html.RenderAction("SectionMenu", "MenuKr");
+        </div>
     }
 
-    <div class="block-area">
-        @Html.PropertyFor(m => m.CurrentPage.RightBlockArea)
-    </div>
 </div>
 
