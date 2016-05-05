@@ -23,6 +23,12 @@ namespace Kristianstad.Controllers.Blocks
     {
         private const string CookieName = "compare";
         private readonly Injected<IContentLoader> _contentLoader;
+        private CookieHelper _cookieHelper;
+
+        public CompareListBlockController()
+        {
+            _cookieHelper = new CookieHelper();
+        }
 
         public override ActionResult Index(CompareListBlock currentBlock)
         {
@@ -74,7 +80,18 @@ namespace Kristianstad.Controllers.Blocks
             List<PageData> ouPages = FindOrganisationalUnits(currentBlock).ToList();
             CompareListModel model = new CompareListModel();
 
-            foreach (int ou in GetCookie(CookieName + GetCategoryId(currentBlock)))
+            int categoryId = GetCategoryId(currentBlock);
+            var repository = ServiceLocator.Current.GetInstance<IContentRepository>();
+            var contentReference = new ContentReference(categoryId);
+            if (repository.GetChildren<CompareResultPage>(contentReference).ToList().Count > 0)
+            {
+                CompareResultPage cPage = repository.GetChildren<CompareResultPage>(contentReference).ToList().First();
+                string compareLink = CompareHelper.GetExternalUrl(cPage);
+
+                ViewData.Add("compareLink", compareLink);
+            }
+
+            foreach (int ou in _cookieHelper.GetCookie(categoryId))
             {
                 PageData page = ouPages.Where(o => o.ContentLink.ID == ou).First();
                 if (page != null)
@@ -90,21 +107,6 @@ namespace Kristianstad.Controllers.Blocks
             }
 
             return model;
-        }
-
-        private List<int> GetCookie(string cookieName)
-        {
-            JArray cookie;
-            try
-            {
-                cookie = JArray.Parse(Request.Cookies[cookieName].Value);
-            }
-            catch
-            {
-                cookie = new JArray();
-            }
-
-            return cookie.Select(o => (int)o).ToList();
         }
     }
 }

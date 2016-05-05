@@ -20,3 +20,39 @@ input.small {
 .editor-only-element table input {
     margin-bottom: 0;
 }
+
+.compare-main-box {
+    width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.compare-main-box th, .compare-main-box td {
+    
+	padding: .5em 1em;
+}
+
+.compare-main-box td {
+    text-align: center;
+    font-size: 70%;
+}
+
+.compare-main-box .query {
+    text-align: right;
+    font-weight: bold;
+    margin-right: 10px;
+    min-width: 230px;
+    max-width: 230px;
+}
+
+.compare-main-box .result {
+    min-width: 230px;
+}
+
+.compare-main-box td img {
+    height: 100px;
+}
+
+.noValue {
+    font-style: italic;
+}

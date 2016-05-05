@@ -31,8 +31,12 @@ namespace Kristianstad.Controllers.Compare
     {
         private const string CookieName = "compare";
         private readonly Injected<IContentLoader> _contentLoader;
+        private CookieHelper _cookieHelper;
 
-        public int PreviewTextLength { get; set; }
+        public OrganisationalUnitController()
+        {
+            _cookieHelper = new CookieHelper();
+        }
 
         public ActionResult Full(OrganisationalUnitPage currentPage)
         {
@@ -53,7 +57,7 @@ namespace Kristianstad.Controllers.Compare
             editHints.AddConnection(m => m.StartPublish, p => p.StartPublish);
 
             // Checks if the CurrentPage is in the CompareList.
-            foreach (int item in GetCookie(CookieName + currentPage.ParentLink.ID))
+            foreach (int item in _cookieHelper.GetCookie(currentPage.ParentLink.ID))
             {
                 if (item == currentPage.ContentLink.ID)
                 {
@@ -66,7 +70,7 @@ namespace Kristianstad.Controllers.Compare
 
         public ActionResult AddOuToCompare(PageData currentPage, int id, string redirectBackTo = null)
         {
-            AddCookie(CookieName + currentPage.ParentLink.ID, id);
+            _cookieHelper.AddCookie(currentPage.ParentLink.ID, id);
 
             if (!string.IsNullOrWhiteSpace(redirectBackTo))
             {
@@ -74,55 +78,6 @@ namespace Kristianstad.Controllers.Compare
             }
 
             return RedirectToAction("Index");
-        }
-
-        private void AddCookie(string cookieName, int id)
-        {
-            List<int> cookieCollection = GetCookie(cookieName);
-
-            bool isAlreadyInCookie = false;
-            foreach (int item in cookieCollection)
-            {
-                if (item == id)
-                {
-                    isAlreadyInCookie = true;
-                    break;
-                }
-            }
-
-            List<int> newCookieCollection = new List<int>();
-            if (isAlreadyInCookie)
-            {
-                foreach (int item in cookieCollection)
-                {
-                    if (item != id)
-                    {
-                        newCookieCollection.Add(item);
-                    }
-                }
-            }
-            else
-            {
-                newCookieCollection = cookieCollection;
-                newCookieCollection.Add(id);
-            }
-
-            Response.Cookies[cookieName].Value = JsonConvert.SerializeObject(newCookieCollection);
-        }
-
-        private List<int> GetCookie(string cookieName)
-        {
-            JArray cookie;
-            try
-            {
-                cookie = JArray.Parse(Request.Cookies[cookieName].Value);
-            }
-            catch
-            {
-                cookie = new JArray();
-            }
-
-            return cookie.Select(o => (int)o).ToList();
         }
     }
 }

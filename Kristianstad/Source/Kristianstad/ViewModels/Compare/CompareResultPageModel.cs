@@ -21,5 +21,7 @@ namespace Kristianstad.ViewModels.Compare
         public CompareResultPage CurrentPage { get; set; }
         
         public List<ResultQueryGroupModel> ResultQueryGroupsFromSources { get; set; }
+
+        public List<OrganisationalUnitModel> OrganisationalUnits { get; set; }
     }
 }

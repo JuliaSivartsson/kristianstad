@@ -23,43 +23,51 @@ using Kristianstad.Business.Models.Blocks.Compare;
 using EPiServer;
 using Kristianstad.CompareDomain;
 using EPiServer.DataAccess;
+using Kristianstad.Business.Compare;
+using Kristianstad.Business.Models.Blocks;
+using Kristianstad.HtmlHelpers;
 
 namespace Kristianstad.Controllers.Compare
 {
     public class CompareResultPageController : PageController<CompareResultPage>
     {
         private readonly Injected<IContentLoader> _contentLoader;
+        private CookieHelper _cookieHelper;
+
+        public CompareResultPageController()
+        {
+            _cookieHelper = new CookieHelper();
+        }
 
         public ActionResult Index(CompareResultPage currentPage)
         {
             var model = new CompareResultPageModel(currentPage);
 
-            if (PageEditing.PageIsInEditMode)
+            // Get existing queries in category page (if found)
+            List<ResultQueryBlock> existingQueries = GetExistingQueryBlocks(currentPage);
+
+            // Get all web service queries
+            var webServiceQueries = CompareServiceFactory.Instance.GetWebServicePropertyQueries();
+
+            // Set queries to view model
+            model.ResultQueryGroupsFromSources = webServiceQueries.Select(g => new ResultQueryGroupModel()
             {
-                // Get existing queries in category page (if found)
-                List<ResultQueryBlock> existingQueries = GetExistingQueryBlocks(currentPage);
-
-                // Get all web service queries
-                var webServiceQueries = CompareServiceFactory.Instance.GetWebServicePropertyQueries();
-
-                // Set queries to view model
-                model.ResultQueryGroupsFromSources = webServiceQueries.Select(g => new ResultQueryGroupModel()
+                Name = g.Title,
+                SourceName = g.SourceName,
+                SourceId = g.SourceId,
+                InfoReadAt = g.InfoReadAt,
+                ResultQueries = g.Queries.Select(q => new ResultQueryModel()
                 {
-                    Name = g.Title,
-                    SourceName = g.SourceName,
-                    SourceId = g.SourceId,
-                    InfoReadAt = g.InfoReadAt,
-                    ResultQueries = g.Queries.Select(q => new ResultQueryModel()
-                    {
-                        SourceName = q.SourceName,
-                        SourceId = q.SourceId,
-                        Name = q.Title,
-                        InfoReadAt = q.InfoReadAt,
-                        Use = existingQueries != null && existingQueries.Any(eq => eq.SourceInfo.SourceName == q.SourceName && eq.SourceInfo.SourceId == q.SourceId),
-                        UseBefore = existingQueries != null && existingQueries.Any(eq => eq.SourceInfo.SourceName == q.SourceName && eq.SourceInfo.SourceId == q.SourceId)
-                    }).ToList()
-                }).ToList();
-            }
+                    SourceName = q.SourceName,
+                    SourceId = q.SourceId,
+                    Name = q.Title,
+                    InfoReadAt = q.InfoReadAt,
+                    Use = existingQueries != null && existingQueries.Any(eq => eq.SourceInfo.SourceName == q.SourceName && eq.SourceInfo.SourceId == q.SourceId),
+                    UseBefore = existingQueries != null && existingQueries.Any(eq => eq.SourceInfo.SourceName == q.SourceName && eq.SourceInfo.SourceId == q.SourceId)
+                }).ToList()
+            }).ToList();
+
+            model.OrganisationalUnits = GetOrganisationalUnits(currentPage);
 
             return View(model);
         }
@@ -162,6 +170,31 @@ namespace Kristianstad.Controllers.Compare
             }
 
             return values;
+        }
+
+        private List<OrganisationalUnitModel> GetOrganisationalUnits(CompareResultPage currentPage)
+        {
+            List<int> cookies = _cookieHelper.GetCookie(currentPage.ParentLink.ID);
+            List<OrganisationalUnitModel> oUnitsList = new List<OrganisationalUnitModel>();
+
+            foreach (int ou in cookies)
+            {
+                OrganisationalUnitPage page = _contentLoader.Service.GetChildren<OrganisationalUnitPage>(currentPage.ParentLink).Where(o => o.ContentLink.ID == ou).First();
+                OrganisationalUnitModel pageModel = new OrganisationalUnitModel
+                {
+                    Id = page.ContentLink.ID,
+                    Title = page.Name,
+                    Link = CompareHelper.GetExternalUrl(page),
+                    TitleImage = page.TitleImage,
+                    Adress = page.Address,
+                    Telephone = page.Telephone,
+                    Email = page.Email
+                };
+
+                oUnitsList.Add(pageModel);
+            }
+
+            return oUnitsList;
         }
     }
 }
