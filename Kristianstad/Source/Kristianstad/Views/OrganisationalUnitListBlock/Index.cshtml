@@ -7,31 +7,38 @@
     string redirectBackTo = Model.CurrentPage != null ? Url.Encode(Model.CurrentPage.LinkURL) : "";
 }
 
-@foreach (var page in Model.OrganisationalUnits)
+@if (Model.OrganisationalUnits.Count > 0)
 {
-    <div class="column small-12 medium-12 large-10 content-page content">
-        @Html.Action("Preview", "OrganisationalUnit", new { currentPage = page, organisationalUnitModel = Model })
-    </div>
-    <div class="column content-page right-content small-12 medium-12 large-2">
-        @{ 
-            string typeOfButton = "Jämför";
-        }
-        @foreach (int ouId in (List<int>)ViewData["cookies"])
-        {
-            if (ouId == page.ContentLink.ID)
-            {
-                typeOfButton = "Ta bort";
+    foreach (var page in Model.OrganisationalUnits)
+    {
+        <div class="column small-12 medium-12 large-10 content-page content">
+            @Html.Action("Preview", "OrganisationalUnit", new { currentPage = page, organisationalUnitModel = Model })
+        </div>
+        <div class="column content-page right-content small-12 medium-12 large-2">
+            @{ 
+                string typeOfButton = "Jämför";
             }
-        }
+            @foreach (int ouId in (List<int>)ViewData["cookies"])
+            {
+                if (ouId == page.ContentLink.ID)
+                {
+                    typeOfButton = "Ta bort";
+                }
+            }
 
-        @if (typeOfButton == "Jämför")
-        {
-            <a href="@String.Format("{0}{1}/AddOuToCompare/?id={2}&redirectBackTo={3}", page.ExternalURL, page.URLSegment, page.ContentLink.ID, redirectBackTo)" class="button">Jämför</a>
-        }
-        else
-        {
-            <a href="@String.Format("{0}{1}/AddOuToCompare/?id={2}&redirectBackTo={3}", page.ExternalURL, page.URLSegment, page.ContentLink.ID, redirectBackTo)" class="button alert">Ta bort</a>
-        }
+            @if (typeOfButton == "Jämför")
+            {
+                <a href="@String.Format("{0}{1}/AddOuToCompare/?id={2}&redirectBackTo={3}", page.ExternalURL, page.URLSegment, page.ContentLink.ID, redirectBackTo)" class="button">Jämför</a>
+            }
+            else
+            {
+                <a href="@String.Format("{0}{1}/AddOuToCompare/?id={2}&redirectBackTo={3}", page.ExternalURL, page.URLSegment, page.ContentLink.ID, redirectBackTo)" class="button alert">Ta bort</a>
+            }
         
-    </div>
+        </div>
+    }
+}
+else 
+{
+    <p>Inga aktörer i kategorin</p>
 }

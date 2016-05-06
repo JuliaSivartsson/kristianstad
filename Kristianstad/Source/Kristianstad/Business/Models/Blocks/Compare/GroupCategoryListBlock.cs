@@ -11,21 +11,26 @@ namespace Kristianstad.Business.Models.Blocks.Compare
 {
 
     [ContentType(
-        GUID = "cd19dfe8-a1fb-48fc-8085-a5acd670fd8c",
+        GUID = "f2349a48-d857-4148-94f1-c5f8508fb278",
         GroupName = "Compare",
-        DisplayName = "Category List Block")]
-    public class CategoryListBlock : BlockData
+        DisplayName = "Group Category List Block")]
+    public class GroupCategoryListBlock : BlockData
     {
         [Display(
             GroupName = SystemTabNames.Content,
-            Order = 4,
+            Order = 1,
+            Name = "Show sub-categories (not only group categories)")]
+        [DefaultValue(true)]
+        public virtual bool ShowSubCategories { get; set; }
+
+        [Display(
+            GroupName = SystemTabNames.Content,
+            Order = 2,
             Name = "Sort Order")]
         [DefaultValue(FilterSortOrder.PublishedDescending)]
         [UIHint("SortOrder")]
         [BackingType(typeof(PropertyNumber))]
         public virtual FilterSortOrder SortOrder { get; set; }
-
-
 
         #region IInitializableContent
 

@@ -56,3 +56,7 @@ input.small {
 .noValue {
     font-style: italic;
 }
+
+.row.margined-row {
+    margin-bottom: 15px;
+}

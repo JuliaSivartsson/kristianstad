@@ -13,7 +13,6 @@ namespace Kristianstad.Business.Models.Blocks.Compare
         Description = "")]
     public class ResultQueryBlock : BlockData
     {
-        // [AllowHtml] // needed because Name can contain < characters and similar
         [Display(
             GroupName = SystemTabNames.Content,
             Order = 1,

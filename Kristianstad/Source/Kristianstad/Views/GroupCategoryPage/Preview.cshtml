@@ -1,0 +1,17 @@
+﻿@using Kristianstad.Models.Pages
+@using EPiServer.Core
+@using EPiServer.Editor
+@using Kristianstad.ViewModels.Compare
+
+@model GroupCategoryPageModel
+
+<h2>
+    @Html.DisplayFor(x => x.CurrentPage.Name)
+</h2>
+
+@if (Model.ShowSubCategories)
+{
+   @Html.PropertyFor(x => x.CurrentPage.CategoryList)
+
+    @* Html.Action("Index", "CategoryListBlock", new {  currentBlock = Model.CurrentPage.CategoryList }) *@
+}

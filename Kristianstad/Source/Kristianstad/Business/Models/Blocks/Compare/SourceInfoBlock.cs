@@ -26,7 +26,6 @@ namespace Kristianstad.Business.Models.Blocks.Compare
             Order = 200)]
         public virtual string SourceId { get; set; }
 
-        // [AllowHtml] // needed because Name can contain < characters and similar
         [Display(
             Name = "Name",
             GroupName = SystemTabNames.Content,
