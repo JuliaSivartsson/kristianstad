@@ -25,14 +25,16 @@ using Kristianstad.CompareDomain;
 using Kristianstad.CompareDomain.Models;
 using EPiServer.DataAccess;
 using Kristianstad.Business.Compare;
+using Newtonsoft.Json.Linq;
 
 namespace Kristianstad.Controllers.Compare
 {
     public class CategoryController : PageController<CategoryPage>
     {
         private readonly Injected<IContentLoader> _contentLoader;
+        private const string CookieName = "compare";
 
-        public ActionResult Index(CategoryPage currentPage, bool doFullRefresh = false)
+        public ActionResult Index(CategoryPage currentPage, bool doFullRefresh = false, string address = null)
         {
             var model = new CategoryPageModel(currentPage);
 
@@ -55,6 +57,19 @@ namespace Kristianstad.Controllers.Compare
                 NameAlreadyExistsInCategory = existingOUPages != null && existingOUPages.Any(eou => eou.Name.ToLower() == o.Title.ToLower())
             }).ToList();
 
+            model.ListOfExistingOU = _contentLoader.Service.GetChildren<PageData>(currentPage.ContentLink, LanguageSelector.AutoDetect(true)).OfType<OrganisationalUnitPage>();
+            model.DistanceList = new DistanceFromAddressModel()
+            {
+                MeasureFromAddress = address
+            };
+
+            ViewData.Add("cookies", GetCookie(CookieName + GetCategoryPageId(currentPage)));
+
+            /*
+            var testList = new OrganisationUnitListTestModel();
+            testList.MeasureFromAddress = address;
+            */
+
             /*
             // Add edit hints to refresh when organisational units have changed //TODO: Doesn't work
             var editingHints = ViewData.GetEditHints<CategoryPageModel, CategoryPage>();
@@ -63,6 +78,40 @@ namespace Kristianstad.Controllers.Compare
 
             return View(model);
         }
+
+        private List<int> GetCookie(string cookieName)
+        {
+            JArray cookie;
+            try
+            {
+                cookie = JArray.Parse(Request.Cookies[cookieName].Value);
+            }
+            catch
+            {
+                cookie = new JArray();
+            }
+
+            return cookie.Select(o => (int)o).ToList();
+        }
+
+        private int GetCategoryPageId(CategoryPage currentBlock)
+        {
+            var pageRouteHelper = ServiceLocator.Current.GetInstance<PageRouteHelper>();
+            PageData currentPage = pageRouteHelper.Page ?? _contentLoader.Service.Get<PageData>(ContentReference.StartPage);
+
+            if (currentPage.PageTypeName == typeof(OrganisationalUnitPage).GetPageType().Name)
+            {
+                return currentPage.ParentLink.ID;
+            }
+
+            if (currentPage.PageTypeName == typeof(CategoryPage).GetPageType().Name)
+            {
+                return currentPage.ContentLink.ID;
+            }
+
+            return currentPage.ParentLink.ID;
+        }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]

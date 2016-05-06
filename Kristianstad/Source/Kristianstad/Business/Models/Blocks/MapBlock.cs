@@ -30,7 +30,7 @@ namespace Kristianstad.Business.Models.Blocks
             Order = 100,
             GroupName = TabNames.Content)]
         [AutoSuggestSelection(typeof(MapAddressSelectionQuery), AllowCustomValues = false)]
-        [Required(AllowEmptyStrings = false)]
+        //[Required(AllowEmptyStrings = false)]
         public virtual string Address { get; set; }
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace Kristianstad.Business.Models.Blocks
         [Display(
             Order = 1000,
             GroupName = TabNames.Content)]
-        [Required(AllowEmptyStrings = false)]
+        [ScaffoldColumn(false)]
         public virtual double Latitude { get; set; }
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace Kristianstad.Business.Models.Blocks
         [Display(
             Order = 1100,
             GroupName = TabNames.Content)]
-        [Required(AllowEmptyStrings = false)]
+        [ScaffoldColumn(false)]
         public virtual double Longitude { get; set; }
     }
 }

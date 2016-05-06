@@ -6,6 +6,52 @@
 
 @Html.CssLink("~/Content/compare.css")
 
+<script>
+    function GetLocation(addressValue1, addressValue2, fn) {
+             var geocoder= new google.maps.Geocoder();
+             var address1 = addressValue1;
+             var address2 = addressValue2;
+             geocoder.geocode({ 'address': address1 }, function (results, status) {
+                 if (status == google.maps.GeocoderStatus.OK) {
+                     var latitude1 = results[0].geometry.location.lat();
+                     var longitude1 = results[0].geometry.location.lng();
+                     var string = latitude1 + "," + longitude1;
+
+                     geocoder.geocode({ 'address': address2 }, function (results, status) {
+                         if (status == google.maps.GeocoderStatus.OK) {
+                             var latitude2 = results[0].geometry.location.lat();
+                             var longitude2 = results[0].geometry.location.lng();
+                             var string2 = string + "," + latitude2 + "," + longitude2;
+                             fn(string2);
+                         }
+                     });
+                 } else {
+                     return ("Request failed.");
+                 }
+             });
+    };
+
+    function getDistanceFromLatLonInKm(latlon) {
+        var res = latlon.split(",");
+        var R = 6371; // Radius of the earth in km
+        var dLat = deg2rad(res[2]-res[0]);  // deg2rad below
+        var dLon = deg2rad(res[3]-res[1]);
+        var a =
+          Math.sin(dLat/2) * Math.sin(dLat/2) +
+          Math.cos(deg2rad(res[0])) * Math.cos(deg2rad(res[2])) *
+          Math.sin(dLon/2) * Math.sin(dLon/2)
+        ;
+        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        var d = R * c; // Distance in km
+        var distans = Math.round(d * 100) / 100;
+        return distans;
+    }
+
+    function deg2rad(deg) {
+        return deg * (Math.PI/180)
+    }
+</script>
+
 <div class="column small-12 medium-12 large-8 content-page content">
     @{
         Html.RenderAction("Breadcrumbs", "MenuKr");
@@ -15,18 +61,87 @@
 
     @Html.PropertyFor(x => x.CurrentPage.Description)
 
+    @using (Html.BeginForm("index", "Category"))
+    {
+        @Html.TextBox("address")
+        <input type="submit" class="button" value="Skriv in address" />
+    }
+
+
+    @if (@Model.DistanceList.MeasureFromAddress != null)
+    {
+        <div>Address för distansmätning: @Model.DistanceList.MeasureFromAddress</div><hr />
+    }
+
+
+
     <div class="row">
+
+        @{
+            string redirectBackTo = Model.CurrentPage != null ? Url.Encode(Model.CurrentPage.LinkURL) : "";
+        }
 
         <div class="span8 clearfix">
             <div @Html.EditAttributes("OrganisationalUnitList")>
+                @foreach (var x in Model.ListOfExistingOU)
+                {
+                    <div class="column small-12 medium-12 large-10 content-page content">
+                        <h3>
+                            @Html.PageLink(x)
+                        </h3>
 
-                @Html.PropertyFor(x => x.CurrentPage.OrganisationalUnitList)
+                        @x.ShortDescription
+                        @x.Address
+
+                        @if (x.Address != null)
+                        {
+
+                            <div id="@x.Address">
+                                @if (@Model.DistanceList.MeasureFromAddress != null)
+                                {
+                                    <span>
+                                        Distans:
+                                        <script>
+                                            GetLocation(@Html.Raw(Json.Encode(x.Address)), @Html.Raw(Json.Encode(Model.DistanceList.MeasureFromAddress)), function(result){ document.getElementById(@Html.Raw(Json.Encode(x.Address))).innerHTML += getDistanceFromLatLonInKm(result) + "km"; });
+                                        </script>
+                                    </span>
+                                }
+                            </div>
+
+                        }
+                    </div>
+
+                    <div class="column content-page right-content small-12 medium-12 large-2">
+                        @{
+                            string typeOfButton = "Jämför";
+                        }
+
+                        @foreach (int ouId in (List<int>)ViewData["cookies"])
+                        {
+                            if (ouId == x.ContentLink.ID)
+                            {
+                                typeOfButton = "Ta bort";
+                            }
+                        }
+
+                        @if (typeOfButton == "Jämför")
+                        {
+                            <a href="@String.Format("{0}{1}/AddOuToCompare/?id={2}&redirectBackTo={3}", x.ExternalURL, x.URLSegment, x.ContentLink.ID, redirectBackTo)" class="button">Jämför</a>
+                        }
+                        else
+                        {
+                            <a href="@String.Format("{0}{1}/AddOuToCompare/?id={2}&redirectBackTo={3}", x.ExternalURL, x.URLSegment, x.ContentLink.ID, redirectBackTo)" class="button alert">Ta bort</a>
+                        }
+                    </div>
+                    <hr />
+                            }
 
             </div>
         </div>
 
-    </div>
 
+
+    </div>
 
     @if (PageEditing.PageIsInEditMode)
     {
@@ -54,8 +169,8 @@
                             {
                                 <tr>
                                     <td>
-                                        @{ 
-                                            var checkboxHtmlAttributes = new Dictionary<string, object> {{ "title", Model.OrganisationalUnitsFromSources[i].Use ? "Denna aktör finns redan i kategorin" : "Kryssa i för att skapa en ny sida för denna aktör" }};
+                                        @{
+                                            var checkboxHtmlAttributes = new Dictionary<string, object> { { "title", Model.OrganisationalUnitsFromSources[i].Use ? "Denna aktör finns redan i kategorin" : "Kryssa i för att skapa en ny sida för denna aktör" } };
                                             if (Model.OrganisationalUnitsFromSources[i].Use)
                                             {
                                                 checkboxHtmlAttributes.Add("disabled", "disabled");
@@ -74,17 +189,17 @@
                                         @Model.OrganisationalUnitsFromSources[i].SourceId
                                     </td>
                                 </tr>
-                            }
+                                            }
 
                         </tbody>
                     </table>
-        
+
                     <input type="submit" value="Spara aktörer" />
-                }
+                                            }
 
             </div>
         </div>
-    }
+                                            }
 
 </div>
 
