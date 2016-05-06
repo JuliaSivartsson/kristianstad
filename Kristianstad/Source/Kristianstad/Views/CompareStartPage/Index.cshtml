@@ -5,13 +5,20 @@
 @Html.CssLink("~/Content/compare.css")
 
 
-<h1 @Html.EditAttributes(x => x.CurrentPage.PageName)>@Model.CurrentPage.PageName</h1>
-<div class="row">
+<div class="column small-12 medium-12 large-12 content-page content">
+
+    <h1 @Html.EditAttributes(x => x.CurrentPage.Heading)>@Model.CurrentPage.Heading</h1>
     
-   @* <div class="span8 clearfix" @Html.EditAttributes(x => x.MainBody)>
-        @Html.DisplayFor(m => m.MainBody)
-    </div>*@
-    <div class="span8 clearfix">
-   @Html.PropertyFor(x => x.CurrentPage.CategoryList)
+    <div class="row margined-row">
+        <div class="span8 clearfix" @Html.EditAttributes(x => x.CurrentPage.Description)>
+            @Html.DisplayFor(m => m.CurrentPage.Description)
+        </div>
     </div>
+
+    <div class="row margined-row">
+        <div class="span8 clearfix">
+            @Html.PropertyFor(x => x.CurrentPage.GroupCategoryList)
+        </div>
+    </div>
+
 </div>

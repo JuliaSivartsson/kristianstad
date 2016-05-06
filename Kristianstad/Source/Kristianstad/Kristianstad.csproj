@@ -438,6 +438,7 @@
     <Compile Include="Business\Models\Blocks\CompareListBlock.cs" />
     <Compile Include="Business\Models\Blocks\Compare\CategoryListBlock.cs" />
     <Compile Include="Business\Models\Blocks\Compare\ContactBlock.cs" />
+    <Compile Include="Business\Models\Blocks\Compare\GroupCategoryListBlock.cs" />
     <Compile Include="Business\Models\Blocks\Compare\SourceInfoBlock.cs" />
     <Compile Include="Business\Models\Blocks\Compare\ResultQueryBlock.cs" />
     <Compile Include="Business\Models\Blocks\Shared\ContactBlock.cs" />
@@ -474,6 +475,7 @@
     <Compile Include="Models\Pages\Compare\CategoryPage.cs" />
     <Compile Include="Models\Pages\Compare\CompareResultPage.cs" />
     <Compile Include="Models\Pages\Compare\CompareStartPage.cs" />
+    <Compile Include="Models\Pages\Compare\GroupCategoryPage.cs" />
     <Compile Include="Models\Pages\Compare\OrganisationalUnitPage.cs" />
     <Compile Include="Models\Pages\SectionPage.cs" />
     <Compile Include="Models\Pages\SettingsPage.cs" />
@@ -482,6 +484,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\Compare\CompareResultPageModel.cs" />
     <Compile Include="ViewModels\Compare\DistanceFromAddressModel.cs" />
+    <Compile Include="ViewModels\Compare\GroupCategoryListModel.cs" />
+    <Compile Include="ViewModels\Compare\GroupCategoryPageModel.cs" />
+    <Compile Include="ViewModels\Compare\OrganisationUnitListTestModel.cs" />
     <Compile Include="ViewModels\Compare\ResultQueryGroupModel.cs" />
     <Compile Include="ViewModels\Compare\OrganisationalUnitModel.cs" />
     <Compile Include="ViewModels\Compare\SourceInfoModel.cs" />
@@ -890,6 +895,10 @@
     <Content Include="Views\Shared\_CompareMenu.cshtml" />
     <Content Include="Views\OrganisationalUnit\AddOuToCompare.cshtml" />
     <Content Include="Views\CompareListBlock\Index.cshtml" />
+    <Content Include="Views\CompareAdminPlugin\Index.cshtml" />
+    <Content Include="Views\GroupCategoryListBlock\Index.cshtml" />
+    <Content Include="Views\GroupCategoryPage\Index.cshtml" />
+    <Content Include="Views\GroupCategoryPage\Preview.cshtml" />
     <None Include="Web.Acceptance.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

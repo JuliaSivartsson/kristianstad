@@ -16,7 +16,7 @@ namespace Kristianstad.Models.Pages.Compare
         Description = "The start page for the compare service, listing all the categories")]
     [AvailableContentTypes(
         Availability.Specific,
-        Include = new[] { typeof(CategoryPage) })] //, typeof(OrganisationalUnitFolderPage), typeof(AddOrganisationalUnitsFormPage) })]  // Pages we can create under the start page...
+        Include = new[] { typeof(GroupCategoryPage) })] //, typeof(OrganisationalUnitFolderPage), typeof(AddOrganisationalUnitsFormPage) })]  // Pages we can create under the start page...
   
     public class CompareStartPage : ContentPage
     {
@@ -24,10 +24,10 @@ namespace Kristianstad.Models.Pages.Compare
         public virtual string Heading { get; set; }
 
         [Display(GroupName = SystemTabNames.Content)]
-        public virtual string Author { get; set; }
+        public virtual string Description { get; set; }
 
         [Display(GroupName = SystemTabNames.Content)]
-        public virtual CategoryListBlock CategoryList { get; set; }
+        public virtual GroupCategoryListBlock GroupCategoryList { get; set; }
         
         [Display(GroupName = SystemTabNames.Content)]
         public virtual ContentArea RightContentArea { get; set; }
@@ -36,6 +36,8 @@ namespace Kristianstad.Models.Pages.Compare
         public override void SetDefaultValues(ContentType contentType)
         {
             base.SetDefaultValues(contentType);
+            Heading = Name;
+
             this[MetaDataProperties.PageChildOrderRule] = FilterSortOrder.Index;
         }
     }

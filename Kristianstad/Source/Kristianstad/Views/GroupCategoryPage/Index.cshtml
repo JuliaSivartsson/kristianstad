@@ -1,0 +1,37 @@
+﻿@using Kristianstad.Models.Pages.Compare
+
+@model EPiCore.ViewModels.Pages.PageViewModel<GroupCategoryPage>
+
+@Html.CssLink("~/Content/compare.css")
+
+
+<div class="column small-12 medium-12 large-8 content-page content">
+    @{
+        Html.RenderAction("Breadcrumbs", "MenuKr");
+    }
+
+    <h1 @Html.EditAttributes(x => x.CurrentPage.PageName)>@Model.CurrentPage.PageName</h1>
+
+    <div class="row margined-row">
+        <div class="span8 clearfix" @Html.EditAttributes(x => x.CurrentPage.Description)>
+            @Html.DisplayFor(m => m.CurrentPage.Description)
+        </div>
+    </div>
+
+    <div class="row margined-row">
+        <div class="span8 clearfix">
+            @Html.PropertyFor(x => x.CurrentPage.CategoryList)
+        </div>
+    </div>
+
+</div>
+
+<div class="column content-page right-content small-12 medium-12 large-4">
+    @{
+        Html.RenderAction("SectionMenu", "MenuKr");
+    }
+
+    <div class="block-area">
+        @Html.PropertyFor(m => m.CurrentPage.RightBlockArea)
+    </div>
+</div>

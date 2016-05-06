@@ -7,7 +7,7 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Mvc;
 
-namespace Kristianstad.Controllers.Compare.Modules
+namespace Kristianstad.Controllers.Compare
 {
     [GuiPlugIn(
         Area = PlugInArea.AdminMenu,
