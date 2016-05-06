@@ -481,6 +481,7 @@
     <Compile Include="Models\Pages\StartPage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\Compare\CompareResultPageModel.cs" />
+    <Compile Include="ViewModels\Compare\DistanceFromAddressModel.cs" />
     <Compile Include="ViewModels\Compare\ResultQueryGroupModel.cs" />
     <Compile Include="ViewModels\Compare\OrganisationalUnitModel.cs" />
     <Compile Include="ViewModels\Compare\SourceInfoModel.cs" />

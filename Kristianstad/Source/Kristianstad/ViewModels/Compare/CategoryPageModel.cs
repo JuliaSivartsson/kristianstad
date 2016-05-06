@@ -16,10 +16,15 @@ namespace Kristianstad.ViewModels.Compare
         {
             CurrentPage = currentPage;
             OrganisationalUnitsFromSources = new List<OrganisationalUnitModel>();
+            DistanceList = new DistanceFromAddressModel();
         }
 
         public CategoryPage CurrentPage { get; set; }
 
         public List<OrganisationalUnitModel> OrganisationalUnitsFromSources { get; set; }
+
+        public IEnumerable<OrganisationalUnitPage> ListOfExistingOU { get; set; }
+
+        public DistanceFromAddressModel DistanceList { get; set; }
     }
 }
