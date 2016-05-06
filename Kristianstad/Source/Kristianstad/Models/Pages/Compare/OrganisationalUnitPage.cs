@@ -66,8 +66,9 @@ namespace Kristianstad.Models.Pages.Compare
 
         public virtual SourceInfoBlock SourceInfo { get; set; }
 
-        [AllowedTypes(AllowedTypes = new System.Type[] { typeof(CompareListBlock) })]
-        public virtual ContentArea CompareList { get; set; }
+        public virtual CompareListBlock CompareListBlock { get; set; }
 
+        [Display(GroupName = SystemTabNames.Content, Order = 100)]
+        public virtual ContentArea RightContentArea { get; set; }
     }
 }
