@@ -33,7 +33,7 @@ input.small {
 }
 
 .compare-main-box td {
-    text-align: center;
+    text-align: left;
     font-size: 70%;
 }
 
@@ -43,6 +43,7 @@ input.small {
     margin-right: 10px;
     min-width: 230px;
     max-width: 230px;
+    white-space: normal;
 }
 
 .compare-main-box .result {
@@ -59,4 +60,31 @@ input.small {
 
 .row.margined-row {
     margin-bottom: 15px;
+}
+
+.answer-percent-bar {
+    display:inline-block;
+    vertical-align: middle;
+}
+
+.percentageBox {
+    display: inline-block;
+    width:80px;
+    height:10px;
+    border: 1px solid silver;
+    box-shadow: 1px 1px 1px #cfcfcf;
+    border-radius: 3px;
+    background-color: #f7f7f7;
+}
+
+.percentage {
+    display: block;
+    vertical-align: top;
+    height: 8px;
+    background: #8ec1ff;
+}
+
+.percentageValue {
+    margin-left: 10px;
+    display: inline-block;
 }

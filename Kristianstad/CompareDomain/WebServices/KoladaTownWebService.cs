@@ -79,6 +79,7 @@ namespace Kristianstad.CompareDomain.WebServices
             DateTime infoReadAt = DateTime.Now;
             return kpi.Select(k => new PropertyQueryGroup() { SourceName = this.GetName(), SourceId = k.Id, Name = k.Title, InfoReadAt = infoReadAt, Queries = k.Members.Select(m => new PropertyQuery() { SourceName = this.GetName(), SourceId = m.Member_id, Name = m.Member_title, InfoReadAt = infoReadAt, Type = GuessPropertyQueryType(m.Member_title) }).ToList() }).ToList();
         }
+
         private string GuessPropertyQueryType(string title)
         {
             if (title.ToLower().Contains("(%)"))
