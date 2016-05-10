@@ -47,51 +47,51 @@
             </thead>
             <tbody>
                 <tr>
-                    <td class="query"><p>Address</p></td>
+                    <td class="query"><div><span>Address</span></div></td>
                     @foreach (OrganisationalUnitModel ou in Model.OrganisationalUnits)
                     {
                         <td class="result">
                             @if (ou.Adress != null)
                             {
-                                <p>@ou.Adress</p>
+                                <div><span>@ou.Adress</span></div>
                             }
                             else
                             {
-                                <p class="noValue">Inget värde.</p>
+                                <div><span class="noValue">Inget värde.</span></div>
                             }
                         </td>
                     }
                 </tr>
 
                 <tr>
-                    <td class="query"><p>Telefon</p></td>
+                    <td class="query"><div><span>Telefon</span></div></td>
                     @foreach (OrganisationalUnitModel ou in Model.OrganisationalUnits)
                     {
                         <td class="result">
                             @if (ou.Telephone != null)
                             {
-                                <p>@ou.Telephone</p>
+                                <div><span>@ou.Telephone</span></div>
                             }
                             else
                             {
-                                <p class="noValue">Inget värde.</p>
+                                <div><span class="noValue">Inget värde.</span></div>
                             }
                         </td>
                     }
                 </tr>
 
                 <tr>
-                    <td class="query"><p>E-mail</p></td>
+                    <td class="query"><div><span>E-mail</span></div></td>
                     @foreach (OrganisationalUnitModel ou in Model.OrganisationalUnits)
                     {
                         <td class="result">
                             @if (ou.Email != null)
                             {
-                                <p><a href="mailto:@ou.Email">@ou.Email</a></p>
+                                <div><a href="mailto:@ou.Email">@ou.Email</a></div>
                             }
                             else
                             {
-                                <p class="noValue">Inget värde.</p>
+                                <div><span class="noValue">Inget värde.</span></div>
                             }
                         </td>
                     }
@@ -148,7 +148,7 @@
                                         {
                                             <div class="answer-percent-bar">
                                                 <div class="percentageBox">
-                                                    <div class="percentage" style="width: @viewValue%"></div>
+                                                    <div class="percentage" style="width: @((int)viewValue)%"></div>
                                                 </div>
                                                 <div class="percentageValue">
                                                     <span title="År: @viewPeriod">
@@ -159,15 +159,21 @@
                                         }
                                         else
                                         {
-                                            <p title="År: @viewPeriod">
-                                                @viewValue
-                                            </p>
+                                            <div>
+                                                <span title="År: @viewPeriod">
+                                                    @viewValue
+                                                </span>
+                                            </div>
                                         }
                                     }
                                 }
                                 else
                                 {
-                                    <p title="Inget värde." class="noValue">-</p>
+                                    <div>
+                                        <span title="Inget värde." class="noValue">
+                                            -
+                                        </span>
+                                    </div>
                                 }
                             </td>
                         }

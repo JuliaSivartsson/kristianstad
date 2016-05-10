@@ -63,8 +63,15 @@
 
     @using (Html.BeginForm("index", "Category"))
     {
-        @Html.TextBox("address")
-        <input type="submit" class="button" value="Skriv in address" />
+        <div class="row">
+            <div class="column small-12 medium-12 large-10">
+                @Html.TextBox("address")
+            </div>
+            <div class="column small-12 medium-12 large-2">
+                <input type="submit" class="button" value="Skriv in address" />
+            </div>
+        </div>
+        <hr />
     }
 
 
