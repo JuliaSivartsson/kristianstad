@@ -3,6 +3,8 @@
 @using EPiServer.Editor
 @using EPiServer.Security
 @using EPiServer.Web.Mvc.Html
+@using Kristianstad.Business.Models.Blocks.Compare
+@using Kristianstad.CompareDomain.Models
 
 @model Kristianstad.ViewModels.Compare.CompareResultPageModel
 
@@ -95,39 +97,85 @@
                     }
                 </tr>
 
-                @foreach (ResultQueryGroupModel rqgm in Model.ResultQueryGroupsFromSources)
+                @foreach (PropertyQueryWithResults pqwr in (List<PropertyQueryWithResults>)ViewData["existingQueries"])
                 {
-                    foreach (ResultQueryModel rqm in rqgm.ResultQueries)
-                    {
-                        if (rqm.Use)
+                    <tr>
+                        <td class="query"><div><span>@pqwr.Query.Title</span></div></td>
+                        
+                        @foreach (OrganisationalUnitModel ou in Model.OrganisationalUnits)
                         {
-                            <tr>
-                                <td class="query">@rqm.Name</td>
-                                @foreach (OrganisationalUnitModel ou in Model.OrganisationalUnits)
+                            float? viewValue = null;
+                            int? viewPeriod = null;
+
+                            <td class="result">
+                                @if (@pqwr.Results.Where(x => x.OrganisationalUnitId == ou.SourceId).First().PeriodValues.Count > 0)
                                 {
-                                    <td class="result">
-                                        <p>hej</p>
-                                    </td>
+                                    pqwr.Results.Where(x => x.OrganisationalUnitId == ou.SourceId).Reverse();
+
+                                    foreach (PropertyQueryResult periods in @pqwr.Results.Where(x => x.OrganisationalUnitId == ou.SourceId))
+                                    {
+                                        foreach (PropertyQueryResultForPeriod valuePeriod in periods.PeriodValues)
+                                        {
+                                            foreach (PropertyQueryResultValue value in valuePeriod.Values)
+                                            {
+                                                if (value.Value != null)
+                                                {
+                                                    viewValue = value.Value;
+                                                }
+
+                                                if (viewValue != null)
+                                                {
+                                                    break;
+                                                }
+                                            }
+
+                                            if (viewValue != null)
+                                            {
+                                                viewPeriod = valuePeriod.Period;
+                                                break;
+                                            }
+                                        }
+
+                                        if (viewValue != null)
+                                        {
+                                            break;
+                                        }
+                                    }
+
+                                    if (viewValue != null)
+                                    {
+                                        if (pqwr.Query.Title.Contains('%'))
+                                        {
+                                            <div class="answer-percent-bar">
+                                                <div class="percentageBox">
+                                                    <div class="percentage" style="width: @viewValue%"></div>
+                                                </div>
+                                                <div class="percentageValue">
+                                                    <span title="År: @viewPeriod">
+                                                        @viewValue%
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <p title="År: @viewPeriod">
+                                                @viewValue
+                                            </p>
+                                        }
+                                    }
                                 }
-                            </tr>
+                                else
+                                {
+                                    <p title="Inget värde." class="noValue">-</p>
+                                }
+                            </td>
                         }
-                    }
+                    </tr>
                 }
             </tbody>
         </table>
     </div>
-
-    @*<div class="row">
-
-        <div class="span8 clearfix">
-            <div @Html.EditAttributes("ResultQueries")>
-
-                @Html.PropertyFor(x => x.CurrentPage.ResultQueries)
-
-            </div>
-        </div>
-
-    </div>*@
 
     @if (PageEditing.PageIsInEditMode)
     {

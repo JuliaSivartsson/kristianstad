@@ -26,6 +26,7 @@ using EPiServer.DataAccess;
 using Kristianstad.Business.Compare;
 using Kristianstad.Business.Models.Blocks;
 using Kristianstad.HtmlHelpers;
+using Kristianstad.CompareDomain.Models;
 
 namespace Kristianstad.Controllers.Compare
 {
@@ -48,7 +49,7 @@ namespace Kristianstad.Controllers.Compare
 
             // Get all web service queries
             var webServiceQueries = CompareServiceFactory.Instance.GetWebServicePropertyQueries();
-
+            
             // Set queries to view model
             foreach (var source in webServiceQueries)
             {
@@ -70,8 +71,10 @@ namespace Kristianstad.Controllers.Compare
                 }).ToList());
             }
 
-            model.OrganisationalUnits = GetOrganisationalUnits(currentPage);
+            model.OrganisationalUnits = GetOrganisationalUnitModels(currentPage);
 
+            var webServiceQueriesResults = CompareServiceFactory.Instance.GetWebServicePropertyResults(GetExistingQueries(currentPage), GetOrganisationalUnits(currentPage));
+            ViewData["existingQueries"] = webServiceQueriesResults;
             return View(model);
         }
         
@@ -175,7 +178,32 @@ namespace Kristianstad.Controllers.Compare
             return values;
         }
 
-        private List<OrganisationalUnitModel> GetOrganisationalUnits(CompareResultPage currentPage)
+        private List<PropertyQuery> GetExistingQueries(CompareResultPage currentPage)
+        {
+            List<PropertyQuery> values = new List<PropertyQuery>();
+            if (currentPage.ResultQueries != null)
+            {
+                foreach (var item in currentPage.ResultQueries.Items)
+                {
+                    var content = item.GetContent();
+                    var resultQueryBlock = content as ResultQueryBlock;
+                    if (resultQueryBlock != null)
+                    {
+                        PropertyQuery pq = new PropertyQuery()
+                        {
+                            SourceId = resultQueryBlock.SourceInfo.SourceId,
+                            SourceName = resultQueryBlock.SourceInfo.SourceName,
+                            Title = resultQueryBlock.SourceInfo.Name
+                        };
+                        values.Add(pq);
+                    }
+                }
+            }
+
+            return values;
+        }
+
+        private List<OrganisationalUnitModel> GetOrganisationalUnitModels(CompareResultPage currentPage)
         {
             List<int> cookies = _cookieHelper.GetCookie(currentPage.ParentLink.ID);
             List<OrganisationalUnitModel> oUnitsList = new List<OrganisationalUnitModel>();
@@ -191,7 +219,28 @@ namespace Kristianstad.Controllers.Compare
                     TitleImage = page.TitleImage,
                     Adress = page.Address,
                     Telephone = page.Telephone,
-                    Email = page.Email
+                    Email = page.Email,
+                    SourceId = page.SourceInfo.SourceId
+                };
+
+                oUnitsList.Add(pageModel);
+            }
+
+            return oUnitsList;
+        }
+
+        private List<OrganisationalUnit> GetOrganisationalUnits(CompareResultPage currentPage)
+        {
+            List<int> cookies = _cookieHelper.GetCookie(currentPage.ParentLink.ID);
+            List<OrganisationalUnit> oUnitsList = new List<OrganisationalUnit>();
+
+            foreach (int ou in cookies)
+            {
+                OrganisationalUnitPage page = _contentLoader.Service.GetChildren<OrganisationalUnitPage>(currentPage.ParentLink).Where(o => o.ContentLink.ID == ou).First();
+                OrganisationalUnit pageModel = new OrganisationalUnit
+                {
+                    SourceId = page.SourceInfo.SourceId,
+                    Title = page.Name
                 };
 
                 oUnitsList.Add(pageModel);
