@@ -42,19 +42,23 @@ namespace Kristianstad.Controllers.Compare
             var existingOUPages = _contentLoader.Service.GetChildren<PageData>(currentPage.ContentLink, LanguageSelector.AutoDetect(true)).OfType<OrganisationalUnitPage>();
 
             // Get organisational unit info from web service(s)
-            List<OrganisationalUnit> organisationalUnits = CompareServiceFactory.Instance.GetWebServiceOrganisationalUnits();
+            var organisationalUnits = CompareServiceFactory.Instance.GetWebServicesOrganisationalUnits();
 
             // Set organisational units from sources to view model
-            model.OrganisationalUnitsFromSources = organisationalUnits.Select(o => new OrganisationalUnitModel()
+            model.AddOrganisationalUnits.OrganisationalUnitsSources = organisationalUnits.Select(s => new OrganisationalUnitsSourceModel()
             {
-                Name = o.Title,
-                Title = o.Title,
-                SourceName = o.SourceName,
-                SourceId = o.SourceId,
-                InfoReadAt = o.InfoReadAt,
-                Use = existingOUPages != null && existingOUPages.Any(eou => eou.SourceInfo.SourceName == o.SourceName && eou.SourceInfo.SourceId == o.SourceId),
-                UseBefore = existingOUPages != null && existingOUPages.Any(eou => eou.SourceInfo.SourceName == o.SourceName && eou.SourceInfo.SourceId == o.SourceId),
-                NameAlreadyExistsInCategory = existingOUPages != null && existingOUPages.Any(eou => eou.Name.ToLower() == o.Title.ToLower())
+                SourceName = s.Key,
+                OrganisationalUnits = s.Value.Select(o => new OrganisationalUnitModel()
+                {
+                    Name = o.Name,
+                    Title = o.Name,
+                    SourceName = o.SourceName,
+                    SourceId = o.SourceId,
+                    InfoReadAt = o.InfoReadAt,
+                    Use = existingOUPages != null && existingOUPages.Any(eou => eou.SourceInfo.SourceName == o.SourceName && eou.SourceInfo.SourceId == o.SourceId),
+                    UseBefore = existingOUPages != null && existingOUPages.Any(eou => eou.SourceInfo.SourceName == o.SourceName && eou.SourceInfo.SourceId == o.SourceId),
+                    NameAlreadyExistsInCategory = existingOUPages != null && existingOUPages.Any(eou => eou.Name.ToLower() == o.Name.ToLower())
+                }).ToList()
             }).ToList();
 
             model.ListOfExistingOU = _contentLoader.Service.GetChildren<PageData>(currentPage.ContentLink, LanguageSelector.AutoDetect(true)).OfType<OrganisationalUnitPage>();
@@ -115,7 +119,7 @@ namespace Kristianstad.Controllers.Compare
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult SaveOrganisationalUnits(CategoryPage currentPage, List<OrganisationalUnitModel> organisationalUnitsFromSources)
+        public ActionResult SaveOrganisationalUnits(CategoryPage currentPage, AddOrganisationalUnitsFormModel addOrganisationalUnits)
         {
             bool anyChanges = false;
 
@@ -124,44 +128,59 @@ namespace Kristianstad.Controllers.Compare
             var existingOUPages = contentRepository.GetChildren<PageData>(currentPage.ContentLink, LanguageSelector.AutoDetect(true)).OfType<OrganisationalUnitPage>();
 
             // Loop all the organisational units
-            if (organisationalUnitsFromSources != null)
+            if (addOrganisationalUnits != null)
             {
-                foreach (var ouToAdd in organisationalUnitsFromSources)
+                foreach (var source in addOrganisationalUnits.OrganisationalUnitsSources)
                 {
-                    if (ouToAdd.Use != ouToAdd.UseBefore && ouToAdd.Use == true)
+                    foreach (var ouToAdd in source.OrganisationalUnits)
                     {
-                        // Check if already exists a page with this title
-                        var existingPage = existingOUPages.Where(x => x.Name.ToLower() == ouToAdd.Title.ToLower()).FirstOrDefault();
-                        if (existingPage != null)
+                        if (ouToAdd.Use != ouToAdd.UseBefore && ouToAdd.Use == true)
                         {
-                            // e.CancelReason = "A organisational unit page with the name \"" + existingPage.Name + "\" already exists.";
-                            // e.CancelAction = true;
-                            existingPage = existingPage;
-                        }
-                        else
-                        {
-                            // Create a new organisational unit page
-                            var newPage = contentRepository.GetDefault<OrganisationalUnitPage>(currentPage.ContentLink);
-                            newPage.Name = ouToAdd.Title;
-                            newPage.MenuTitle = ouToAdd.Title;
-                            newPage.MenuDescription = ouToAdd.Title;
-
-                            // Set source info
-                            newPage.SourceInfo.Name = ouToAdd.Title;
-                            newPage.SourceInfo.SourceName = ouToAdd.SourceName;
-                            newPage.SourceInfo.SourceId = ouToAdd.SourceId;
-                            newPage.SourceInfo.InfoReadAt = ouToAdd.InfoReadAt;
-
-                            // Save the page
-                            contentRepository.Save(newPage, SaveAction.Save);
-
-                            anyChanges = true;
+                            // Check if already exists a page with this title
+                            var existingPage = existingOUPages.Where(x => x.Name.ToLower() == ouToAdd.Title.ToLower()).FirstOrDefault();
+                            if (existingPage != null)
+                            {
+                                // e.CancelReason = "A organisational unit page with the name \"" + existingPage.Name + "\" already exists.";
+                                // e.CancelAction = true;
+                                existingPage = existingPage;
+                            }
+                            else
+                            {
+                                CreateNewOrganisationalUnit(contentRepository, currentPage.ContentLink, ouToAdd.Title, ouToAdd);
+                                anyChanges = true;
+                            }
                         }
                     }
+                }
+
+                if (addOrganisationalUnits.Custom.Use && !string.IsNullOrWhiteSpace(addOrganisationalUnits.Custom.Title))
+                {
+                    // Add a new custom organisational unit
+                    string sourceName = CompareServiceFactory.Instance.GetCustomSourceName();
+                    string sourceId = Guid.NewGuid().ToString();
+
+                    CreateNewOrganisationalUnit(contentRepository, currentPage.ContentLink, addOrganisationalUnits.Custom.Title, new SourceInfoModel() { SourceName = sourceName, SourceId = sourceId, InfoReadAt = DateTime.Now });
                 }
             }
 
             return RedirectToAction("Index");
+        }
+
+        private void CreateNewOrganisationalUnit(IContentRepository contentRepository, ContentReference parentContentLink, string title, SourceInfoModel sourceInfo)
+        {
+            var newPage = contentRepository.GetDefault<OrganisationalUnitPage>(parentContentLink);
+            newPage.Name = title;
+            newPage.MenuTitle = title;
+            newPage.MenuDescription = title;
+
+            // Set source info
+            newPage.SourceInfo.Name = sourceInfo.Name;
+            newPage.SourceInfo.SourceName = sourceInfo.SourceName;
+            newPage.SourceInfo.SourceId = sourceInfo.SourceId;
+            newPage.SourceInfo.InfoReadAt = sourceInfo.InfoReadAt;
+
+            // Save the page
+            contentRepository.Save(newPage, SaveAction.Save);
         }
     }
 }

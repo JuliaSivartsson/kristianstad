@@ -1,0 +1,93 @@
+﻿@model Kristianstad.ViewModels.Compare.CategoryPageModel
+
+@using (Html.BeginForm("SaveOrganisationalUnits", "Category"))
+{
+    @Html.AntiForgeryToken()
+
+    <ul class="accordion" data-accordion data-multi-expand="true" data-allow-all-closed="true">
+
+        @for (int i = 0; i < Model.AddOrganisationalUnits.OrganisationalUnitsSources.Count; i++)
+        {
+            <li class="accordion-item accordion-navigation" data-accordion-item>
+                <a href="#panel@(i)" class="accordion-title">Från @Model.AddOrganisationalUnits.OrganisationalUnitsSources[i].SourceName</a>
+                <div id="panel@(i)" class="accordion-content" data-tab-content>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Namn</th>
+                                <th>Id</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @for (int o = 0; o < Model.AddOrganisationalUnits.OrganisationalUnitsSources[i].OrganisationalUnits.Count; o++)
+                            {
+                                <tr>
+                                    <td>
+                                        @{
+                                            var checkboxHtmlAttributes = new Dictionary<string, object> { { "title", Model.AddOrganisationalUnits.OrganisationalUnitsSources[i].OrganisationalUnits[o].Use ? "Denna aktör finns redan o kategorin" : "Kryssa i för att skapa en ny sida för denna aktör" } };
+                                            if (Model.AddOrganisationalUnits.OrganisationalUnitsSources[i].OrganisationalUnits[o].Use)
+                                            {
+                                                checkboxHtmlAttributes.Add("disabled", "disabled");
+                                            }
+                                        }
+                                        @Html.CheckBoxFor(x => x.AddOrganisationalUnits.OrganisationalUnitsSources[i].OrganisationalUnits[o].Use, checkboxHtmlAttributes)
+                                        @Html.HiddenFor(x => x.AddOrganisationalUnits.OrganisationalUnitsSources[i].OrganisationalUnits[o].UseBefore)
+                                        @Html.HiddenFor(x => x.AddOrganisationalUnits.OrganisationalUnitsSources[i].OrganisationalUnits[o].SourceName)
+                                        @Html.HiddenFor(x => x.AddOrganisationalUnits.OrganisationalUnitsSources[i].OrganisationalUnits[o].SourceId)
+                                        @Html.HiddenFor(x => x.AddOrganisationalUnits.OrganisationalUnitsSources[i].OrganisationalUnits[o].Name)
+                                    </td>
+                                    <td>
+                                        @Html.TextBoxFor(x => x.AddOrganisationalUnits.OrganisationalUnitsSources[i].OrganisationalUnits[o].Title, new { @class = "small" })
+                                    </td>
+                                    <td>
+                                        @Model.AddOrganisationalUnits.OrganisationalUnitsSources[i].OrganisationalUnits[o].SourceId
+                                    </td>
+                                </tr>
+                                            }
+
+                        </tbody>
+                    </table>
+
+                </div>
+            </li>
+                                            }
+
+        <li class="accordion-item accordion-navigation" data-accordion-item>
+            <a href="#panel_custom" class="accordion-title">Manuell</a>
+            <div id="panel_custom" class="accordion-content" data-tab-content>
+
+                <div class="callout warning">
+                    <h5>Notera</h5>
+                    <p>Genom att lägga till en aktör manuellt fås ingen koppling till resultat-data från externa datakällor som Kolada (manuella resultat-serier fungerar dock).</p>
+                </div>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Skapa</th>
+                            <th>Namn</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                @Html.CheckBoxFor(x => x.AddOrganisationalUnits.Custom.Use)
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(x => x.AddOrganisationalUnits.Custom.Title, new { @class = "small" })
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+
+        </li>
+
+    </ul>
+
+    <input type="submit" value="Skapa aktörer" />
+}

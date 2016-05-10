@@ -33,7 +33,7 @@ namespace Kristianstad.CompareDomain.WebServices
             var ou = JsonConvert.DeserializeObject<OUs>(rawJson).Values;
             OU theOu = ou.First();
 
-            return new OrganisationalUnit() { SourceName = this.GetName(), SourceId = theOu.Id, Title = theOu.Title, InfoReadAt = DateTime.Now };
+            return new OrganisationalUnit() { SourceName = this.GetName(), SourceId = theOu.Id, Name = theOu.Title, InfoReadAt = DateTime.Now };
         }
         
         public override List<PropertyQueryWithResults> GetPropertyResults(List<PropertyQuery> queries, List<OrganisationalUnit> organisationalUnits) //List<PropertyQuery> queries, List<OrganisationalUnit> organisationalUnits)
@@ -77,7 +77,7 @@ namespace Kristianstad.CompareDomain.WebServices
             var kpi = JsonConvert.DeserializeObject<KpiGroups>(rawJson).Values;
 
             DateTime infoReadAt = DateTime.Now;
-            return kpi.Select(k => new PropertyQueryGroup() { SourceName = this.GetName(), SourceId = k.Id, Title = k.Title, InfoReadAt = infoReadAt, Queries = k.Members.Select(m => new PropertyQuery() { SourceName = this.GetName(), SourceId = m.Member_id, Title = m.Member_title, InfoReadAt = infoReadAt, Type = GuessPropertyQueryType(m.Member_title) }).ToList() }).ToList();
+            return kpi.Select(k => new PropertyQueryGroup() { SourceName = this.GetName(), SourceId = k.Id, Name = k.Title, InfoReadAt = infoReadAt, Queries = k.Members.Select(m => new PropertyQuery() { SourceName = this.GetName(), SourceId = m.Member_id, Name = m.Member_title, InfoReadAt = infoReadAt, Type = GuessPropertyQueryType(m.Member_title) }).ToList() }).ToList();
         }
         private string GuessPropertyQueryType(string title)
         {
@@ -107,7 +107,7 @@ namespace Kristianstad.CompareDomain.WebServices
             var currentTime = DateTime.Now;
 
             var OUs = JsonConvert.DeserializeObject<OUs>(rawJson).Values;
-            return OUs.Select(o => new OrganisationalUnit() { SourceName = this.GetName(), SourceId = o.Id, Title = o.Title, InfoReadAt = currentTime }).ToList();
+            return OUs.Select(o => new OrganisationalUnit() { SourceName = this.GetName(), SourceId = o.Id, Name = o.Title, InfoReadAt = currentTime }).ToList();
         }
 
         /// <summary>

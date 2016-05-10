@@ -10,11 +10,13 @@ namespace Kristianstad.CompareDomain.Abstract
 {
     public interface IService
     {
-        OrganisationalUnit GetWebServiceOrganisationalUnit(string id);
+        string GetCustomSourceName();
 
-        List<OrganisationalUnit> GetWebServiceOrganisationalUnits();
+        OrganisationalUnit GetWebServiceOrganisationalUnit(string sourceName, string id);
 
-        List<PropertyQueryGroup> GetWebServicePropertyQueries();
+        Dictionary<string, List<OrganisationalUnit>> GetWebServicesOrganisationalUnits();
+
+        Dictionary<string, List<PropertyQueryGroup>> GetWebServicePropertyQueries();
 
         List<PropertyQueryWithResults> GetWebServicePropertyResults(List<PropertyQuery> queries, List<OrganisationalUnit> organisationalUnits); //(List<string> queryIds, List<string> organisationalUnitIds);
 

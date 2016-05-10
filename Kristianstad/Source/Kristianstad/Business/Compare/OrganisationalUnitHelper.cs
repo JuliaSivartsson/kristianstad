@@ -30,7 +30,7 @@ namespace Kristianstad.Business.Compare
                 {
                     items.Add(new SelectItem
                     {
-                        Text = organisationalUnit.Title + string.Format(INFO_READ_AT_STRING, organisationalUnit.SourceName, organisationalUnit.SourceId, organisationalUnit.InfoReadAt),
+                        Text = organisationalUnit.Name + string.Format(INFO_READ_AT_STRING, organisationalUnit.SourceName, organisationalUnit.SourceId, organisationalUnit.InfoReadAt),
                         Value = organisationalUnit.SourceName + SEPARATOR + organisationalUnit.SourceId
                     });
                 }
