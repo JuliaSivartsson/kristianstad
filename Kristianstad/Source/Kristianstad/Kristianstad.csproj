@@ -485,10 +485,13 @@
     <Compile Include="Models\Pages\ContentPage.cs" />
     <Compile Include="Models\Pages\StartPage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\Compare\AddOrganisationalUnitsFormModel.cs" />
+    <Compile Include="ViewModels\Compare\CompareAdminPluginModel.cs" />
     <Compile Include="ViewModels\Compare\CompareResultPageModel.cs" />
     <Compile Include="ViewModels\Compare\DistanceFromAddressModel.cs" />
     <Compile Include="ViewModels\Compare\GroupCategoryListModel.cs" />
     <Compile Include="ViewModels\Compare\GroupCategoryPageModel.cs" />
+    <Compile Include="ViewModels\Compare\OrganisationalUnitsSourceModel.cs" />
     <Compile Include="ViewModels\Compare\OrganisationUnitListTestModel.cs" />
     <Compile Include="ViewModels\Compare\ResultQueryGroupModel.cs" />
     <Compile Include="ViewModels\Compare\OrganisationalUnitModel.cs" />
@@ -902,6 +905,8 @@
     <Content Include="Views\GroupCategoryListBlock\Index.cshtml" />
     <Content Include="Views\GroupCategoryPage\Index.cshtml" />
     <Content Include="Views\GroupCategoryPage\Preview.cshtml" />
+    <Content Include="Views\Category\_AddOrganisationalUnitsForm.cshtml" />
+    <Content Include="Views\CompareResultPage\_AddPropertyQueriesForm.cshtml" />
     <None Include="Web.Acceptance.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

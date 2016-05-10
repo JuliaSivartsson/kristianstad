@@ -7,6 +7,15 @@
 
 <div class="span8 clearfix">
 
+    @if (PageEditing.PageIsInEditMode && (string.IsNullOrWhiteSpace(Model.CurrentPage.SourceInfo.SourceName) || string.IsNullOrWhiteSpace(Model.CurrentPage.SourceInfo.SourceId)))
+    {
+        <div class="callout alert">
+            <h5>Incomplete source info</h5>
+            <p>This organisational unit has no source info, which makes it impossible to use in comparisons.</p>
+            <p>Please make sure to only create organisational units from the generator on a category page.</p>
+        </div>
+    }
+
     <figure class="title">
 
         @if (PageEditing.PageIsInEditMode)

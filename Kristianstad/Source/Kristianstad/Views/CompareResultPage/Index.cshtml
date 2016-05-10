@@ -137,59 +137,7 @@
 
             <div class="span8 clearfix">
 
-                @using (Html.BeginForm("SaveResultQueries", "CompareResultPage"))
-                {
-                    @Html.AntiForgeryToken()
-
-                    <ul class="accordion" data-accordion data-multi-expand="true"  data-allow-all-closed="true">
-
-                        @for (int i = 0; i < Model.ResultQueryGroupsFromSources.Count; i++)
-                        {
-                            <li class="accordion-item accordion-navigation" data-accordion-item>
-                                <a href="#panel@(i)" class="accordion-title">@Model.ResultQueryGroupsFromSources[i].Name</a>
-                                <div id="panel@(i)" class="accordion-content" data-tab-content>
-
-                                    <table>
-                                        <thead>
-                                            <tr>
-                                                <th>Använd</th>
-                                                <th>Titel</th>
-                                                <th>Id</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-
-                                            @for (int j = 0; j < Model.ResultQueryGroupsFromSources[i].ResultQueries.Count; j++)
-                                            {
-                                                <tr>
-                                                    <td>
-                                                        @Html.CheckBoxFor(x => x.ResultQueryGroupsFromSources[i].ResultQueries[j].Use, new { title = Model.ResultQueryGroupsFromSources[i].ResultQueries[j].Use ? "Kryssa ur för att ta bort frågan från jämförelsen" : "Kryssa i för att lägga till frågan till jämförelsen" })
-                                                        @Html.HiddenFor(x => x.ResultQueryGroupsFromSources[i].ResultQueries[j].UseBefore)
-                                                        @Html.HiddenFor(x => x.ResultQueryGroupsFromSources[i].ResultQueries[j].SourceName)
-                                                        @Html.HiddenFor(x => x.ResultQueryGroupsFromSources[i].ResultQueries[j].SourceId)
-                                                        @Html.HiddenFor(x => x.ResultQueryGroupsFromSources[i].ResultQueries[j].Name)
-                                                    </td>
-                                                    <td>
-                                                        @Model.ResultQueryGroupsFromSources[i].ResultQueries[j].Name
-                                                    </td>
-                                                    <td>
-                                                        @Model.ResultQueryGroupsFromSources[i].ResultQueries[j].SourceId
-                                                    </td>
-                                                </tr>
-                                            }
-
-                                        </tbody>
-                                    </table>
-
-                                </div>
-
-                            </li>
-                        }
-
-                    </ul>
-
-                    <input type="submit" value="Spara frågor" />
-                }
+                @Html.Partial("_AddPropertyQueriesForm")
 
             </div>
 

@@ -12,7 +12,7 @@ namespace Kristianstad.CompareDomain.Models
 
         public string SourceId { get; set; }
 
-        public string Title { get; set; } 
+        public string Name { get; set; } 
 
         public DateTime? InfoReadAt { get; set; }
     }

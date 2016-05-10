@@ -14,20 +14,20 @@ namespace Kristianstad.CompareDomain
     public class Service : IService
     {
         private readonly ISettings _settings;
-        private readonly ITownWebService _townWebService;
+        private readonly List<ITownWebService> _townWebServices;
         private readonly ICacheManager _cache; // Waiting to implement this (not sure if okay to use MemoryCache?)
 
         //Constructors
         public Service()
-            : this (new Settings(true), new KoladaTownWebService(), new CacheManager())
+            : this (new Settings(true), new List<ITownWebService>() { new KoladaTownWebService() }, new CacheManager())
         {
             // Empty
         }
         
-        public Service(Settings settings, ITownWebService townWebService, ICacheManager cacheManager)
+        public Service(Settings settings, List<ITownWebService> townWebServices, ICacheManager cacheManager)
         {
             _settings = settings;
-            _townWebService = townWebService;
+            _townWebServices = townWebServices;
             _cache = cacheManager;
 
             _settings.Save();
@@ -35,12 +35,14 @@ namespace Kristianstad.CompareDomain
 
 
         //Methods
-
-        #region WebService functionality
-
-        public OrganisationalUnit GetWebServiceOrganisationalUnit(string id)
+        public string GetCustomSourceName()
         {
-            string cacheKey = $"{"getOrganisationalUnitByID"}{id}";
+            return "Custom";
+        }
+
+        public OrganisationalUnit GetWebServiceOrganisationalUnit(string sourceName, string id)
+        {
+            string cacheKey = $"{"getOrganisationalUnitByID"}{sourceName}{id}";
 
             if (_cache.HasValue(cacheKey))
             {
@@ -48,52 +50,67 @@ namespace Kristianstad.CompareDomain
                 if (value != null) { return value; }
             }
 
-            var ou = _townWebService.GetOrganisationalUnit(id);
-            _cache.SetCache(cacheKey, ou, _settings.CacheSeconds_OrganisationalUnits);
-
-            return ou;
-        }
-
-        public List<OrganisationalUnit> GetWebServiceOrganisationalUnits()
-        {
-            if (!string.IsNullOrWhiteSpace(_settings.MunicipalityId))
+            ITownWebService source = FindSource(sourceName);
+            if (source != null)
             {
-                string id = _settings.MunicipalityId;
-                string cacheKey = $"{"getAllOrganisationalUnitsFromWebService"}{id}";
+                var ou = source.GetOrganisationalUnit(id);
+                _cache.SetCache(cacheKey, ou, _settings.CacheSeconds_OrganisationalUnits);
 
-                if (_cache.HasValue(cacheKey))
-                {
-                    var value = (List<OrganisationalUnit>)_cache.GetCache(cacheKey);
-                    if (value != null) { return value; }
-                }
-
-                var allOU = _townWebService.GetAllOrganisationalUnits(_settings.MunicipalityId);
-                _cache.SetCache(cacheKey, allOU, _settings.CacheSeconds_OrganisationalUnits);
-
-                return allOU;
+                return ou;
             }
 
             return null;
         }
 
-        public List<PropertyQueryGroup> GetWebServicePropertyQueries()
+        public Dictionary<string, List<OrganisationalUnit>> GetWebServicesOrganisationalUnits()
         {
-            var list = new List<PropertyQueryGroup>();
+            if (!string.IsNullOrWhiteSpace(_settings.MunicipalityId))
+            {
+                string id = _settings.MunicipalityId;
+                string cacheKey = $"{"getAllOrganisationalUnitsFromWebServices"}{id}";
+
+                if (_cache.HasValue(cacheKey))
+                {
+                    var value = (Dictionary<string, List<OrganisationalUnit>>)_cache.GetCache(cacheKey);
+                    if (value != null) { return value; }
+                }
+
+                Dictionary<string, List<OrganisationalUnit>> allSourceOU = new Dictionary<string, List<OrganisationalUnit>>();
+                foreach (var source in _townWebServices)
+                {
+                    allSourceOU.Add(source.GetName(), source.GetAllOrganisationalUnits(_settings.MunicipalityId));
+                }
+
+                _cache.SetCache(cacheKey, allSourceOU, _settings.CacheSeconds_OrganisationalUnits);
+
+                return allSourceOU;
+            }
+
+            return null;
+        }
+
+        public Dictionary<string, List<PropertyQueryGroup>> GetWebServicePropertyQueries()
+        {
             string cacheKey = "getAllPropertyQueries";
 
             //returns from cache if value is present, else returns from Webservice
             if (_cache.HasValue(cacheKey))
             {
-                var value = (List<PropertyQueryGroup>)_cache.GetCache(cacheKey);
+                var value = (Dictionary<string, List<PropertyQueryGroup>>)_cache.GetCache(cacheKey);
                 if (value != null) { return value; }
             }
 
-            //Get from webService
-            list = _townWebService.GetAllPropertyQueries();
+            //Get from webServices
+            Dictionary<string, List<PropertyQueryGroup>> allSourcePQ = new Dictionary<string, List<PropertyQueryGroup>>();
+            foreach (var source in _townWebServices)
+            {
+                allSourcePQ.Add(source.GetName(), source.GetAllPropertyQueries());
+            }
+            
             //Save to cache
-            _cache.SetCache(cacheKey, list, _settings.CacheSeconds_PropertyQueries);
+            _cache.SetCache(cacheKey, allSourcePQ, _settings.CacheSeconds_PropertyQueries);
 
-            return list;
+            return allSourcePQ;
         }
 
         public List<PropertyQueryWithResults> GetWebServicePropertyResults(List<PropertyQuery> queries, List<OrganisationalUnit> organisationalUnits) //List<string> queryIds, List<string> organisationalUnitIds) //List<PropertyQuery> queries, List<OrganisationalUnit> organisationalUnits)
@@ -102,12 +119,12 @@ namespace Kristianstad.CompareDomain
             //and compund to an unique cacheKey
             
             var queryIds = from q in queries
-                           select q.SourceId;
+                           select q.SourceName + ":" + q.SourceId;
             var organisationalUnitIds = from ou in organisationalUnits
-                                        select ou.SourceId;
+                                        select ou.SourceName + ":" + ou.SourceId;
             
 
-            //adding all KPIQuestionId + ouIds 
+            // Check if available in cache
             var cacheKey = "PropertyResults" + queryIds.Aggregate("", (current, kpi) => current + kpi);
             cacheKey = organisationalUnitIds.Aggregate(cacheKey, (current, ouId) => current + ouId);
 
@@ -117,13 +134,56 @@ namespace Kristianstad.CompareDomain
                 if (value != null) { return value; }
             }
 
-            var returnValue = _townWebService.GetPropertyResults(queries, organisationalUnits); //queryIds.ToList(), organisationalUnitIds.ToList());
-            _cache.SetCache(cacheKey, returnValue, _settings.CacheSeconds_PropertyResult);
+            // Not in cache, load from web services
+            // first sort the queries by source
+            Dictionary<string, List<PropertyQuery>> queriesBySource = new Dictionary<string, List<PropertyQuery>>();
+            foreach (var query in queries)
+            {
+                List<PropertyQuery> list = null;
+                if (queriesBySource.ContainsKey(query.SourceName))
+                {
+                    list = queriesBySource[query.SourceName];
+                }
+                else
+                {
+                    list = new List<PropertyQuery>();
+                    queriesBySource.Add(query.SourceName, list);
+                }
 
-            return returnValue;
+                list.Add(query);
+            }
+
+
+            // Load info from sources
+            List<PropertyQueryWithResults> results = new List<PropertyQueryWithResults>();
+            foreach (var sourceQueries in queriesBySource)
+            {
+                var source = FindSource(sourceQueries.Key);
+                if (source != null)
+                {
+                    var sourceResults = source.GetPropertyResults(sourceQueries.Value, organisationalUnits);
+                    results.AddRange(sourceResults);
+                }
+            }
+
+            // var returnValue = _townWebService.GetPropertyResults(queries, organisationalUnits);
+            _cache.SetCache(cacheKey, results, _settings.CacheSeconds_PropertyResult);
+
+            return results;
         }
 
-        #endregion
-        
+
+        private ITownWebService FindSource(string sourceName)
+        {
+            foreach (var source in _townWebServices)
+            {
+                if (source.GetName().ToLower() == sourceName.ToLower())
+                {
+                    return source;
+                }
+            }
+
+            return null;
+        }
     }
 }

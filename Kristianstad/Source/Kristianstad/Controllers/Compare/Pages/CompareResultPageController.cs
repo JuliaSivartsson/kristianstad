@@ -50,22 +50,25 @@ namespace Kristianstad.Controllers.Compare
             var webServiceQueries = CompareServiceFactory.Instance.GetWebServicePropertyQueries();
 
             // Set queries to view model
-            model.ResultQueryGroupsFromSources = webServiceQueries.Select(g => new ResultQueryGroupModel()
+            foreach (var source in webServiceQueries)
             {
-                Name = g.Title,
-                SourceName = g.SourceName,
-                SourceId = g.SourceId,
-                InfoReadAt = g.InfoReadAt,
-                ResultQueries = g.Queries.Select(q => new ResultQueryModel()
+                model.ResultQueryGroupsFromSources.AddRange(source.Value.Select(g => new ResultQueryGroupModel()
                 {
-                    SourceName = q.SourceName,
-                    SourceId = q.SourceId,
-                    Name = q.Title,
-                    InfoReadAt = q.InfoReadAt,
-                    Use = existingQueries != null && existingQueries.Any(eq => eq.SourceInfo.SourceName == q.SourceName && eq.SourceInfo.SourceId == q.SourceId),
-                    UseBefore = existingQueries != null && existingQueries.Any(eq => eq.SourceInfo.SourceName == q.SourceName && eq.SourceInfo.SourceId == q.SourceId)
-                }).ToList()
-            }).ToList();
+                    Name = g.Name,
+                    SourceName = g.SourceName,
+                    SourceId = g.SourceId,
+                    InfoReadAt = g.InfoReadAt,
+                    ResultQueries = g.Queries.Select(q => new ResultQueryModel()
+                    {
+                        SourceName = q.SourceName,
+                        SourceId = q.SourceId,
+                        Name = q.Name,
+                        InfoReadAt = q.InfoReadAt,
+                        Use = existingQueries != null && existingQueries.Any(eq => eq.SourceInfo.SourceName == q.SourceName && eq.SourceInfo.SourceId == q.SourceId),
+                        UseBefore = existingQueries != null && existingQueries.Any(eq => eq.SourceInfo.SourceName == q.SourceName && eq.SourceInfo.SourceId == q.SourceId)
+                    }).ToList()
+                }).ToList());
+            }
 
             model.OrganisationalUnits = GetOrganisationalUnits(currentPage);
 
