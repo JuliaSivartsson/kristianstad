@@ -40,7 +40,7 @@ namespace Kristianstad.Controllers.Compare
             _cookieHelper = new CookieHelper();
         }
 
-        public ActionResult Index(CompareResultPage currentPage)
+        public ActionResult Index(CompareResultPage currentPage, string address = null)
         {
             var model = new CompareResultPageModel(currentPage);
 
@@ -70,6 +70,11 @@ namespace Kristianstad.Controllers.Compare
                     }).ToList()
                 }).ToList());
             }
+
+            model.DistanceList = new DistanceFromAddressModel()
+            {
+                MeasureFromAddress = address
+            };
 
             model.OrganisationalUnits = GetOrganisationalUnitModels(currentPage);
 
@@ -201,7 +206,7 @@ namespace Kristianstad.Controllers.Compare
                         {
                             SourceId = resultQueryBlock.SourceInfo.SourceId,
                             SourceName = resultQueryBlock.SourceInfo.SourceName,
-                            Title = resultQueryBlock.SourceInfo.Name
+                            Name = resultQueryBlock.SourceInfo.Name
                         };
                         values.Add(pq);
                     }
@@ -248,7 +253,8 @@ namespace Kristianstad.Controllers.Compare
                 OrganisationalUnit pageModel = new OrganisationalUnit
                 {
                     SourceId = page.SourceInfo.SourceId,
-                    Title = page.Name
+                    Name = page.Name,
+                    SourceName = page.SourceInfo.SourceName
                 };
 
                 oUnitsList.Add(pageModel);

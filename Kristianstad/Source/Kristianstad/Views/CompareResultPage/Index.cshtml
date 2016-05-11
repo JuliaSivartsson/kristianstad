@@ -10,6 +10,62 @@
 
 @Html.CssLink("~/Content/compare.css")
 
+<script>
+    function GetSearchLocation(adress)
+    {
+        var geocoder = new google.maps.Geocoder();
+        geocoder.geocode({ 'address': adress }, function (results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+                document.getElementById("MeasureFromAddress").innerHTML = results[0].formatted_address;
+            }
+        });
+    }
+
+    function GetLocation(addressValue1, addressValue2, fn) {
+             var geocoder= new google.maps.Geocoder();
+             var address1 = addressValue1;
+             var address2 = addressValue2;
+             geocoder.geocode({ 'address': address1 }, function (results, status) {
+                 if (status == google.maps.GeocoderStatus.OK) {
+                     var latitude1 = results[0].geometry.location.lat();
+                     var longitude1 = results[0].geometry.location.lng();
+                     var string = latitude1 + "," + longitude1;
+
+                     geocoder.geocode({ 'address': address2 }, function (results, status) {
+                         if (status == google.maps.GeocoderStatus.OK) {
+                             var latitude2 = results[0].geometry.location.lat();
+                             var longitude2 = results[0].geometry.location.lng();
+                             var string2 = string + "," + latitude2 + "," + longitude2;
+                             fn(string2);
+                         }
+                     });
+                 } else {
+                     return ("Request failed.");
+                 }
+             });
+    };
+
+    function getDistanceFromLatLonInKm(latlon) {
+        var res = latlon.split(",");
+        var R = 6371; // Radius of the earth in km
+        var dLat = deg2rad(res[2]-res[0]);  // deg2rad below
+        var dLon = deg2rad(res[3]-res[1]);
+        var a =
+          Math.sin(dLat/2) * Math.sin(dLat/2) +
+          Math.cos(deg2rad(res[0])) * Math.cos(deg2rad(res[2])) *
+          Math.sin(dLon/2) * Math.sin(dLon/2)
+        ;
+        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        var d = R * c; // Distance in km
+        var distans = Math.round(d * 100) / 100;
+        return distans;
+    }
+
+    function deg2rad(deg) {
+        return deg * (Math.PI/180)
+    }
+</script>
+
 <div class="column small-12 medium-12 large-12 content-page content">
     @{
         Html.RenderAction("Breadcrumbs", "MenuKr");
@@ -18,6 +74,31 @@
     <h1 @Html.EditAttributes(x => x.CurrentPage.PageName)>@Model.CurrentPage.PageName</h1>
 
     @Html.PropertyFor(x => x.CurrentPage.Description)
+
+    @using (Html.BeginForm("Index", "CompareResultPage"))
+    {
+        <div class="row">
+            <div class="column small-12 medium-12 large-10">
+                @Html.TextBox("address")
+            </div>
+            <div class="column small-12 medium-12 large-2">
+                <input type="submit" class="button" value="Skriv in address" />
+            </div>
+        </div>
+        <hr />
+    }
+
+    @if (@Model.DistanceList.MeasureFromAddress != null)
+    {
+        <div>Adress för distansmätning: 
+        <span id="MeasureFromAddress">
+
+        </span>
+        <script>
+            GetSearchLocation(@Html.Raw(Json.Encode(Model.DistanceList.MeasureFromAddress)));
+        </script>
+        </div><hr />
+    }
 
 
     <div class="compare-main-box">
@@ -97,10 +178,28 @@
                     }
                 </tr>
 
+                @if (Model.DistanceList.MeasureFromAddress != null)
+                {
+                    <tr>
+                        <td class="query"><div><span>Distans</span></div></td>
+                        @foreach (OrganisationalUnitModel ou in Model.OrganisationalUnits)
+                        {
+                            <td id="@ou.Adress" class="result">
+                                <span>
+                                    <script>
+                                        GetLocation(@Html.Raw(Json.Encode(ou.Adress)), @Html.Raw(Json.Encode(Model.DistanceList.MeasureFromAddress)), function(result){ document.getElementById(@Html.Raw(Json.Encode(ou.Adress))).innerHTML += getDistanceFromLatLonInKm(result) + " km"; });
+                                    </script>
+                                </span>
+                            </td>
+                        }
+                    </tr>
+
+                }
+
                 @foreach (PropertyQueryWithResults pqwr in (List<PropertyQueryWithResults>)ViewData["existingQueries"])
                 {
                     <tr>
-                        <td class="query"><div><span>@pqwr.Query.Title</span></div></td>
+                        <td class="query"><div><span>@pqwr.Query.Name</span></div></td>
                         
                         @foreach (OrganisationalUnitModel ou in Model.OrganisationalUnits)
                         {
@@ -144,7 +243,7 @@
 
                                     if (viewValue != null)
                                     {
-                                        if (pqwr.Query.Title.Contains('%'))
+                                        if (pqwr.Query.Name.Contains('%'))
                                         {
                                             <div class="answer-percent-bar">
                                                 <div class="percentageBox">
