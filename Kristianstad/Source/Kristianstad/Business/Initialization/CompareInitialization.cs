@@ -30,6 +30,7 @@ namespace Kristianstad.Business.Initialization
     public class CompareInitialization : IInitializableModule
     {
         private const string ORGANISATIONAL_UNIT_FOLDER_NAME = "OrganisationalUnits";
+        private readonly Injected<IContentLoader> _contentLoader;
 
         public void Initialize(InitializationEngine context)
         {
@@ -159,14 +160,63 @@ namespace Kristianstad.Business.Initialization
             }
             else if (string.Equals(e.Page.PageTypeName, typeof(CategoryPage).GetPageType().Name, StringComparison.OrdinalIgnoreCase))
             {
-                /*
-                var categoryRepository = ServiceLocator.Current.GetInstance<CategoryRepository>();
-                var category = CategoryHelper.FindCompareCategory(categoryRepository, e.Page.Name);
-                if (category == null)
-                {
-                    CategoryHelper.SaveCompareCategory(categoryRepository, e.Page.Name, e.Page.Name);
-                }
-                */
+                
+                //var categoryRepository = ServiceLocator.Current.GetInstance<CategoryRepository>();
+                //Category category = CategoryHelper.FindCompareCategory(categoryRepository, e.Page.Name);
+
+                //if (category == null)
+                //{
+                //    Category newCategory = CategoryHelper.SaveCompareCategory(categoryRepository, e.Page.Name, e.Page.Name);
+                //}
+
+                //var contentRepository = ServiceLocator.Current.GetInstance<IContentRepository>();
+                //CreateCompareResultPage(contentRepository, e.ContentLink);
+
+                //var contentRepository = ServiceLocator.Current.GetInstance<IContentRepository>();
+                //var contentTypeRepository = ServiceLocator.Current.GetInstance<IContentTypeRepository>();
+                //var contentAssetHelper = ServiceLocator.Current.GetInstance<ContentAssetHelper>();
+
+                //var newCategoryName = e.Page.Name;
+
+                //// Group Category Page
+                //PageData ancestorPage = contentRepository.Get<PageData>(e.Page.ParentLink);
+                //string groupCategoryName = null;
+                //if (ancestorPage is GroupCategoryPage)
+                //{
+                //    groupCategoryName = ancestorPage.Name;
+                //    bool existingOuPage = contentRepository.GetChildren<CategoryPage>(ancestorPage.ContentLink, LanguageSelector.AutoDetect(true)).Where(x => x.Name.ToLower() == newCategoryName.ToLower()).Any();
+                //    if (!existingOuPage)
+                //    {
+                //        if (!string.IsNullOrWhiteSpace(newCategoryName))
+                //        {
+                //            var categoryRepository = ServiceLocator.Current.GetInstance<CategoryRepository>();
+                //            Category category = CategoryHelper.FindCompareCategory(categoryRepository, newCategoryName);
+                //            if (category == null)
+                //            {
+                //                //category = CategoryHelper.SaveCompareCategory(categoryRepository, newCategoryName, newCategoryName);
+
+                //                CategoryPage categoryPage = contentRepository.GetChildren<CategoryPage>(ancestorPage.ContentLink).Last();
+
+                //                //var repository = ServiceLocator.Current.GetInstance<IContentRepository>();
+                //                //var contentReference = new ContentReference(category.ID);
+                //                //CategoryPage cp = repository.Get<CategoryPage>(contentReference);
+
+                //                //CreateCompareResultPage(contentRepository, cp.ContentLink);
+                //            }
+
+                //            // add category to the ou page
+                //            //e.Page.Category.Add(category.ID);
+
+                //        }
+                //    }
+                //    else
+                //    {
+                //        // cancel, ou page already exists in this comparison content
+                //        e.CancelReason = "An organisational unit with the name " + e.Page.Name + " already exists. Please choose another name or edit the existing one.";
+                //        e.CancelAction = true;
+                //    }
+                //}
+
             }
             /*
             else if (string.Equals(e.Page.PageTypeName, typeof(OrganisationalUnitPage).GetPageType().Name, StringComparison.OrdinalIgnoreCase))
@@ -208,6 +258,17 @@ namespace Kristianstad.Business.Initialization
                 }
             }
             */
+        }
+
+        private void CreateCompareResultPage(IContentRepository contentRepository, ContentReference parentContentLink)
+        {
+            var newPage = contentRepository.GetDefault<CompareResultPage>(parentContentLink);
+            newPage.Name = "Jämför";
+            newPage.MenuTitle = "Jämför";
+            newPage.MenuDescription = "Jämför";
+
+            // Save the page
+            contentRepository.Save(newPage, SaveAction.Save);
         }
 
         public void Preload(string[] parameters) { }

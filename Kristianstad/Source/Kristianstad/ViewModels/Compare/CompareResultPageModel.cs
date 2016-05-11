@@ -23,5 +23,7 @@ namespace Kristianstad.ViewModels.Compare
         public List<ResultQueryGroupModel> ResultQueryGroupsFromSources { get; set; }
 
         public List<OrganisationalUnitModel> OrganisationalUnits { get; set; }
+
+        public DistanceFromAddressModel DistanceList { get; set; }
     }
 }
