@@ -92,7 +92,7 @@
     {
         <div>Adress för distansmätning: 
         <span id="MeasureFromAddress">
-
+            Ingen funnen adress.
         </span>
         <script>
             GetSearchLocation(@Html.Raw(Json.Encode(Model.DistanceList.MeasureFromAddress)));
@@ -186,8 +186,9 @@
                         {
                             <td id="@ou.Adress" class="result">
                                 <span>
+                                    -
                                     <script>
-                                        GetLocation(@Html.Raw(Json.Encode(ou.Adress)), @Html.Raw(Json.Encode(Model.DistanceList.MeasureFromAddress)), function(result){ document.getElementById(@Html.Raw(Json.Encode(ou.Adress))).innerHTML += getDistanceFromLatLonInKm(result) + " km"; });
+                                        GetLocation(@Html.Raw(Json.Encode(ou.Adress)), @Html.Raw(Json.Encode(Model.DistanceList.MeasureFromAddress)), function(result){ document.getElementById(@Html.Raw(Json.Encode(ou.Adress))).innerHTML = getDistanceFromLatLonInKm(result) + " km"; });
                                     </script>
                                 </span>
                             </td>
