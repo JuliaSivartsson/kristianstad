@@ -37,6 +37,7 @@ namespace Kristianstad.Business.Initialization
             DataFactory.Instance.CreatingPage += Instance_CreatingPage;
             DataFactory.Instance.SavingContent += Instance_SavingContent;
             DataFactory.Instance.SavedContent += Instance_SavedContent;
+            DataFactory.Instance.CreatedPage += Instance_CreatedPage;
         }
 
         public void Uninitialize(InitializationEngine context)
@@ -44,6 +45,7 @@ namespace Kristianstad.Business.Initialization
             DataFactory.Instance.CreatingPage -= Instance_CreatingPage;
             DataFactory.Instance.SavingContent -= Instance_SavingContent;
             DataFactory.Instance.SavedContent -= Instance_SavedContent;
+            DataFactory.Instance.CreatedPage += Instance_CreatedPage;
         }
 
         // Returns if we are doing an import or mirroring
@@ -56,6 +58,9 @@ namespace Kristianstad.Business.Initialization
         {
             if (e.Content is CategoryPage)
             {
+                var contentRepository = ServiceLocator.Current.GetInstance<IContentRepository>();
+                PageData ancestorPage = contentRepository.Get<PageData>(e.ContentLink);
+                var test = contentRepository.GetChildren<CategoryPage>(ancestorPage.ContentLink, LanguageSelector.AutoDetect(true));
                 /*
                 var page = e.Content as CategoryPage;
                 if (!string.IsNullOrWhiteSpace(page.CreateNewOrganisationalUnits))
@@ -147,6 +152,15 @@ namespace Kristianstad.Business.Initialization
             }
         }
 
+        void Instance_CreatedPage(object sender, PageEventArgs e)
+        {
+            if (string.Equals(e.Page.PageTypeName, typeof(CategoryPage).GetPageType().Name, StringComparison.OrdinalIgnoreCase))
+            {
+                var contentRepository = ServiceLocator.Current.GetInstance<IContentRepository>();
+                CreateCompareResultPage(contentRepository, e.ContentLink);
+            }
+        }
+
         void Instance_CreatingPage(object sender, PageEventArgs e)
         {
             if (IsImport() || e.Content == null)
@@ -158,9 +172,19 @@ namespace Kristianstad.Business.Initialization
             {
                 // Empty
             }
+            if (string.Equals(e.Page.PageTypeName, typeof(CompareResultPage).GetPageType().Name, StringComparison.OrdinalIgnoreCase))
+            {
+                var contentRepository = ServiceLocator.Current.GetInstance<IContentRepository>();
+                PageData ancestorPage = contentRepository.Get<PageData>(e.Page.ParentLink);
+                List<CompareResultPage> test = contentRepository.GetChildren<CompareResultPage>(ancestorPage.ContentLink, LanguageSelector.AutoDetect(true)).ToList<CompareResultPage>();
+                if (test.Count > 0)
+                {
+                    e.CancelAction = true;
+                    e.CancelReason = "There is already a CompareResultPage linked to this CategoryPage.";
+                }
+            }
             else if (string.Equals(e.Page.PageTypeName, typeof(CategoryPage).GetPageType().Name, StringComparison.OrdinalIgnoreCase))
             {
-                
                 //var categoryRepository = ServiceLocator.Current.GetInstance<CategoryRepository>();
                 //Category category = CategoryHelper.FindCompareCategory(categoryRepository, e.Page.Name);
 
@@ -262,10 +286,12 @@ namespace Kristianstad.Business.Initialization
 
         private void CreateCompareResultPage(IContentRepository contentRepository, ContentReference parentContentLink)
         {
+            //CompareResultPage newPage = new CompareResultPage();
             var newPage = contentRepository.GetDefault<CompareResultPage>(parentContentLink);
             newPage.Name = "Jämför";
             newPage.MenuTitle = "Jämför";
             newPage.MenuDescription = "Jämför";
+            //newPage.ParentLink.ID = parentContentLink.ID;
 
             // Save the page
             contentRepository.Save(newPage, SaveAction.Save);
