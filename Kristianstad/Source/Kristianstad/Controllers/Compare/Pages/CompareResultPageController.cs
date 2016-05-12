@@ -146,16 +146,15 @@ namespace Kristianstad.Controllers.Compare
                             else if (!query.Use)
                             {
                                 // Try to find the block
-                                var existingBlock = currentPage.ResultQueries.Items.OfType<ResultQueryBlock>().Where(b => b.SourceInfo != null && b.SourceInfo.SourceName == query.SourceName && b.SourceInfo.SourceId == query.SourceId).FirstOrDefault();
+                                List<ResultQueryBlock> rqbList = GetResultQueryBlock(currentPage.ResultQueries.Items);
+                                ResultQueryBlock existingBlock = rqbList.Where(b => b.SourceInfo != null && b.SourceInfo.SourceName == query.SourceName && b.SourceInfo.SourceId == query.SourceId).FirstOrDefault();
+
                                 if (existingBlock != null)
                                 {
-                                    anyChanges = true;
-
                                     // Remove the block from the page queries content area
-                                    writablePage.ResultQueries.Items.Remove(new ContentAreaItem
-                                    {
-                                        ContentLink = ((IContent)existingBlock).ContentLink
-                                    });
+                                    anyChanges = true;
+                                    ContentAreaItem cai = writablePage.ResultQueries.Items.Where(o => o.ContentLink.ID == ((IContent)existingBlock).ContentLink.ID).FirstOrDefault();
+                                    writablePage.ResultQueries.Items.Remove(cai);
                                 }
                             }
                         }
@@ -261,6 +260,25 @@ namespace Kristianstad.Controllers.Compare
             }
 
             return oUnitsList;
+        }
+
+        private List<ResultQueryBlock> GetResultQueryBlock(IList<ContentAreaItem> existingItems)
+        {
+            List<ResultQueryBlock> list = new List<ResultQueryBlock>();
+            var repository = ServiceLocator.Current.GetInstance<IContentRepository>();
+
+            foreach (ContentAreaItem cai in existingItems)
+            {
+                var contentReference = new ContentReference(cai.ContentLink.ID);
+                ResultQueryBlock rqb = repository.Get<ResultQueryBlock>(contentReference);
+
+                if (rqb != null)
+                {
+                    list.Add(rqb);
+                } 
+            }
+
+            return list;
         }
     }
 }
