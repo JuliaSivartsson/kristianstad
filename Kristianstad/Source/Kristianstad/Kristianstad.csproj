@@ -175,6 +175,7 @@
     <Content Include="Content\img\svg\logo-kristianstadskommun.svg" />
     <Content Include="Content\img\template\img-puff.jpg" />
     <Content Include="Content\js\compare\compare.js" />
+    <Content Include="Content\js\compare\geocoder.js" />
     <Content Include="Content\js\src\layout\init.js" />
     <Content Include="Content\js\src\map\init.js" />
     <Content Include="Content\css\vendor\ol.css" />

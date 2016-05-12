@@ -24,6 +24,13 @@
     </nav>
     if (@ViewData["compareLink"] != null)
     {
-        <a href="@ViewData["compareLink"]" class="button">Jämför objekt</a>
+        if (Model.OrganisationalUnits.Count > 1)
+        {
+            <a href="@ViewData["compareLink"]" class="button">Jämför objekt</a>
+        }
+        else
+        {
+            <span class="button" title="Minst två objekt måste jämföras.">Välj minst två objekt för att jämföra</span>
+        }
     }
 }
