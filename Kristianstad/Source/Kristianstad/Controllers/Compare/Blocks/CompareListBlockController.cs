@@ -21,7 +21,6 @@ namespace Kristianstad.Controllers.Compare
 {
     public class CompareListBlockController : BaseBlockController<CompareListBlock>
     {
-        private const string CookieName = "compare";
         private readonly Injected<IContentLoader> _contentLoader;
         private CookieHelper _cookieHelper;
 
@@ -77,23 +76,25 @@ namespace Kristianstad.Controllers.Compare
 
         private CompareListModel CreateModel(CompareListBlock currentBlock)
         {
-            List<PageData> ouPages = FindOrganisationalUnits(currentBlock).ToList();
             CompareListModel model = new CompareListModel();
+            model.CategoryId = GetCategoryId(currentBlock);
+            model.CurrentLink = CompareHelper.GetExternalUrl(CompareHelper.GetCurrentPage());
 
-            int categoryId = GetCategoryId(currentBlock);
             var repository = ServiceLocator.Current.GetInstance<IContentRepository>();
-            var contentReference = new ContentReference(categoryId);
+            var contentReference = new ContentReference(model.CategoryId);
+            model.ClearLink = CompareHelper.GetExternalUrl(repository.Get<CategoryPage>(contentReference));
+
+            // Gets link to CompareResultPage, if there is one.
             if (repository.GetChildren<CompareResultPage>(contentReference).ToList().Count > 0)
             {
                 CompareResultPage cPage = repository.GetChildren<CompareResultPage>(contentReference).ToList().First();
-                string compareLink = CompareHelper.GetExternalUrl(cPage);
-
-                ViewData.Add("compareLink", compareLink);
+                model.CompareLink = CompareHelper.GetExternalUrl(cPage);
             }
 
-            foreach (int ou in _cookieHelper.GetCookie(categoryId))
+            // Gets Organisational Units from Cookies and adds them to the ViewModel.
+            foreach (int ou in _cookieHelper.GetCookie(model.CategoryId))
             {
-                PageData page = ouPages.Where(o => o.ContentLink.ID == ou).First();
+                PageData page = FindOrganisationalUnits(currentBlock).ToList().Where(o => o.ContentLink.ID == ou).First();
                 if (page != null)
                 {
                     CompareModel cm = new CompareModel
