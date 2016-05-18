@@ -20,193 +20,204 @@
 
     @Html.PropertyFor(x => x.CurrentPage.Description)
 
-    @using (Html.BeginForm("Index", "CompareResultPage"))
-    {
-        <div class="row">
-            <div class="column small-12 medium-12 large-10">
-                @Html.TextBox("address", null, new { placeholder = "Ange en adress för att mäta distans" })
+    @if (Model.OrganisationalUnits.Count > 0)
+    { 
+        using (Html.BeginForm("Index", "CompareResultPage"))
+        {
+            <div class="row">
+                <div class="column small-12 medium-12 large-10">
+                    @Html.TextBox("address", null, new { placeholder = "Ange en adress för att mäta distans" })
+                </div>
+                <div class="column small-12 medium-12 large-2">
+                    <input type="submit" class="button" value="Mät distans" />
+                </div>
             </div>
-            <div class="column small-12 medium-12 large-2">
-                <input type="submit" class="button" value="Mät distans" />
-            </div>
-        </div>
-        <hr />
-    }
+            <hr />
+        }
 
-    @if (@Model.DistanceList.MeasureFromAddress != null)
-    {
-        <div>Adress för distansmätning: 
-        <span id="MeasureFromAddress">
-            Ingen funnen adress.
-        </span>
-        <script>
-            GetSearchLocation(@Html.Raw(Json.Encode(Model.DistanceList.MeasureFromAddress)));
-        </script>
-        </div><hr />
-    }
+        if (@Model.DistanceList.MeasureFromAddress != null)
+        {
+            <div>Adress för distansmätning: 
+            <span id="MeasureFromAddress">
+                Ingen funnen adress.
+            </span>
+            <script>
+                GetSearchLocation(@Html.Raw(Json.Encode(Model.DistanceList.MeasureFromAddress)));
+            </script>
+            </div><hr />
+        }
 
 
-    <div class="compare-main-box">
-        <table class="compare-table">
-            <thead>
-                <tr>
-                    <td></td>
-                    @foreach (OrganisationalUnitModel ou in Model.OrganisationalUnits)
-                    {
-                        <td>
-                            <div>
-                                <p>@ou.Title</p>
-                            </div>
-                            <div>
-                                @if (ou.TitleImage != null)
+        <div class="compare-main-box">
+            <table class="compare-table">
+                <thead>
+                    <tr>
+                        <td></td>
+                        @foreach (OrganisationalUnitModel ou in Model.OrganisationalUnits)
+                        {
+                            <td>
+                                <div>
+                                    <p>@ou.Title</p>
+                                </div>
+                                <div>
+                                    @if (ou.TitleImage != null)
+                                    {
+                                        <img src="@Url.ContentUrl(ou.TitleImage)" />
+                                    }
+                                    else
+                                    {
+                                        <img src="~/Content/img/template/img-innehallssida.jpg" />
+                                    }
+                                </div>
+                            </td>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="query"><div><span>Address</span></div></td>
+                        @foreach (OrganisationalUnitModel ou in Model.OrganisationalUnits)
+                        {
+                            <td class="result">
+                                @if (ou.Adress != null)
                                 {
-                                    <img src="@Url.ContentUrl(ou.TitleImage)" />
+                                    <div><span>@ou.Adress</span></div>
                                 }
                                 else
                                 {
-                                    <img src="~/Content/img/template/img-innehallssida.jpg" />
+                                    <div><span class="noValue">Inget värde.</span></div>
                                 }
-                            </div>
-                        </td>
-                    }
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td class="query"><div><span>Address</span></div></td>
-                    @foreach (OrganisationalUnitModel ou in Model.OrganisationalUnits)
-                    {
-                        <td class="result">
-                            @if (ou.Adress != null)
-                            {
-                                <div><span>@ou.Adress</span></div>
-                            }
-                            else
-                            {
-                                <div><span class="noValue">Inget värde.</span></div>
-                            }
-                        </td>
-                    }
-                </tr>
-
-                <tr>
-                    <td class="query"><div><span>Telefon</span></div></td>
-                    @foreach (OrganisationalUnitModel ou in Model.OrganisationalUnits)
-                    {
-                        <td class="result">
-                            @if (ou.Telephone != null)
-                            {
-                                <div><span>@ou.Telephone</span></div>
-                            }
-                            else
-                            {
-                                <div><span class="noValue">Inget värde.</span></div>
-                            }
-                        </td>
-                    }
-                </tr>
-
-                <tr>
-                    <td class="query"><div><span>E-mail</span></div></td>
-                    @foreach (OrganisationalUnitModel ou in Model.OrganisationalUnits)
-                    {
-                        <td class="result">
-                            @if (ou.Email != null)
-                            {
-                                <div><a href="mailto:@ou.Email">@ou.Email</a></div>
-                            }
-                            else
-                            {
-                                <div><span class="noValue">Inget värde.</span></div>
-                            }
-                        </td>
-                    }
-                </tr>
-
-                @if (Model.DistanceList.MeasureFromAddress != null)
-                {
-                    <tr>
-                        <td class="query"><div><span>Distans</span></div></td>
-                        @foreach (OrganisationalUnitModel ou in Model.OrganisationalUnits)
-                        {
-                            <td id="@ou.Adress" class="result">
-                                <span>
-                                    -
-                                    <script>
-                                        GetLocation(@Html.Raw(Json.Encode(ou.Adress)), @Html.Raw(Json.Encode(Model.DistanceList.MeasureFromAddress)), function(result){ document.getElementById(@Html.Raw(Json.Encode(ou.Adress))).innerHTML = getDistanceFromLatLonInKm(result) + " km"; });
-                                    </script>
-                                </span>
                             </td>
                         }
                     </tr>
 
-                }
-
-                @foreach (PropertyQueryWithResults pqwr in (List<PropertyQueryWithResults>)ViewData["existingQueries"])
-                {
                     <tr>
-                        <td class="query"><div><span>@pqwr.Query.Name</span></div></td>
-                        
+                        <td class="query"><div><span>Telefon</span></div></td>
                         @foreach (OrganisationalUnitModel ou in Model.OrganisationalUnits)
                         {
-                            float? viewValue = null;
-                            int? viewPeriod = null;
-
                             <td class="result">
-                                @if (@pqwr.Results.Where(x => x.OrganisationalUnitId == ou.SourceId).First().PeriodValues.Count > 0)
+                                @if (ou.Telephone != null)
                                 {
-                                    pqwr.Results.Where(x => x.OrganisationalUnitId == ou.SourceId).Reverse();
+                                    <div><span>@ou.Telephone</span></div>
+                                }
+                                else
+                                {
+                                    <div><span class="noValue">Inget värde.</span></div>
+                                }
+                            </td>
+                        }
+                    </tr>
 
-                                    foreach (PropertyQueryResult periods in @pqwr.Results.Where(x => x.OrganisationalUnitId == ou.SourceId))
+                    <tr>
+                        <td class="query"><div><span>E-mail</span></div></td>
+                        @foreach (OrganisationalUnitModel ou in Model.OrganisationalUnits)
+                        {
+                            <td class="result">
+                                @if (ou.Email != null)
+                                {
+                                    <div><a href="mailto:@ou.Email">@ou.Email</a></div>
+                                }
+                                else
+                                {
+                                    <div><span class="noValue">Inget värde.</span></div>
+                                }
+                            </td>
+                        }
+                    </tr>
+
+                    @if (Model.DistanceList.MeasureFromAddress != null)
+                    {
+                        <tr>
+                            <td class="query"><div><span>Distans</span></div></td>
+                            @foreach (OrganisationalUnitModel ou in Model.OrganisationalUnits)
+                            {
+                                <td id="@ou.Adress" class="result">
+                                    <span>
+                                        -
+                                        <script>
+                                            GetLocation(@Html.Raw(Json.Encode(ou.Adress)), @Html.Raw(Json.Encode(Model.DistanceList.MeasureFromAddress)), function(result){ document.getElementById(@Html.Raw(Json.Encode(ou.Adress))).innerHTML = getDistanceFromLatLonInKm(result) + " km"; });
+                                        </script>
+                                    </span>
+                                </td>
+                            }
+                        </tr>
+
+                    }
+
+                    @foreach (PropertyQueryWithResults pqwr in (List<PropertyQueryWithResults>)ViewData["existingQueries"])
+                    {
+                        <tr>
+                            <td class="query"><div><span>@pqwr.Query.Name</span></div></td>
+                        
+                            @foreach (OrganisationalUnitModel ou in Model.OrganisationalUnits)
+                            {
+                                float? viewValue = null;
+                                int? viewPeriod = null;
+
+                                <td class="result">
+                                    @if (@pqwr.Results.Where(x => x.OrganisationalUnitId == ou.SourceId).First().PeriodValues.Count > 0)
                                     {
-                                        foreach (PropertyQueryResultForPeriod valuePeriod in periods.PeriodValues)
+                                        pqwr.Results.Where(x => x.OrganisationalUnitId == ou.SourceId).Reverse();
+
+                                        foreach (PropertyQueryResult periods in @pqwr.Results.Where(x => x.OrganisationalUnitId == ou.SourceId))
                                         {
-                                            foreach (PropertyQueryResultValue value in valuePeriod.Values)
+                                            foreach (PropertyQueryResultForPeriod valuePeriod in periods.PeriodValues)
                                             {
-                                                if (value.Value != null)
+                                                foreach (PropertyQueryResultValue value in valuePeriod.Values)
                                                 {
-                                                    viewValue = value.Value;
+                                                    if (value.Value != null)
+                                                    {
+                                                        viewValue = value.Value;
+                                                    }
+
+                                                    if (viewValue != null)
+                                                    {
+                                                        break;
+                                                    }
                                                 }
 
                                                 if (viewValue != null)
                                                 {
+                                                    viewPeriod = valuePeriod.Period;
                                                     break;
                                                 }
                                             }
 
                                             if (viewValue != null)
                                             {
-                                                viewPeriod = valuePeriod.Period;
                                                 break;
                                             }
                                         }
 
                                         if (viewValue != null)
                                         {
-                                            break;
-                                        }
-                                    }
-
-                                    if (viewValue != null)
-                                    {
-                                        if (pqwr.Query.Name.Contains('%'))
-                                        {
-                                            <div class="answer-percent-bar">
-                                                <div class="percentageBox">
-                                                    <div class="percentage" style="width: @((int)viewValue)%"></div>
+                                            if (pqwr.Query.Name.Contains('%'))
+                                            {
+                                                <div class="answer-percent-bar">
+                                                    <div class="percentageBox">
+                                                        <div class="percentage" style="width: @((int)viewValue)%"></div>
+                                                    </div>
+                                                    <div class="percentageValue">
+                                                        <span title="År: @viewPeriod">
+                                                            @viewValue%
+                                                        </span>
+                                                    </div>
                                                 </div>
-                                                <div class="percentageValue">
+                                            }
+                                            else
+                                            {
+                                                <div>
                                                     <span title="År: @viewPeriod">
-                                                        @viewValue%
+                                                        @viewValue
                                                     </span>
                                                 </div>
-                                            </div>
+                                            }
                                         }
                                         else
                                         {
                                             <div>
-                                                <span title="År: @viewPeriod">
-                                                    @viewValue
+                                                <span title="Inget värde." class="noValue">
+                                                    -
                                                 </span>
                                             </div>
                                         }
@@ -219,22 +230,14 @@
                                             </span>
                                         </div>
                                     }
-                                }
-                                else
-                                {
-                                    <div>
-                                        <span title="Inget värde." class="noValue">
-                                            -
-                                        </span>
-                                    </div>
-                                }
-                            </td>
-                        }
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
+                                </td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
 
     @if (PageEditing.PageIsInEditMode)
     {
