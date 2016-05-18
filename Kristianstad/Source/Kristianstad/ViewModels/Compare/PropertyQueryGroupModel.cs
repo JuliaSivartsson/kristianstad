@@ -8,9 +8,9 @@ using System.Web;
 
 namespace Kristianstad.ViewModels.Compare
 {
-    public class ResultQueryGroupModel : SourceInfoModel
+    public class PropertyQueryGroupModel : SourceInfoModel
     {
 
-        public List<ResultQueryModel> ResultQueries { get; set; }
+        public List<PropertyQueryModel> PropertyQueries { get; set; }
     }
 }

@@ -45,28 +45,28 @@ namespace Kristianstad.Controllers.Compare
             var model = new CompareResultPageModel(currentPage);
 
             // Get existing queries in category page (if found)
-            List<ResultQueryBlock> existingQueries = GetExistingQueryBlocks(currentPage);
+            List<ResultQueryBlock> existingQueryBlocks = GetExistingQueryBlocks(currentPage);
 
             // Get all web service queries
             var webServiceQueries = CompareServiceFactory.Instance.GetWebServicePropertyQueries();
-            
+
             // Set queries to view model
             foreach (var source in webServiceQueries)
             {
-                model.ResultQueryGroupsFromSources.AddRange(source.Value.Select(g => new ResultQueryGroupModel()
+                model.PropertyQueryGroupsFromSources.AddRange(source.Value.Select(g => new PropertyQueryGroupModel()
                 {
                     Name = g.Name,
                     SourceName = g.SourceName,
                     SourceId = g.SourceId,
                     InfoReadAt = g.InfoReadAt,
-                    ResultQueries = g.Queries.Select(q => new ResultQueryModel()
+                    PropertyQueries = g.Queries.Select(q => new PropertyQueryModel()
                     {
                         SourceName = q.SourceName,
                         SourceId = q.SourceId,
                         Name = q.Name,
                         InfoReadAt = q.InfoReadAt,
-                        Use = existingQueries != null && existingQueries.Any(eq => eq.SourceInfo.SourceName == q.SourceName && eq.SourceInfo.SourceId == q.SourceId),
-                        UseBefore = existingQueries != null && existingQueries.Any(eq => eq.SourceInfo.SourceName == q.SourceName && eq.SourceInfo.SourceId == q.SourceId)
+                        Use = existingQueryBlocks != null && existingQueryBlocks.Any(eq => eq.SourceInfo.SourceName == q.SourceName && eq.SourceInfo.SourceId == q.SourceId),
+                        UseBefore = existingQueryBlocks != null && existingQueryBlocks.Any(eq => eq.SourceInfo.SourceName == q.SourceName && eq.SourceInfo.SourceId == q.SourceId)
                     }).ToList()
                 }).ToList());
             }
@@ -78,22 +78,30 @@ namespace Kristianstad.Controllers.Compare
 
             model.OrganisationalUnits = GetOrganisationalUnitModels(currentPage);
 
-            if (existingQueries.Count > 0)
+            if (existingQueryBlocks.Count > 0)
             {
-                var webServiceQueriesResults = CompareServiceFactory.Instance.GetWebServicePropertyResults(GetExistingQueries(currentPage), GetOrganisationalUnits(currentPage));
-                ViewData["existingQueries"] = webServiceQueriesResults;
+                List<PropertyQuery> existingQueries = existingQueryBlocks.Select(b => new PropertyQuery()
+                {
+                    SourceId = b.SourceInfo.SourceId,
+                    SourceName = b.SourceInfo.SourceName,
+                    Name = b.SourceInfo.Name
+                }).ToList();
+
+                var webServiceQueriesResults = CompareServiceFactory.Instance.GetWebServicePropertyResults(existingQueries, GetOrganisationalUnits(currentPage));
+                //ViewData["existingQueries"] = webServiceQueriesResults;
+                model.QueriesWithResults = webServiceQueriesResults;
             }
             else
             {
-                ViewData["existingQueries"] = new List<PropertyQueryWithResults>();
+                //ViewData["existingQueries"] = new List<PropertyQueryWithResults>();
             }
-            
+
             return View(model);
         }
-        
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult SaveResultQueries(CompareResultPage currentPage, List<ResultQueryGroupModel> resultQueryGroupsFromSources)
+        public ActionResult SaveResultQueries(CompareResultPage currentPage, List<PropertyQueryGroupModel> resultQueryGroupsFromSources)
         {
             var contentRepository = ServiceLocator.Current.GetInstance<IContentRepository>();
             var contentAssetHelper = ServiceLocator.Current.GetInstance<ContentAssetHelper>();
@@ -108,7 +116,7 @@ namespace Kristianstad.Controllers.Compare
             {
                 foreach (var group in resultQueryGroupsFromSources)
                 {
-                    foreach (var query in group.ResultQueries)
+                    foreach (var query in group.PropertyQueries)
                     {
                         if (query.Use != query.UseBefore)
                         {
@@ -183,31 +191,6 @@ namespace Kristianstad.Controllers.Compare
                     if (resultQueryBlock != null)
                     {
                         values.Add(resultQueryBlock);
-                    }
-                }
-            }
-
-            return values;
-        }
-
-        private List<PropertyQuery> GetExistingQueries(CompareResultPage currentPage)
-        {
-            List<PropertyQuery> values = new List<PropertyQuery>();
-            if (currentPage.ResultQueries != null)
-            {
-                foreach (var item in currentPage.ResultQueries.Items)
-                {
-                    var content = item.GetContent();
-                    var resultQueryBlock = content as ResultQueryBlock;
-                    if (resultQueryBlock != null)
-                    {
-                        PropertyQuery pq = new PropertyQuery()
-                        {
-                            SourceId = resultQueryBlock.SourceInfo.SourceId,
-                            SourceName = resultQueryBlock.SourceInfo.SourceName,
-                            Name = resultQueryBlock.SourceInfo.Name
-                        };
-                        values.Add(pq);
                     }
                 }
             }
