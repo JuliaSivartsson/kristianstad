@@ -78,7 +78,7 @@ namespace Kristianstad.Controllers.Compare
 
             model.OrganisationalUnits = GetOrganisationalUnitModels(currentPage);
 
-            if (existingQueryBlocks.Count > 0)
+            if (existingQueryBlocks.Count > 0 && model.OrganisationalUnits.Count > 0)
             {
                 List<PropertyQuery> existingQueries = existingQueryBlocks.Select(b => new PropertyQuery()
                 {
