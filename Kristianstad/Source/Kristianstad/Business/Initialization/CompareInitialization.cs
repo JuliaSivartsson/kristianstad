@@ -38,6 +38,7 @@ namespace Kristianstad.Business.Initialization
             DataFactory.Instance.SavingContent += Instance_SavingContent;
             DataFactory.Instance.SavedContent += Instance_SavedContent;
             DataFactory.Instance.CreatedPage += Instance_CreatedPage;
+            DataFactory.Instance.PublishingPage += Instance_PublishingPage;
         }
 
         public void Uninitialize(InitializationEngine context)
@@ -282,6 +283,25 @@ namespace Kristianstad.Business.Initialization
                 }
             }
             */
+        }
+
+        void Instance_PublishingPage(object sender, PageEventArgs e)
+        {
+            if (string.Equals(e.Page.PageTypeName, typeof(OrganisationalUnitPage).GetPageType().Name, StringComparison.OrdinalIgnoreCase))
+            {
+                var contentRepository = ServiceLocator.Current.GetInstance<IContentRepository>();
+                PageData ancestorPage = contentRepository.Get<PageData>(e.Page.ParentLink);
+                List<OrganisationalUnitPage> organisationalUnits = contentRepository.GetChildren<OrganisationalUnitPage>(ancestorPage.ContentLink, LanguageSelector.AutoDetect(true)).ToList<OrganisationalUnitPage>();
+
+                foreach (OrganisationalUnitPage ouPage in organisationalUnits)
+                {
+                    if (ouPage.Name == e.Page.Name && ouPage.ContentLink.ID != e.Page.ContentLink.ID)
+                    {
+                        e.CancelAction = true;
+                        e.CancelReason = "There is already a OrganisationalUnitPage named '" + e.Page.Name + "'.";
+                    }
+                }
+            }
         }
 
         private void CreateCompareResultPage(IContentRepository contentRepository, ContentReference parentContentLink)
