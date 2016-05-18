@@ -144,7 +144,7 @@
 
                     }
 
-                    @foreach (PropertyQueryWithResults pqwr in (List<PropertyQueryWithResults>)ViewData["existingQueries"])
+                    @foreach (PropertyQueryWithResults pqwr in Model.QueriesWithResults)
                     {
                         <tr>
                             <td class="query"><div><span>@pqwr.Query.Name</span></div></td>

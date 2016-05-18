@@ -9,6 +9,7 @@ using EPiServer.Web;
 using EPiCore.Content.Models.Blocks;
 using Kristianstad.Business.Models.Blocks.Compare;
 using Kristianstad.Business.Models.Blocks;
+using Kristianstad.Models.Attributes;
 
 namespace Kristianstad.Models.Pages.Compare
 {
@@ -65,6 +66,9 @@ namespace Kristianstad.Models.Pages.Compare
         public virtual MapBlock MapBlock { get; set; }
 
         public virtual SourceInfoBlock SourceInfo { get; set; }
+
+        [AllowedTypes(typeof(CompareResultPage))]
+        public virtual PageReference CompareResultPage { get; set; }
 
         public virtual CompareListBlock CompareListBlock { get; set; }
 

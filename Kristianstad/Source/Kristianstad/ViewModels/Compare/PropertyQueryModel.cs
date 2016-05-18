@@ -8,7 +8,7 @@ using System.Web;
 
 namespace Kristianstad.ViewModels.Compare
 {
-    public class ResultQueryModel : SourceInfoModel
+    public class PropertyQueryModel : SourceInfoModel
     {
 
         public bool Use { get; set; }

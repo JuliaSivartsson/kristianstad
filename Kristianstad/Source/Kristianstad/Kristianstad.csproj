@@ -470,6 +470,7 @@
     <Compile Include="HtmlHelpers\LanguageHelper.cs" />
     <Compile Include="HtmlHelpers\FileHelper.cs" />
     <Compile Include="HtmlHelpers\MenuHelper.cs" />
+    <Compile Include="Models\Attributes\LimitPageType.cs" />
     <Compile Include="Models\Attributes\MaxContentCountAttribute.cs" />
     <Compile Include="Models\Attributes\MaxLinkItemsAttribute.cs" />
     <Compile Include="Models\Attributes\MaxRelatedLinksSettingAttribute.cs" />
@@ -494,10 +495,11 @@
     <Compile Include="ViewModels\Compare\GroupCategoryPageModel.cs" />
     <Compile Include="ViewModels\Compare\OrganisationalUnitsSourceModel.cs" />
     <Compile Include="ViewModels\Compare\OrganisationUnitListTestModel.cs" />
-    <Compile Include="ViewModels\Compare\ResultQueryGroupModel.cs" />
+    <Compile Include="ViewModels\Compare\PropertyQueryGroupModel.cs" />
     <Compile Include="ViewModels\Compare\OrganisationalUnitModel.cs" />
+    <Compile Include="ViewModels\Compare\PropertyQueryWithResultsModel.cs" />
     <Compile Include="ViewModels\Compare\SourceInfoModel.cs" />
-    <Compile Include="ViewModels\Compare\ResultQueryModel.cs" />
+    <Compile Include="ViewModels\Compare\PropertyQueryModel.cs" />
     <Compile Include="ViewModels\Compare\CompareModel.cs" />
     <Compile Include="ViewModels\Compare\CompareListModel.cs" />
     <Compile Include="Views\AToZPage\UI\Factories\MegaMenuIconSelectionFactory.cs" />
