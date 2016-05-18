@@ -78,7 +78,7 @@ namespace Kristianstad.Controllers.Compare
 
             model.OrganisationalUnits = GetOrganisationalUnitModels(currentPage);
 
-            if (existingQueries.Count > 0)
+            if (existingQueries.Count > 0 && model.OrganisationalUnits.Count > 0)
             {
                 var webServiceQueriesResults = CompareServiceFactory.Instance.GetWebServicePropertyResults(GetExistingQueries(currentPage), GetOrganisationalUnits(currentPage));
                 ViewData["existingQueries"] = webServiceQueriesResults;
