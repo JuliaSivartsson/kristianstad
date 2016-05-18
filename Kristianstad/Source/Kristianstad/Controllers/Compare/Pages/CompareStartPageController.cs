@@ -1,6 +1,8 @@
 ﻿using EPiCore.ViewModels.Pages;
 using EPiServer;
+using EPiServer.Core;
 using EPiServer.Web.Mvc;
+using Kristianstad.Business.Compare;
 using Kristianstad.Models.Pages.Compare;
 using System;
 using System.Collections.Generic;

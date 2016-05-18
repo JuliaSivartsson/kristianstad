@@ -14,5 +14,9 @@ namespace Kristianstad.ViewModels.Compare
         }
 
         public List<CompareModel> OrganisationalUnits { get; set; }
+        public string ClearLink { get; set; }
+        public string CompareLink { get; set; }
+        public string CurrentLink { get; set; }
+        public int CategoryId { get; set; }
     }
 }

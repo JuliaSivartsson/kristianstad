@@ -30,5 +30,11 @@ namespace Kristianstad.HtmlHelpers
             var friendlyUrl = UriSupport.AbsoluteUrlBySettings(url.ToString());
             return friendlyUrl;
         }
+
+        public static PageData GetCurrentPage()
+        {
+            var pageRouteHelper = ServiceLocator.Current.GetInstance<PageRouteHelper>();
+            return pageRouteHelper.Page;
+        }
     }
 }

@@ -59,5 +59,11 @@ namespace Kristianstad.Business.Compare
 
             return cookie.Select(o => (int)o).ToList();
         }
+
+        public void ClearCookie(int categoryId)
+        {
+            List<int> newCookieCollection = new List<int>();
+            HttpContext.Current.Response.Cookies[COOKIENAME + categoryId].Value = JsonConvert.SerializeObject(newCookieCollection);
+        }
     }
 }

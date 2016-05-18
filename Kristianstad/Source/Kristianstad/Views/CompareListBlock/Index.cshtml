@@ -1,4 +1,5 @@
 ﻿@using EPiServer.Framework.Web.Resources
+@using EPiServer.Editor
 
 @if (Model.OrganisationalUnits.Count > 0)
 {
@@ -14,7 +15,7 @@
                                 <a href="@ou.URL">@ou.Name</a>
                             </div>
                             <div class="column content-page right-content small-12 medium-12 large-4">
-                                <a href="@String.Format("{0}AddOuToCompare/?id={1}", ou.URL, ou.ID)">Ta bort</a>
+                                <a href="@String.Format("{0}AddOuToCompare/?id={1}&redirectBackTo={2}", ou.URL, ou.ID, Model.CurrentLink)">Ta bort</a>
                             </div>
                         </div>
                     </li>
@@ -22,15 +23,17 @@
             </ul>
         </ul>
     </nav>
-    if (@ViewData["compareLink"] != null)
+    if (Model.CompareLink != null)
     {
         if (Model.OrganisationalUnits.Count > 1)
         {
-            <a href="@ViewData["compareLink"]" class="button">Jämför objekt</a>
+            <a href="@Model.CompareLink" class="button">Jämför objekt</a>
         }
         else
         {
-            <span class="button" title="Minst två objekt måste jämföras.">Välj minst två objekt för att jämföra</span>
+            <span class="button secondary" title="Välj minst två objekt för att jämföra.">Jämför objekt</span>
         }
+
+        <a href="@String.Format("{0}ClearList?id={1}&redirectBackTo={2}", Model.ClearLink, Model.CategoryId, Model.CurrentLink)" class="button">Rensa</a>
     }
 }

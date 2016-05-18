@@ -32,7 +32,12 @@ namespace Kristianstad.Controllers.Compare
     public class CategoryController : PageController<CategoryPage>
     {
         private readonly Injected<IContentLoader> _contentLoader;
-        private const string CookieName = "compare";
+        private CookieHelper _cookieHelper;
+
+        public CategoryController()
+        {
+            _cookieHelper = new CookieHelper();
+        }
 
         public ActionResult Index(CategoryPage currentPage, bool doFullRefresh = false, string address = null)
         {
@@ -67,35 +72,21 @@ namespace Kristianstad.Controllers.Compare
                 MeasureFromAddress = address
             };
 
-            ViewData.Add("cookies", GetCookie(CookieName + GetCategoryPageId(currentPage)));
-
-            /*
-            var testList = new OrganisationUnitListTestModel();
-            testList.MeasureFromAddress = address;
-            */
-
-            /*
-            // Add edit hints to refresh when organisational units have changed //TODO: Doesn't work
-            var editingHints = ViewData.GetEditHints<CategoryPageModel, CategoryPage>();
-            editingHints.AddFullRefreshFor(p => p.DoFullRefresh);
-            */
+            ViewData.Add("cookies", _cookieHelper.GetCookie(GetCategoryPageId(currentPage)));
 
             return View(model);
         }
 
-        private List<int> GetCookie(string cookieName)
+        public ActionResult ClearList(CategoryPage currentPage, int id, string redirectBackTo = null)
         {
-            JArray cookie;
-            try
+            _cookieHelper.ClearCookie(id);
+
+            if (!string.IsNullOrWhiteSpace(redirectBackTo))
             {
-                cookie = JArray.Parse(Request.Cookies[cookieName].Value);
-            }
-            catch
-            {
-                cookie = new JArray();
+                return Redirect(redirectBackTo);
             }
 
-            return cookie.Select(o => (int)o).ToList();
+            return RedirectToAction("Index");
         }
 
         private int GetCategoryPageId(CategoryPage currentBlock)
