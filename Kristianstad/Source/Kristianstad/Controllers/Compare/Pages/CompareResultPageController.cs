@@ -113,7 +113,7 @@ namespace Kristianstad.Controllers.Compare
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult SaveResultQueries(CompareResultPage currentPage, List<PropertyQueryGroupModel> resultQueryGroupsFromSources)
+        public ActionResult SaveResultQueries(CompareResultPage currentPage, List<PropertyQueryGroupModel> propertyQueryGroupsFromSources)
         {
             var contentRepository = ServiceLocator.Current.GetInstance<IContentRepository>();
             var contentAssetHelper = ServiceLocator.Current.GetInstance<ContentAssetHelper>();
@@ -124,9 +124,9 @@ namespace Kristianstad.Controllers.Compare
             // Create writable clone of the page to be able to update it
             var writablePage = (CompareResultPage)currentPage.CreateWritableClone();
 
-            if (resultQueryGroupsFromSources != null)
+            if (propertyQueryGroupsFromSources != null)
             {
-                foreach (var group in resultQueryGroupsFromSources)
+                foreach (var group in propertyQueryGroupsFromSources)
                 {
                     foreach (var query in group.PropertyQueries)
                     {
@@ -227,7 +227,7 @@ namespace Kristianstad.Controllers.Compare
 
             return oUnitsList;
         }
-        
+
         private List<ResultQueryBlock> GetResultQueryBlocks(IList<ContentAreaItem> existingItems)
         {
             List<ResultQueryBlock> list = new List<ResultQueryBlock>();
