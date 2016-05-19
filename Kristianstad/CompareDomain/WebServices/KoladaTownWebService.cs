@@ -38,32 +38,34 @@ namespace Kristianstad.CompareDomain.WebServices
         
         public override List<PropertyQueryWithResults> GetPropertyResults(List<PropertyQuery> queries, List<OrganisationalUnit> organisationalUnits) //List<PropertyQuery> queries, List<OrganisationalUnit> organisationalUnits)
         {
-            var rawJson = string.Empty;
-
+            List<PropertyQueryWithResults> results = new List<PropertyQueryWithResults>();
+            
             //Set the Kolada url
             var apiRequest = "oudata/kpi/";
             apiRequest += string.Join(",", queries.Select(q => q.SourceId).ToList());
             apiRequest += "/ou/" + string.Join(",", organisationalUnits.Select(o => o.SourceId).ToList());
-            
+
             //Load the data from Kolada
-            rawJson = RawJson(BaseUrl + apiRequest);
+            var rawJson = RawJson(BaseUrl + apiRequest);
 
-            //serialize the json data
-            var kpiAnswers = JsonConvert.DeserializeObject<KpiAnswers>(rawJson).Values;
-
-            //create correct models
-            List<PropertyQueryWithResults> results = new List<PropertyQueryWithResults>();
-            foreach(var query in queries)
+            if (!string.IsNullOrWhiteSpace(rawJson))
             {
-                PropertyQueryWithResults queryWithResults = new PropertyQueryWithResults(query);
-                foreach (var ou in organisationalUnits)
+                //serialize the json data
+                var kpiAnswers = JsonConvert.DeserializeObject<KpiAnswers>(rawJson).Values;
+
+                //create correct models
+                foreach (var query in queries)
                 {
-                    queryWithResults.Results.Add(new PropertyQueryResult(ou.SourceId, kpiAnswers.Where(a => a.Kpi == query.SourceId && a.Ou == ou.SourceId)
-                                                                                                                .Select(a => new PropertyQueryResultForPeriod(a.Period, 
-                                                                                                                                                                        a.Values.Select(v => new PropertyQueryResultValue(v.Gender, v.Status, v.Value)).ToList()))
-                                                                                                                .ToList(), query.Period));
+                    PropertyQueryWithResults queryWithResults = new PropertyQueryWithResults(query);
+                    foreach (var ou in organisationalUnits)
+                    {
+                        queryWithResults.Results.Add(new PropertyQueryResult(ou.SourceId, kpiAnswers.Where(a => a.Kpi == query.SourceId && a.Ou == ou.SourceId)
+                                                                                                                    .Select(a => new PropertyQueryResultForPeriod(a.Period,
+                                                                                                                                                                            a.Values.Select(v => new PropertyQueryResultValue(v.Gender, v.Status, v.Value)).ToList()))
+                                                                                                                    .ToList(), query.Period));
+                    }
+                    results.Add(queryWithResults);
                 }
-                results.Add(queryWithResults);
             }
 
             return results;
@@ -125,11 +127,16 @@ namespace Kristianstad.CompareDomain.WebServices
             var rawJson = string.Empty;
             var request = (HttpWebRequest)WebRequest.Create(apiRequest);
 
-            using (var response = request.GetResponse())
-            using (var reader = new StreamReader(response.GetResponseStream()))
+            try
             {
-                rawJson = reader.ReadToEnd();
+                using (var response = request.GetResponse())
+                using (var reader = new StreamReader(response.GetResponseStream()))
+                {
+                    rawJson = reader.ReadToEnd();
+                }
             }
+            catch { }
+
             return rawJson;
         }
         

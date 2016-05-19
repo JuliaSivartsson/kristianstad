@@ -45,12 +45,17 @@
 
 
 <div class="column content-page right-content small-12 medium-12 large-4">
+    
+    <div class="block-area">
+        @Html.PropertyFor(m => m.CurrentPage.CompareListBlock)
+    </div>
+    
     @{
         Html.RenderAction("SectionMenu", "MenuKr");
     }
 
-    <div class="block-area">
-        @Html.PropertyFor(m => m.CurrentPage.CompareListBlock)
+    <div class="block-area" @Html.EditAttributes(x => x.CurrentPage.CompareResults)>
+        @Html.Action("Preview", "CompareResultsBlock", new { compareResultsBlock = Model.CurrentPage.CompareResults })
     </div>
 
     <div class="block-area">

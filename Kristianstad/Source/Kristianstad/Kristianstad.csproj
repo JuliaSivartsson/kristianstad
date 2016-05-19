@@ -437,6 +437,7 @@
     <Compile Include="Business\Map\Properties.cs" />
     <Compile Include="Business\Models\Blocks\CategoryBlock.cs" />
     <Compile Include="Business\Models\Blocks\CompareListBlock.cs" />
+    <Compile Include="Business\Models\Blocks\Compare\CompareResultsBlock.cs" />
     <Compile Include="Business\Models\Blocks\Compare\CategoryListBlock.cs" />
     <Compile Include="Business\Models\Blocks\Compare\ContactBlock.cs" />
     <Compile Include="Business\Models\Blocks\Compare\GroupCategoryListBlock.cs" />
@@ -452,6 +453,7 @@
     <Compile Include="Controllers\Common\FooterKrController.cs" />
     <Compile Include="Controllers\Common\MegaMenuController.cs" />
     <Compile Include="Controllers\Common\MenuKrController.cs" />
+    <Compile Include="Controllers\Compare\Blocks\CompareResultsBlockController.cs" />
     <Compile Include="Controllers\Compare\Blocks\CategoryListBlockController.cs" />
     <Compile Include="Controllers\Compare\Blocks\CompareListBlockController.cs" />
     <Compile Include="Controllers\Compare\Blocks\GroupCategoryListBlockController.cs" />
@@ -487,6 +489,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\Compare\AddOrganisationalUnitsFormModel.cs" />
     <Compile Include="ViewModels\Compare\CompareAdminPluginModel.cs" />
+    <Compile Include="ViewModels\Compare\CompareResultsModel.cs" />
     <Compile Include="ViewModels\Compare\CompareResultPageModel.cs" />
     <Compile Include="ViewModels\Compare\DistanceFromAddressModel.cs" />
     <Compile Include="ViewModels\Compare\GroupCategoryListModel.cs" />
@@ -907,6 +910,8 @@
     <Content Include="Views\GroupCategoryPage\Preview.cshtml" />
     <Content Include="Views\Category\_AddOrganisationalUnitsForm.cshtml" />
     <Content Include="Views\CompareResultPage\_AddPropertyQueriesForm.cshtml" />
+    <Content Include="Views\CompareResultsBlock\Index.cshtml" />
+    <Content Include="Views\CompareResultsBlock\Preview.cshtml" />
     <None Include="Web.Acceptance.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

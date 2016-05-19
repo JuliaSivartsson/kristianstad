@@ -19,8 +19,6 @@ namespace Kristianstad.Models.Pages.Compare
         [Display(GroupName = SystemTabNames.Content, Order = 1)]
         public virtual string Description { get; set; }
 
-        [Display(GroupName = SystemTabNames.Content, Order = 2)]
-        [AllowedTypes(new Type[] { typeof(ResultQueryBlock) })]
-        public virtual ContentArea PropertyQueries { get; set; }
+        public virtual CompareResultsBlock CompareResults { get; set; }
     }
 }
