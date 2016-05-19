@@ -42,6 +42,19 @@ namespace Kristianstad.Controllers.Compare
 
         public ActionResult Index(CompareResultPage currentPage, string address = null)
         {
+            // temp
+            /*
+            // Create writable clone of the page to be able to update it
+            var writeablePage = (CompareResultPage)currentPage.CreateWritableClone();
+            var queries = writeablePage.GetPropertyValue<ContentArea>("ResultQueries");
+            writeablePage.CompareResults.PropertyQueries = queries;
+            
+            // Save the page
+            var contentRepository = ServiceLocator.Current.GetInstance<IContentRepository>();
+            contentRepository.Save((IContent)writeablePage, SaveAction.Save);
+            */
+
+
             var model = new CompareResultPageModel(currentPage);
 
             // Get existing queries in category page (if found)
@@ -106,7 +119,7 @@ namespace Kristianstad.Controllers.Compare
             bool anyChanges = false;
 
             // Create writable clone of the page to be able to update it
-            var writablePage = (CompareResultPage)currentPage.CreateWritableClone();
+            var writeablePage = (CompareResultPage)currentPage.CreateWritableClone();
 
             if (propertyQueryGroupsFromSources != null)
             {
@@ -136,13 +149,13 @@ namespace Kristianstad.Controllers.Compare
                                 contentRepository.Save(contentBlock, SaveAction.Publish);
 
                                 // Make sure the page queries content area is created
-                                if (writablePage.CompareResults.PropertyQueries == null)
+                                if (writeablePage.CompareResults.PropertyQueries == null)
                                 {
-                                    writablePage.CompareResults.PropertyQueries = new ContentArea();
+                                    writeablePage.CompareResults.PropertyQueries = new ContentArea();
                                 }
 
                                 // Add the new block to the page queries content area
-                                writablePage.CompareResults.PropertyQueries.Items.Add(new ContentAreaItem
+                                writeablePage.CompareResults.PropertyQueries.Items.Add(new ContentAreaItem
                                 {
                                     ContentLink = ((IContent)block).ContentLink
                                 });
@@ -157,8 +170,8 @@ namespace Kristianstad.Controllers.Compare
                                 {
                                     // Remove the block from the page queries content area
                                     anyChanges = true;
-                                    ContentAreaItem cai = writablePage.CompareResults.PropertyQueries.Items.Where(o => o.ContentLink.ID == ((IContent)existingBlock).ContentLink.ID).FirstOrDefault();
-                                    writablePage.CompareResults.PropertyQueries.Items.Remove(cai);
+                                    ContentAreaItem cai = writeablePage.CompareResults.PropertyQueries.Items.Where(o => o.ContentLink.ID == ((IContent)existingBlock).ContentLink.ID).FirstOrDefault();
+                                    writeablePage.CompareResults.PropertyQueries.Items.Remove(cai);
                                 }
                             }
                         }
@@ -169,7 +182,7 @@ namespace Kristianstad.Controllers.Compare
             if (anyChanges)
             {
                 // Save the page
-                contentRepository.Save((IContent)writablePage, SaveAction.Save);
+                contentRepository.Save((IContent)writeablePage, SaveAction.Save);
             }
 
             return RedirectToAction("Index");
