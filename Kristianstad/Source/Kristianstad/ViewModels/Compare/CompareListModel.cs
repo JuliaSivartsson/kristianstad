@@ -17,12 +17,15 @@ namespace Kristianstad.ViewModels.Compare
         public List<CompareModel> OrganisationalUnits { get; set; }
         public string ClearLink { get; set; }
         public string CompareLink { get; set; }
-        public string CurrentLink { get; set; }
         public int CategoryId { get; set; }
         */
         public string Header { get; set; }
 
+        public string CurrentUrl { get; set; }
+
         public string ComparePageUrl { get; set; }
+
+        public int ComparePageId { get; set; }
 
         public List<OrganisationalUnitCompareModel> OrganisationalUnits { get; set; }
     }
