@@ -1,38 +1,32 @@
 ﻿@using Kristianstad.ViewModels.Compare
 
 @model OrganisationalUnitListModel
-<hr />
 
-@{ 
-    string redirectBackTo = Model.CurrentPage != null ? Url.Encode(Model.CurrentPage.LinkURL) : "";
-}
 
 @if (Model.OrganisationalUnits.Count > 0)
 {
-    foreach (var page in Model.OrganisationalUnits)
+    foreach (var organisationalUnit in Model.OrganisationalUnits)
     {
-        <div class="column small-12 medium-12 large-10 content-page content">
-            @Html.Action("Preview", "OrganisationalUnit", new { currentPage = page, organisationalUnitModel = Model })
+        <div class="column small-12 medium-12 large-10 content-organisationalUnit content">
+            @Html.Action("Preview", "OrganisationalUnit", new { currentPage = organisationalUnit.CurrentPage, organisationalUnitModel = Model })
         </div>
-        <div class="column content-page right-content small-12 medium-12 large-2">
-            @{ 
-                string typeOfButton = "Jämför";
-            }
-            @foreach (int ouId in (List<int>)ViewData["cookies"])
-            {
-                if (ouId == page.ContentLink.ID)
-                {
-                    typeOfButton = "Ta bort";
-                }
+        <div class="column content-organisationalUnit right-content small-12 medium-12 large-2">
+
+            @{
+                string redirectBackTo = organisationalUnit.CurrentPage != null ? Url.Encode(Model.CurrentPage.LinkURL) : "";
             }
 
-            @if (typeOfButton == "Jämför")
+            @if (organisationalUnit.InCompareAlready)
             {
-                <a href="@String.Format("{0}{1}/AddOuToCompare/?id={2}&redirectBackTo={3}", page.ExternalURL, page.URLSegment, page.ContentLink.ID, redirectBackTo)" class="button">Jämför</a>
+                <a class="button alert" href="@string.Format("{0}{1}/RemoveOrganisationalUnitFromCompare/?id={2}&redirectBackTo={3}", organisationalUnit.CurrentPage.ExternalURL, organisationalUnit.CurrentPage.URLSegment, organisationalUnit.CurrentPage.ContentLink.ID, redirectBackTo)">
+                    Ta bort
+                </a>
             }
             else
             {
-                <a href="@String.Format("{0}{1}/AddOuToCompare/?id={2}&redirectBackTo={3}", page.ExternalURL, page.URLSegment, page.ContentLink.ID, redirectBackTo)" class="button alert">Ta bort</a>
+                <a class="button" href="@string.Format("{0}{1}/AddOrganisationalUnitToCompare/?id={2}&redirectBackTo={3}", organisationalUnit.CurrentPage.ExternalURL, organisationalUnit.CurrentPage.URLSegment, organisationalUnit.CurrentPage.ContentLink.ID, redirectBackTo)">
+                    Jämför
+                </a>
             }
         
         </div>

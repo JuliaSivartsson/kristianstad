@@ -66,10 +66,7 @@ namespace Kristianstad.Models.Pages.Compare
         public virtual MapBlock MapBlock { get; set; }
 
         public virtual SourceInfoBlock SourceInfo { get; set; }
-
-        [AllowedTypes(typeof(CompareResultPage))]
-        public virtual PageReference CompareResultPage { get; set; }
-
+        
         public virtual CompareListBlock CompareListBlock { get; set; }
 
         //[Display(GroupName = SystemTabNames.Content, Order = 100)]

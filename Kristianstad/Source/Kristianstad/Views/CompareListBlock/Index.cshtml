@@ -1,10 +1,13 @@
 ﻿@using EPiServer.Framework.Web.Resources
 @using EPiServer.Editor
+﻿@using Kristianstad.ViewModels.Compare
 
-@if (Model.OrganisationalUnits.Count > 0)
+@model CompareListModel
+
+@if (Model.OrganisationalUnits.Count > 0 && !string.IsNullOrWhiteSpace(Model.ComparePageUrl))
 {
     <nav class="section-menu">
-        <h4>Att jämföra</h4>
+        <h4>@(!string.IsNullOrWhiteSpace(Model.Header) ? Model.Header : "Att jämföra")</h4>
         <ul role="navigation">
             <ul role="navigation">
                 @foreach (var ou in @Model.OrganisationalUnits)
@@ -15,25 +18,23 @@
                                 <a href="@ou.URL">@ou.Name</a>
                             </div>
                             <div class="column content-page right-content small-12 medium-12 large-4">
-                                <a href="@String.Format("{0}AddOuToCompare/?id={1}&redirectBackTo={2}", ou.URL, ou.ID, Model.CurrentLink)">Ta bort</a>
+                                <a href="@string.Format("{0}RemoveOrganisationalUnitFromCompare/?id={1}", ou.URL, ou.ID)">Ta bort</a>
                             </div>
                         </div>
                     </li>
                 }
             </ul>
-        </ul>
-    </nav>
-    if (Model.CompareLink != null)
-    {
-        if (Model.OrganisationalUnits.Count > 1)
+        </ul>        
+        
+        @if (Model.OrganisationalUnits.Count > 1)
         {
-            <a href="@Model.CompareLink" class="button">Jämför objekt</a>
+            <a href="@Model.ComparePageUrl" class="button">Jämför objekt</a>
         }
         else
         {
-            <span class="button secondary" title="Välj minst två objekt för att jämföra.">Jämför objekt</span>
+            <span title="Minst två objekt måste jämföras.">Välj minst två objekt för att jämföra</span>
         }
 
-        <a href="@String.Format("{0}ClearList?id={1}&redirectBackTo={2}", Model.ClearLink, Model.CategoryId, Model.CurrentLink)" class="button">Rensa</a>
-    }
+        @* <a href="@String.Format("{0}ClearList?id={1}&redirectBackTo={2}", Model.ClearLink, Model.CategoryId, Model.CurrentLink)" class="button">Rensa</a> *@
+    </nav>
 }

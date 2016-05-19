@@ -32,12 +32,12 @@ namespace Kristianstad.Controllers.Compare
 {
     public class CompareResultPageController : PageController<CompareResultPage>
     {
-        private readonly Injected<IContentLoader> _contentLoader;
-        private CookieHelper _cookieHelper;
+        private readonly Injected<IContentLoader> contentLoader;
+        private CookieHelper cookieHelper;
 
         public CompareResultPageController()
         {
-            _cookieHelper = new CookieHelper();
+            cookieHelper = new CookieHelper();
         }
 
         public ActionResult Index(CompareResultPage currentPage, string address = null)
@@ -87,13 +87,10 @@ namespace Kristianstad.Controllers.Compare
                     Name = b.SourceInfo.Name
                 }).ToList();
 
-                var webServiceQueriesResults = CompareServiceFactory.Instance.GetWebServicePropertyResults(existingQueries, GetOrganisationalUnits(currentPage));
-                //ViewData["existingQueries"] = webServiceQueriesResults;
+                // get query results for existing queries and organisational units
+                var organisationalUnits = model.OrganisationalUnits.Select(x => x.ToDomainModel()).ToList();
+                var webServiceQueriesResults = CompareServiceFactory.Instance.GetWebServicePropertyResults(existingQueries, organisationalUnits);
                 model.QueriesWithResults = webServiceQueriesResults;
-            }
-            else
-            {
-                //ViewData["existingQueries"] = new List<PropertyQueryWithResults>();
             }
 
             return View(model);
@@ -140,13 +137,13 @@ namespace Kristianstad.Controllers.Compare
                                 contentRepository.Save(contentBlock, SaveAction.Publish);
 
                                 // Make sure the page queries content area is created
-                                if (writablePage.ResultQueries == null)
+                                if (writablePage.PropertyQueries == null)
                                 {
-                                    writablePage.ResultQueries = new ContentArea();
+                                    writablePage.PropertyQueries = new ContentArea();
                                 }
 
                                 // Add the new block to the page queries content area
-                                writablePage.ResultQueries.Items.Add(new ContentAreaItem
+                                writablePage.PropertyQueries.Items.Add(new ContentAreaItem
                                 {
                                     ContentLink = ((IContent)block).ContentLink
                                 });
@@ -154,15 +151,15 @@ namespace Kristianstad.Controllers.Compare
                             else if (!query.Use)
                             {
                                 // Try to find the block
-                                List<ResultQueryBlock> rqbList = GetResultQueryBlock(currentPage.ResultQueries.Items);
+                                List<ResultQueryBlock> rqbList = GetResultQueryBlocks(currentPage.PropertyQueries.Items);
                                 ResultQueryBlock existingBlock = rqbList.Where(b => b.SourceInfo != null && b.SourceInfo.SourceName == query.SourceName && b.SourceInfo.SourceId == query.SourceId).FirstOrDefault();
 
                                 if (existingBlock != null)
                                 {
                                     // Remove the block from the page queries content area
                                     anyChanges = true;
-                                    ContentAreaItem cai = writablePage.ResultQueries.Items.Where(o => o.ContentLink.ID == ((IContent)existingBlock).ContentLink.ID).FirstOrDefault();
-                                    writablePage.ResultQueries.Items.Remove(cai);
+                                    ContentAreaItem cai = writablePage.PropertyQueries.Items.Where(o => o.ContentLink.ID == ((IContent)existingBlock).ContentLink.ID).FirstOrDefault();
+                                    writablePage.PropertyQueries.Items.Remove(cai);
                                 }
                             }
                         }
@@ -175,16 +172,16 @@ namespace Kristianstad.Controllers.Compare
                 // Save the page
                 contentRepository.Save((IContent)writablePage, SaveAction.Save);
             }
-            
+
             return RedirectToAction("Index");
         }
 
         private List<ResultQueryBlock> GetExistingQueryBlocks(CompareResultPage currentPage)
         {
             List<ResultQueryBlock> values = new List<ResultQueryBlock>();
-            if (currentPage.ResultQueries != null)
+            if (currentPage.PropertyQueries != null)
             {
-                foreach (var item in currentPage.ResultQueries.Items)
+                foreach (var item in currentPage.PropertyQueries.Items)
                 {
                     var content = item.GetContent();
                     var resultQueryBlock = content as ResultQueryBlock;
@@ -200,38 +197,31 @@ namespace Kristianstad.Controllers.Compare
 
         private List<OrganisationalUnitModel> GetOrganisationalUnitModels(CompareResultPage currentPage)
         {
-            List<int> cookies = _cookieHelper.GetCookie(currentPage.ParentLink.ID);
+            var organisationalUnitsInCompare = cookieHelper.GetOrganisationalUnitsInCompare(contentLoader.Service, currentPage.ContentLink);
+
             List<OrganisationalUnitModel> oUnitsList = new List<OrganisationalUnitModel>();
-
-            foreach (int ou in cookies)
+            foreach (var organisationalUnit in organisationalUnitsInCompare)
             {
-                OrganisationalUnitPage page = _contentLoader.Service.GetChildren<OrganisationalUnitPage>(currentPage.ParentLink).Where(o => o.ContentLink.ID == ou).First();
-                OrganisationalUnitModel pageModel = new OrganisationalUnitModel
+                var page = contentLoader.Service.Get<PageData>(new ContentReference(organisationalUnit.ID)); // (currentPage.ParentLink).Where(o => o.ContentLink.ID == ou).First();
+                OrganisationalUnitPage organisationalUnitPage = page != null && page is OrganisationalUnitPage ? page as OrganisationalUnitPage : null;
+                if (organisationalUnitPage != null)
                 {
-                    Id = page.ContentLink.ID,
-                    Title = page.Name,
-                    Link = CompareHelper.GetExternalUrl(page),
-                    TitleImage = page.TitleImage,
-                    Adress = page.Address,
-                    Telephone = page.Telephone,
-                    Email = page.Email,
-                    SourceId = page.SourceInfo.SourceId
-                };
-
-                oUnitsList.Add(pageModel);
+                    oUnitsList.Add(new OrganisationalUnitModel(organisationalUnitPage));
+                }
             }
 
             return oUnitsList;
         }
 
+        /*
         private List<OrganisationalUnit> GetOrganisationalUnits(CompareResultPage currentPage)
         {
-            List<int> cookies = _cookieHelper.GetCookie(currentPage.ParentLink.ID);
+            List<int> cookies = cookieHelper.GetOrganisationalUnitsInCompare(currentPage.ParentLink.ID);
             List<OrganisationalUnit> oUnitsList = new List<OrganisationalUnit>();
 
             foreach (int ou in cookies)
             {
-                OrganisationalUnitPage page = _contentLoader.Service.GetChildren<OrganisationalUnitPage>(currentPage.ParentLink).Where(o => o.ContentLink.ID == ou).First();
+                OrganisationalUnitPage page = contentLoader.Service.GetChildren<OrganisationalUnitPage>(currentPage.ParentLink).Where(o => o.ContentLink.ID == ou).First();
                 OrganisationalUnit pageModel = new OrganisationalUnit
                 {
                     SourceId = page.SourceInfo.SourceId,
@@ -244,8 +234,9 @@ namespace Kristianstad.Controllers.Compare
 
             return oUnitsList;
         }
+        */
 
-        private List<ResultQueryBlock> GetResultQueryBlock(IList<ContentAreaItem> existingItems)
+        private List<ResultQueryBlock> GetResultQueryBlocks(IList<ContentAreaItem> existingItems)
         {
             List<ResultQueryBlock> list = new List<ResultQueryBlock>();
             var repository = ServiceLocator.Current.GetInstance<IContentRepository>();

@@ -458,7 +458,6 @@
     <Compile Include="Controllers\Compare\Blocks\OrganisationalUnitListBlockController.cs" />
     <Compile Include="Controllers\Compare\Pages\CompareResultPageController.cs" />
     <Compile Include="Controllers\Compare\Pages\CategoryController.cs" />
-    <Compile Include="Controllers\Blocks\CompareListBlockController.cs" />
     <Compile Include="Controllers\Compare\Modules\CompareAdminPluginController.cs" />
     <Compile Include="Controllers\Compare\Pages\CompareStartPageController.cs" />
     <Compile Include="Controllers\Compare\Pages\GroupCategoryPageController.cs" />
@@ -470,7 +469,6 @@
     <Compile Include="HtmlHelpers\LanguageHelper.cs" />
     <Compile Include="HtmlHelpers\FileHelper.cs" />
     <Compile Include="HtmlHelpers\MenuHelper.cs" />
-    <Compile Include="Models\Attributes\LimitPageType.cs" />
     <Compile Include="Models\Attributes\MaxContentCountAttribute.cs" />
     <Compile Include="Models\Attributes\MaxLinkItemsAttribute.cs" />
     <Compile Include="Models\Attributes\MaxRelatedLinksSettingAttribute.cs" />
@@ -500,7 +498,7 @@
     <Compile Include="ViewModels\Compare\PropertyQueryWithResultsModel.cs" />
     <Compile Include="ViewModels\Compare\SourceInfoModel.cs" />
     <Compile Include="ViewModels\Compare\PropertyQueryModel.cs" />
-    <Compile Include="ViewModels\Compare\CompareModel.cs" />
+    <Compile Include="ViewModels\Compare\OrganisationalUnitCompareModel.cs" />
     <Compile Include="ViewModels\Compare\CompareListModel.cs" />
     <Compile Include="Views\AToZPage\UI\Factories\MegaMenuIconSelectionFactory.cs" />
     <Compile Include="Views\AToZPage\UI\Factories\FooterIconSelectionFactory.cs" />
@@ -901,7 +899,6 @@
     <Content Include="Views\CompareResultPage\Index.cshtml" />
     <Content Include="Views\ResultQueryBlock\Preview.cshtml" />
     <Content Include="Views\Shared\ResultQueryBlock.cshtml" />
-    <Content Include="Views\Shared\_CompareMenu.cshtml" />
     <Content Include="Views\OrganisationalUnit\AddOuToCompare.cshtml" />
     <Content Include="Views\CompareListBlock\Index.cshtml" />
     <Content Include="Views\CompareAdminPlugin\Index.cshtml" />

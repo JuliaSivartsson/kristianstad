@@ -7,6 +7,7 @@ using EPiCore.ViewModels.Pages;
 using Kristianstad.Business.Models.Blocks.Shared;
 using System.ComponentModel.DataAnnotations;
 using EPiServer.Web;
+using Kristianstad.HtmlHelpers;
 
 namespace Kristianstad.ViewModels.Compare
 {
@@ -15,9 +16,14 @@ namespace Kristianstad.ViewModels.Compare
         public OrganisationalUnitPageModel(OrganisationalUnitPage currentPage)
         {
             CurrentPage = currentPage;
+            URL = CompareHelper.GetExternalUrl(currentPage.ContentLink);
         }
 
         public OrganisationalUnitPage CurrentPage { get; set; }
+        public string URL { get; set; }
+
+        public bool HasComparePage { get; set; }
+        public bool InCompareAlready { get; set; }
 
         // [UIHint(UIHint.Block)]
         // public OrganisationalUnitBlock OrganisationalUnitBlock { get; set; }
