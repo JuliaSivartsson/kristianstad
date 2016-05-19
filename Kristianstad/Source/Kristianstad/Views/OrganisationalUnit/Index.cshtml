@@ -13,14 +13,29 @@
 
     <h1 @Html.EditAttributes(x => x.CurrentPage.PageName)>@Model.CurrentPage.PageName</h1>
 
-    @if (ViewData["cookies"] != null)
+
+    @if (Model.InCompareAlready)
     {
-        @Html.ActionLink("Ta bort", "AddOuToCompare", "OrganisationalUnit", new { id = Model.CurrentPage.ContentLink.ID }, new { @class = "button alert" })
+        <a class="button alert" href="@string.Format("{0}RemoveOrganisationalUnitFromCompare/?id={1}", Model.URL, Model.CurrentPage.ContentLink.ID)">
+            Ta bort
+        </a>
     }
     else
     {
-        @Html.ActionLink("Jämför", "AddOuToCompare", "OrganisationalUnit", new { id = Model.CurrentPage.ContentLink.ID }, new { @class = "button" })
+        <a class="button" href="@string.Format("{0}AddOrganisationalUnitToCompare/?id={1}", Model.URL, Model.CurrentPage.ContentLink.ID)">
+            Jämför
+        </a>
     }
+    @*
+    @if (Model.InCompareAlready)
+    {
+        @Html.ActionLink("Ta bort", "RemoveOrganisationalUnitFromCompare", "OrganisationalUnit", new { organisationalUnitPage = Model.CurrentPage }, new { @class = "button alert" })
+    }
+    else
+    {
+        @Html.ActionLink("Jämför", "AddOrganisationalUnitToCompare", "OrganisationalUnit", new { organisationalUnitPage = Model.CurrentPage }, new { @class = "button" })
+    }
+    *@
 
     <div class="row">
         @Html.Action("Full", "OrganisationalUnit", new { currentPage = Model.CurrentPage })

@@ -7,11 +7,11 @@ namespace Kristianstad.ViewModels.Compare
     {
         public OrganisationalUnitListModel()
         {
-            // Empty
+            OrganisationalUnits = new List<OrganisationalUnitPageModel>();
         }
 
         public PageData CurrentPage { get; set; }
 
-        public List<PageData> OrganisationalUnits { get; set; }
+        public List<OrganisationalUnitPageModel> OrganisationalUnits { get; set; }
     }
 }

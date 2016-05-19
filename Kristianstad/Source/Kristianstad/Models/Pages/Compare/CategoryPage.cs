@@ -32,7 +32,7 @@ namespace Kristianstad.Models.Pages.Compare
 
         [Display(GroupName = SystemTabNames.Content, Order = 5)]
         public virtual ContentArea RightContentArea { get; set; }
-
+        
         #region IInitializableContent
 
         /// <summary>

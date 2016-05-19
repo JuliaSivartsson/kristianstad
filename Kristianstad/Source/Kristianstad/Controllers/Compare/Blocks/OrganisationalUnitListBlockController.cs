@@ -18,17 +18,18 @@ using Kristianstad.Models.Pages.Compare;
 using Kristianstad.Business.Compare;
 using Kristianstad.ViewModels.Compare;
 using Newtonsoft.Json.Linq;
+using Kristianstad.HtmlHelpers;
 
 namespace Kristianstad.Controllers.Compare
 {
     public class OrganisationalUnitListBlockController : BlockController<OrganisationalUnitListBlock>
     {
-        private readonly Injected<IContentLoader> _contentLoader;
-        private CookieHelper _cookieHelper;
+        private readonly Injected<IContentLoader> contentLoader;
+        private CookieHelper cookieHelper;
 
         public OrganisationalUnitListBlockController()
         {
-            _cookieHelper = new CookieHelper();
+            cookieHelper = new CookieHelper();
         }
 
         public override ActionResult Index(OrganisationalUnitListBlock currentBlock)
@@ -36,16 +37,40 @@ namespace Kristianstad.Controllers.Compare
             var pageRouteHelper = ServiceLocator.Current.GetInstance<PageRouteHelper>();
             PageData currentPage = pageRouteHelper.Page; // ?? _contentLoader.Service.Get<PageData>(ContentReference.StartPage);
 
-            var organisationalUnits = FindPages(currentBlock);
-            organisationalUnits = Sort(organisationalUnits, currentBlock.SortOrder);
-
             var model = new OrganisationalUnitListModel()
             {
-                CurrentPage = currentPage,
-                OrganisationalUnits = organisationalUnits.ToList()
+                CurrentPage = currentPage
             };
 
-            ViewData.Add("cookies", _cookieHelper.GetCookie(GetCategoryPageId(currentBlock)));
+            var organisationalUnits = FindOrganisationalUnitPages(currentBlock);
+            var sortedOrganisationalUnits = Sort(organisationalUnits, currentBlock.SortOrder).OfType<OrganisationalUnitPage>();
+
+            foreach (var organisationalUnitPage in sortedOrganisationalUnits)
+            {
+                var organisationalUnitModel = new OrganisationalUnitPageModel(organisationalUnitPage);
+                var compareResultPage = CompareHelper.GetCompareResultPage(contentLoader.Service, organisationalUnitPage);
+                if (compareResultPage != null)
+                {
+                    // get organisational units in current ones compare page
+                    var compareOrganisationalUnits = cookieHelper.GetOrganisationalUnitsInCompare(contentLoader.Service, compareResultPage);
+
+                    // set compare info
+                    organisationalUnitModel.HasComparePage = true;
+                    organisationalUnitModel.InCompareAlready = compareOrganisationalUnits.Any(x => x.ID == organisationalUnitPage.ContentLink.ID);
+                }
+
+                model.OrganisationalUnits.Add(organisationalUnitModel);
+            }
+
+            /*
+            var model = new OrganisationalUnitListModel()
+            {
+                // CurrentPage = currentPage,
+                OrganisationalUnits = organisationalUnits.Select()
+            };
+
+            // ViewData.Add("cookies", _cookieHelper.GetOrganisationalUnitsInCompare(GetCategoryPageId(currentBlock)));
+            */
 
             return PartialView(model);
         }
@@ -58,16 +83,16 @@ namespace Kristianstad.Controllers.Compare
             return PartialView("Preview", model);
         }
 
-        private IEnumerable<PageData> FindPages(OrganisationalUnitListBlock currentBlock)
+        private IEnumerable<PageData> FindOrganisationalUnitPages(OrganisationalUnitListBlock currentBlock)
         {
             IEnumerable<PageData> pages = null;
 
             var pageRouteHelper = ServiceLocator.Current.GetInstance<PageRouteHelper>();
-            PageData currentPage = pageRouteHelper.Page ?? _contentLoader.Service.Get<PageData>(ContentReference.StartPage);
+            PageData currentPage = pageRouteHelper.Page ?? contentLoader.Service.Get<PageData>(ContentReference.StartPage);
 
             if (currentPage is CategoryPage)
             {
-                pages = _contentLoader.Service.GetChildren<PageData>(currentPage.ContentLink).OfType<OrganisationalUnitPage>();
+                pages = contentLoader.Service.GetChildren<PageData>(currentPage.ContentLink).OfType<OrganisationalUnitPage>();
             }
 
             return pages ?? new List<PageData>();
@@ -81,6 +106,7 @@ namespace Kristianstad.Controllers.Compare
             return asCollection;
         }
 
+        /*
         private int GetCategoryPageId(OrganisationalUnitListBlock currentBlock)
         {
             var pageRouteHelper = ServiceLocator.Current.GetInstance<PageRouteHelper>();
@@ -98,5 +124,6 @@ namespace Kristianstad.Controllers.Compare
 
             return currentPage.ParentLink.ID;
         }
+        */
     }
 }

@@ -53,6 +53,12 @@
 
         <div class="span8 clearfix">
             <div @Html.EditAttributes("OrganisationalUnitList")>
+
+                @Html.DisplayFor(x => x.CurrentPage.OrganisationalUnitList)
+
+
+
+                @*
                 @foreach (var x in Model.ListOfExistingOU)
                 {
                     <div class="column small-12 medium-12 large-10 content-page content">
@@ -105,6 +111,7 @@
                     </div>
                     <hr />
                             }
+                *@
 
             </div>
         </div>

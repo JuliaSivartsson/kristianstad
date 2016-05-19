@@ -3,6 +3,7 @@ using EPiServer.Core;
 using EPiServer.ServiceLocation;
 using EPiServer.Web.Mvc.Html;
 using EPiServer.Web.Routing;
+using Kristianstad.Models.Pages.Compare;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,9 +21,9 @@ namespace Kristianstad.HtmlHelpers
             IContentDataExtensions.RenderContentData(html, contentData, false, html.ViewContext.ViewData["tag"] as string);
         }
 
-        public static string GetExternalUrl(IContent content)
+        public static string GetExternalUrl(ContentReference contentReference)
         {
-            var internalUrl = UrlResolver.Current.GetUrl(content.ContentLink);
+            var internalUrl = UrlResolver.Current.GetUrl(contentReference);
 
             var url = new UrlBuilder(internalUrl);
             Global.UrlRewriteProvider.ConvertToExternal(url, null, System.Text.Encoding.UTF8);
@@ -31,10 +32,21 @@ namespace Kristianstad.HtmlHelpers
             return friendlyUrl;
         }
 
-        public static PageData GetCurrentPage()
+        public static ContentReference GetCompareResultPage(IContentLoader contentLoader, OrganisationalUnitPage organisationalUnitPage)
         {
-            var pageRouteHelper = ServiceLocator.Current.GetInstance<PageRouteHelper>();
-            return pageRouteHelper.Page;
+            if (organisationalUnitPage.CompareListBlock.CompareResultPage != null)
+            {
+                return organisationalUnitPage.CompareListBlock.CompareResultPage;
+            }
+
+            var parentPage = contentLoader.Get<PageData>(organisationalUnitPage.ParentLink);
+            if (parentPage != null && parentPage is CategoryPage)
+            {
+                var categoryPage = parentPage as CategoryPage;
+                return categoryPage.CompareListBlock.CompareResultPage;
+            }
+
+            return null;
         }
     }
 }

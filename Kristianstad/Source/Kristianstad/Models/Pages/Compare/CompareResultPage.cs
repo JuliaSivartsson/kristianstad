@@ -5,6 +5,7 @@ using EPiServer.DataAbstraction;
 using EPiServer.DataAnnotations;
 using EPiServer.SpecializedProperties;
 using Kristianstad.Business.Models.Blocks.Compare;
+using System.Collections.Generic;
 
 namespace Kristianstad.Models.Pages.Compare
 {
@@ -20,7 +21,6 @@ namespace Kristianstad.Models.Pages.Compare
 
         [Display(GroupName = SystemTabNames.Content, Order = 2)]
         [AllowedTypes(new Type[] { typeof(ResultQueryBlock) })]
-        public virtual ContentArea ResultQueries { get; set; }
-        
+        public virtual ContentArea PropertyQueries { get; set; }
     }
 }

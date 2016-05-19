@@ -53,13 +53,8 @@ namespace Kristianstad.Controllers.Compare
             model.AddOrganisationalUnits.OrganisationalUnitsSources = organisationalUnits.Select(s => new OrganisationalUnitsSourceModel()
             {
                 SourceName = s.Key,
-                OrganisationalUnits = s.Value.Select(o => new OrganisationalUnitModel()
+                OrganisationalUnits = s.Value.Select(o => new OrganisationalUnitModel(o)
                 {
-                    Name = o.Name,
-                    Title = o.Name,
-                    SourceName = o.SourceName,
-                    SourceId = o.SourceId,
-                    InfoReadAt = o.InfoReadAt,
                     Use = existingOUPages != null && existingOUPages.Any(eou => eou.SourceInfo.SourceName == o.SourceName && eou.SourceInfo.SourceId == o.SourceId),
                     UseBefore = existingOUPages != null && existingOUPages.Any(eou => eou.SourceInfo.SourceName == o.SourceName && eou.SourceInfo.SourceId == o.SourceId),
                     NameAlreadyExistsInCategory = existingOUPages != null && existingOUPages.Any(eou => eou.Name.ToLower() == o.Name.ToLower())
@@ -72,14 +67,17 @@ namespace Kristianstad.Controllers.Compare
                 MeasureFromAddress = address
             };
 
-            ViewData.Add("cookies", _cookieHelper.GetCookie(GetCategoryPageId(currentPage)));
+            // ViewData.Add("cookies", _cookieHelper.GetCookie(GetCategoryPageId(currentPage)));
 
             return View(model);
         }
 
         public ActionResult ClearList(CategoryPage currentPage, int id, string redirectBackTo = null)
         {
-            _cookieHelper.ClearCookie(id);
+            if (currentPage.CompareListBlock.CompareResultPage != null)
+            {
+                _cookieHelper.ClearCompare(currentPage.CompareListBlock.CompareResultPage);
+            }
 
             if (!string.IsNullOrWhiteSpace(redirectBackTo))
             {
@@ -88,26 +86,7 @@ namespace Kristianstad.Controllers.Compare
 
             return RedirectToAction("Index");
         }
-
-        private int GetCategoryPageId(CategoryPage currentBlock)
-        {
-            var pageRouteHelper = ServiceLocator.Current.GetInstance<PageRouteHelper>();
-            PageData currentPage = pageRouteHelper.Page ?? _contentLoader.Service.Get<PageData>(ContentReference.StartPage);
-
-            if (currentPage.PageTypeName == typeof(OrganisationalUnitPage).GetPageType().Name)
-            {
-                return currentPage.ParentLink.ID;
-            }
-
-            if (currentPage.PageTypeName == typeof(CategoryPage).GetPageType().Name)
-            {
-                return currentPage.ContentLink.ID;
-            }
-
-            return currentPage.ParentLink.ID;
-        }
-
-
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult SaveOrganisationalUnits(CategoryPage currentPage, AddOrganisationalUnitsFormModel addOrganisationalUnits)

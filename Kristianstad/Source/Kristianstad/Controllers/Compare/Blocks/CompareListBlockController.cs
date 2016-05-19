@@ -21,12 +21,13 @@ namespace Kristianstad.Controllers.Compare
 {
     public class CompareListBlockController : BaseBlockController<CompareListBlock>
     {
-        private readonly Injected<IContentLoader> _contentLoader;
-        private CookieHelper _cookieHelper;
+        private const string CookieName = "compare";
+        private readonly Injected<IContentLoader> contentLoader;
+        private CookieHelper cookieHelper;
 
         public CompareListBlockController()
         {
-            _cookieHelper = new CookieHelper();
+            cookieHelper = new CookieHelper();
         }
 
         public override ActionResult Index(CompareListBlock currentBlock)
@@ -40,42 +41,24 @@ namespace Kristianstad.Controllers.Compare
             IEnumerable<PageData> pages = null;
 
             var pageRouteHelper = ServiceLocator.Current.GetInstance<PageRouteHelper>();
-            PageData currentPage = pageRouteHelper.Page ?? _contentLoader.Service.Get<PageData>(ContentReference.StartPage);
+            PageData currentPage = pageRouteHelper.Page ?? contentLoader.Service.Get<PageData>(ContentReference.StartPage);
             PageReference listRoot = currentPage.PageLink;
 
-            if (currentPage.PageTypeName == typeof(OrganisationalUnitPage).GetPageType().Name)
+            if (currentPage is OrganisationalUnitPage)
             {
-                pages = _contentLoader.Service.GetChildren<OrganisationalUnitPage>(currentPage.ParentLink);
+                pages = contentLoader.Service.GetChildren<OrganisationalUnitPage>(currentPage.ParentLink);
             }
-
-            if (currentPage.PageTypeName == typeof(CategoryPage).GetPageType().Name)
+            else if (currentPage is CategoryPage)
             {
-                pages = _contentLoader.Service.GetChildren<OrganisationalUnitPage>(currentPage.ContentLink);
+                pages = contentLoader.Service.GetChildren<PageData>(currentPage.ContentLink).OfType<OrganisationalUnitPage>();
             }
 
             return pages ?? new List<PageData>();
         }
 
-        private int GetCategoryId(CompareListBlock currentBlock)
-        {
-            var pageRouteHelper = ServiceLocator.Current.GetInstance<PageRouteHelper>();
-            PageData currentPage = pageRouteHelper.Page ?? _contentLoader.Service.Get<PageData>(ContentReference.StartPage);
-
-            if (currentPage.PageTypeName == typeof(OrganisationalUnitPage).GetPageType().Name)
-            {
-                return currentPage.ParentLink.ID;
-            }
-
-            if (currentPage.PageTypeName == typeof(CategoryPage).GetPageType().Name)
-            {
-                return currentPage.ContentLink.ID;
-            }
-
-            return currentPage.ParentLink.ID;
-        }
-
         private CompareListModel CreateModel(CompareListBlock currentBlock)
         {
+            /*
             CompareListModel model = new CompareListModel();
             model.CategoryId = GetCategoryId(currentBlock);
             model.CurrentLink = CompareHelper.GetExternalUrl(CompareHelper.GetCurrentPage());
@@ -96,15 +79,46 @@ namespace Kristianstad.Controllers.Compare
             {
                 PageData page = FindOrganisationalUnits(currentBlock).ToList().Where(o => o.ContentLink.ID == ou).First();
                 if (page != null)
+            */
+
+            CompareListModel model = new CompareListModel()
+            {
+                Header = currentBlock.Header
+            };
+
+            var compareResultPage = currentBlock.CompareResultPage;
+            if (compareResultPage == null || string.IsNullOrWhiteSpace(model.Header))
+            {
+                // try to get from parent page
+                var pageRouteHelper = ServiceLocator.Current.GetInstance<PageRouteHelper>();
+                PageData currentPage = pageRouteHelper.Page;
+
+                if (currentPage != null)
                 {
-                    CompareModel cm = new CompareModel
+                    var parentPage = contentLoader.Service.Get<PageData>(currentPage.ParentLink);
+                    if (parentPage != null && parentPage is CategoryPage)
                     {
-                        Name = page.Name,
-                        ID = page.ContentLink.ID,
-                        URL = CompareHelper.GetExternalUrl(page)
-                    };
-                    model.OrganisationalUnits.Add(cm);
+                        var categoryPage = parentPage as CategoryPage;
+
+                        if (compareResultPage == null)
+                        {
+                            // set compare result page from category compare list block
+                            compareResultPage = categoryPage.CompareListBlock.CompareResultPage;
+                        }
+
+                        if (string.IsNullOrWhiteSpace(model.Header) && categoryPage.CompareListBlock != null)
+                        {
+                            // copy header from category compare list block
+                            model.Header = categoryPage.CompareListBlock.Header;
+                        }
+                    }
                 }
+            }
+
+            if (compareResultPage != null)
+            {
+                model.OrganisationalUnits = cookieHelper.GetOrganisationalUnitsInCompare(contentLoader.Service, compareResultPage);
+                model.ComparePageUrl = CompareHelper.GetExternalUrl(compareResultPage);
             }
 
             return model;
