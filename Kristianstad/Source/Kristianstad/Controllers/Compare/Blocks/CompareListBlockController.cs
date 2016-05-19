@@ -35,7 +35,7 @@ namespace Kristianstad.Controllers.Compare
             CompareListModel model = CreateModel(currentBlock);
             return PartialView(model);
         }
-
+        
         private IEnumerable<PageData> FindOrganisationalUnits(CompareListBlock currentBlock)
         {
             IEnumerable<PageData> pages = null;
@@ -58,48 +58,25 @@ namespace Kristianstad.Controllers.Compare
 
         private CompareListModel CreateModel(CompareListBlock currentBlock)
         {
-            /*
-            CompareListModel model = new CompareListModel();
-            model.CategoryId = GetCategoryId(currentBlock);
-            model.CurrentLink = CompareHelper.GetExternalUrl(CompareHelper.GetCurrentPage());
-
-            var repository = ServiceLocator.Current.GetInstance<IContentRepository>();
-            var contentReference = new ContentReference(model.CategoryId);
-            model.ClearLink = CompareHelper.GetExternalUrl(repository.Get<CategoryPage>(contentReference));
-
-            // Gets link to CompareResultPage, if there is one.
-            if (repository.GetChildren<CompareResultPage>(contentReference).ToList().Count > 0)
-            {
-                CompareResultPage cPage = repository.GetChildren<CompareResultPage>(contentReference).ToList().First();
-                model.CompareLink = CompareHelper.GetExternalUrl(cPage);
-            }
-
-            // Gets Organisational Units from Cookies and adds them to the ViewModel.
-            foreach (int ou in _cookieHelper.GetCookie(model.CategoryId))
-            {
-                PageData page = FindOrganisationalUnits(currentBlock).ToList().Where(o => o.ContentLink.ID == ou).First();
-                if (page != null)
-            */
-
             CompareListModel model = new CompareListModel()
             {
                 Header = currentBlock.Header
             };
 
-            var compareResultPage = currentBlock.CompareResultPage;
-            if (compareResultPage == null || string.IsNullOrWhiteSpace(model.Header))
+            var pageRouteHelper = ServiceLocator.Current.GetInstance<PageRouteHelper>();
+            PageData currentPage = pageRouteHelper.Page;
+            if (currentPage != null)
             {
-                // try to get from parent page
-                var pageRouteHelper = ServiceLocator.Current.GetInstance<PageRouteHelper>();
-                PageData currentPage = pageRouteHelper.Page;
+                model.CurrentUrl = CompareHelper.GetExternalUrl(currentPage.ContentLink);
 
-                if (currentPage != null)
+                var compareResultPage = currentBlock.CompareResultPage;
+                if (compareResultPage == null || string.IsNullOrWhiteSpace(model.Header))
                 {
+                    // try to get from parent page
                     var parentPage = contentLoader.Service.Get<PageData>(currentPage.ParentLink);
                     if (parentPage != null && parentPage is CategoryPage)
                     {
                         var categoryPage = parentPage as CategoryPage;
-
                         if (compareResultPage == null)
                         {
                             // set compare result page from category compare list block
@@ -113,15 +90,17 @@ namespace Kristianstad.Controllers.Compare
                         }
                     }
                 }
-            }
 
-            if (compareResultPage != null)
-            {
-                model.OrganisationalUnits = cookieHelper.GetOrganisationalUnitsInCompare(contentLoader.Service, compareResultPage);
-                model.ComparePageUrl = CompareHelper.GetExternalUrl(compareResultPage);
+                if (compareResultPage != null)
+                {
+                    model.ComparePageId = compareResultPage.ID;
+                    model.OrganisationalUnits = cookieHelper.GetOrganisationalUnitsInCompare(contentLoader.Service, compareResultPage);
+                    model.ComparePageUrl = CompareHelper.GetExternalUrl(compareResultPage);
+                }
             }
 
             return model;
         }
+
     }
 }

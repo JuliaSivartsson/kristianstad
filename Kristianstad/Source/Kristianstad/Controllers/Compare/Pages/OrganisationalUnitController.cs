@@ -60,20 +60,10 @@ namespace Kristianstad.Controllers.Compare
                 }
             }
 
-            /*
-            foreach (int item in cookieHelper.GetOrganisationalUnitsInCompare(currentPage.ParentLink.ID))
-            {
-                if (item == currentPage.ContentLink.ID)
-                {
-                    ViewData.Add("cookies", currentPage.ContentLink.ID);
-                }
-            }
-            */
-
             return View(model);
         }
 
-        public ActionResult AddOrganisationalUnitToCompare(int id, string redirectBackTo = null)  // OrganisationalUnitPage organisationalUnitPage
+        public ActionResult AddOrganisationalUnitToCompare(int id, string redirectBackTo = null) // OrganisationalUnitPage organisationalUnitPage
         {
             return AddOrRemoveOrganisationalUnitFromCompare(true, id, redirectBackTo);
         }

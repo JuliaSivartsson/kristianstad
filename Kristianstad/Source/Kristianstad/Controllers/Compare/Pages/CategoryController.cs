@@ -71,21 +71,6 @@ namespace Kristianstad.Controllers.Compare
 
             return View(model);
         }
-
-        public ActionResult ClearList(CategoryPage currentPage, int id, string redirectBackTo = null)
-        {
-            if (currentPage.CompareListBlock.CompareResultPage != null)
-            {
-                _cookieHelper.ClearCompare(currentPage.CompareListBlock.CompareResultPage);
-            }
-
-            if (!string.IsNullOrWhiteSpace(redirectBackTo))
-            {
-                return Redirect(redirectBackTo);
-            }
-
-            return RedirectToAction("Index");
-        }
         
         [HttpPost]
         [ValidateAntiForgeryToken]

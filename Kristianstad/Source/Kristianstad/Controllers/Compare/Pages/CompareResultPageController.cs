@@ -96,6 +96,21 @@ namespace Kristianstad.Controllers.Compare
             return View(model);
         }
 
+        public ActionResult ClearList(CompareResultPage currentPage, string redirectBackTo = null)
+        {
+            if (currentPage != null)
+            {
+                cookieHelper.ClearCompare(currentPage.ContentLink);
+            }
+
+            if (!string.IsNullOrWhiteSpace(redirectBackTo))
+            {
+                return Redirect(redirectBackTo);
+            }
+
+            return RedirectToAction("Index");
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult SaveResultQueries(CompareResultPage currentPage, List<PropertyQueryGroupModel> resultQueryGroupsFromSources)
@@ -212,30 +227,7 @@ namespace Kristianstad.Controllers.Compare
 
             return oUnitsList;
         }
-
-        /*
-        private List<OrganisationalUnit> GetOrganisationalUnits(CompareResultPage currentPage)
-        {
-            List<int> cookies = cookieHelper.GetOrganisationalUnitsInCompare(currentPage.ParentLink.ID);
-            List<OrganisationalUnit> oUnitsList = new List<OrganisationalUnit>();
-
-            foreach (int ou in cookies)
-            {
-                OrganisationalUnitPage page = contentLoader.Service.GetChildren<OrganisationalUnitPage>(currentPage.ParentLink).Where(o => o.ContentLink.ID == ou).First();
-                OrganisationalUnit pageModel = new OrganisationalUnit
-                {
-                    SourceId = page.SourceInfo.SourceId,
-                    Name = page.Name,
-                    SourceName = page.SourceInfo.SourceName
-                };
-
-                oUnitsList.Add(pageModel);
-            }
-
-            return oUnitsList;
-        }
-        */
-
+        
         private List<ResultQueryBlock> GetResultQueryBlocks(IList<ContentAreaItem> existingItems)
         {
             List<ResultQueryBlock> list = new List<ResultQueryBlock>();

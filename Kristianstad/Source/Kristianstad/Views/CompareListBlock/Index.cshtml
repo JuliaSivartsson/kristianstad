@@ -9,21 +9,19 @@
     <nav class="section-menu">
         <h4>@(!string.IsNullOrWhiteSpace(Model.Header) ? Model.Header : "Att jämföra")</h4>
         <ul role="navigation">
-            <ul role="navigation">
-                @foreach (var ou in @Model.OrganisationalUnits)
-                {
-                    <li>
-                        <div class="row">
-                            <div class="column small-12 medium-12 large-8 content">
-                                <a href="@ou.URL">@ou.Name</a>
-                            </div>
-                            <div class="column content-page right-content small-12 medium-12 large-4">
-                                <a href="@string.Format("{0}RemoveOrganisationalUnitFromCompare/?id={1}", ou.URL, ou.ID)">Ta bort</a>
-                            </div>
+            @foreach (var ou in @Model.OrganisationalUnits)
+            {
+                <li>
+                    <div class="row">
+                        <div class="column small-12 medium-12 large-8 content">
+                            <a href="@ou.URL">@ou.Name</a>
                         </div>
-                    </li>
-                }
-            </ul>
+                        <div class="column content-page right-content small-12 medium-12 large-4">
+                            <a href="@string.Format("{0}RemoveOrganisationalUnitFromCompare/?id={1}", ou.URL, ou.ID)">Ta bort</a>
+                        </div>
+                    </div>
+                </li>
+            }
         </ul>        
         
         @if (Model.OrganisationalUnits.Count > 1)
@@ -35,6 +33,7 @@
             <span title="Minst två objekt måste jämföras.">Välj minst två objekt för att jämföra</span>
         }
 
-        @* <a href="@String.Format("{0}ClearList?id={1}&redirectBackTo={2}", Model.ClearLink, Model.CategoryId, Model.CurrentLink)" class="button">Rensa</a> *@
+        <a href="@string.Format("{0}ClearList?redirectBackTo={1}", Model.ComparePageUrl, Model.CurrentUrl)" class="button">Rensa</a>
+        
     </nav>
 }
