@@ -9,7 +9,7 @@
         @for (int i = 0; i < Model.PropertyQueryGroupsFromSources.Count; i++)
         {
             <li class="accordion-item accordion-navigation" data-accordion-item>
-                <a href="#panel@(i)" class="accordion-title">@Model.PropertyQueryGroupsFromSources[i].Name</a>
+                <a data-target="panel@(i)" class="accordion-title">@Model.PropertyQueryGroupsFromSources[i].Name</a>
                 <div id="panel@(i)" class="accordion-content" data-tab-content>
 
                     <table>
@@ -52,4 +52,24 @@
     </ul>
 
     <input type="submit" value="Spara frågor" />
+
+    @*
+    <script type="text/javascript">
+
+        $(document).load(function () {
+
+            $(".accordion-title").each(function () {
+                $(this).click(function (e) {
+                    e.preventDefault();
+                    var targetId = $(this).attr('data-target');
+
+                    // toggle the accordion item
+                    $('.accordion').foundation('toggle', $('#' + targetId));
+                });
+            });
+
+        });
+
+    </script>
+    *@
 }
