@@ -13,5 +13,6 @@ namespace Kristianstad.ViewModels.Compare
         public PageData CurrentPage { get; set; }
 
         public List<OrganisationalUnitPageModel> OrganisationalUnits { get; set; }
+
     }
 }

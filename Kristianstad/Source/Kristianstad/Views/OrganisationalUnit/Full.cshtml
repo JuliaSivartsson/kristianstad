@@ -7,6 +7,12 @@
 
 <div class="span8 clearfix">
 
+    <h1 @Html.EditAttributes(x => x.CurrentPage.PageName)>@Model.CurrentPage.PageName</h1>
+
+</div>
+
+<div class="span8 clearfix">
+
     @if (PageEditing.PageIsInEditMode && (string.IsNullOrWhiteSpace(Model.CurrentPage.SourceInfo.SourceName) || string.IsNullOrWhiteSpace(Model.CurrentPage.SourceInfo.SourceId)))
     {
         <div class="callout alert">
@@ -50,6 +56,21 @@
         <figcaption>@Html.PropertyFor(m => m.CurrentPage.TitleImageCaption)</figcaption>
 
     </figure>
+
+    <div class="right">
+        @if (Model.InCompareAlready)
+        {
+            <a class="button success" href="@string.Format("{0}RemoveOrganisationalUnitFromCompare/?id={1}", Model.URL, Model.CurrentPage.ContentLink.ID)">
+                <i class="fa fa-check"></i> Jämför
+            </a>
+        }
+        else
+        {
+            <a class="button" href="@string.Format("{0}AddOrganisationalUnitToCompare/?id={1}", Model.URL, Model.CurrentPage.ContentLink.ID)">
+                <i class="fa fa-plus"></i> Jämför
+            </a>
+        }
+    </div>
 
     <h3>Beskrivning</h3>
     <p @Html.EditAttributes(x => x.CurrentPage.ShortDescription)>@Model.CurrentPage.ShortDescription</p>

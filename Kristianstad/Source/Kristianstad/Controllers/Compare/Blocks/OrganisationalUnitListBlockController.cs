@@ -34,6 +34,11 @@ namespace Kristianstad.Controllers.Compare
 
         public override ActionResult Index(OrganisationalUnitListBlock currentBlock)
         {
+            return IndexWithAddress(currentBlock, null);
+        }
+
+        public ActionResult IndexWithAddress(OrganisationalUnitListBlock currentBlock, string address)
+        {
             var pageRouteHelper = ServiceLocator.Current.GetInstance<PageRouteHelper>();
             PageData currentPage = pageRouteHelper.Page; // ?? _contentLoader.Service.Get<PageData>(ContentReference.StartPage);
 
@@ -41,6 +46,13 @@ namespace Kristianstad.Controllers.Compare
             {
                 CurrentPage = currentPage
             };
+
+            /*
+            model.DistanceList = new DistanceFromAddressModel()
+            {
+                MeasureFromAddress = address
+            };
+            */
 
             var organisationalUnits = FindOrganisationalUnitPages(currentBlock);
             var sortedOrganisationalUnits = Sort(organisationalUnits, currentBlock.SortOrder).OfType<OrganisationalUnitPage>();
