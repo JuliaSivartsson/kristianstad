@@ -69,6 +69,8 @@ namespace Kristianstad.Models.Pages.Compare
         
         public virtual CompareListBlock CompareListBlock { get; set; }
 
+        public virtual CompareResultsBlock CompareResults { get; set; }
+
         //[Display(GroupName = SystemTabNames.Content, Order = 100)]
         //public virtual ContentArea RightContentArea { get; set; }
     }

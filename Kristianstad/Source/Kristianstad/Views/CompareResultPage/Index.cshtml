@@ -20,34 +20,34 @@
 
     @Html.PropertyFor(x => x.CurrentPage.Description)
 
-    @if (Model.OrganisationalUnits.Count > 0)
-    { 
-        using (Html.BeginForm("Index", "CompareResultPage"))
-        {
-            <div class="row">
-                <div class="column small-12 medium-12 large-10">
-                    @Html.TextBox("address", null, new { placeholder = "Ange en adress för att mäta distans" })
-                </div>
-                <div class="column small-12 medium-12 large-2">
-                    <input type="submit" class="button" value="Mät distans" />
-                </div>
+    @using (Html.BeginForm("Index", "CompareResultPage"))
+    {
+        <div class="row">
+            <div class="column small-12 medium-12 large-10">
+                @Html.TextBox("address", null, new { placeholder = "Ange en adress för att mäta distans" })
             </div>
-            <hr />
-        }
+            <div class="column small-12 medium-12 large-2">
+                <input type="submit" class="button" value="Mät distans" />
+            </div>
+        </div>
+        <hr />
+    }
 
-        if (@Model.DistanceList.MeasureFromAddress != null)
-        {
-            <div>Adress för distansmätning: 
-            <span id="MeasureFromAddress">
-                Ingen funnen adress.
-            </span>
-            <script>
-                GetSearchLocation(@Html.Raw(Json.Encode(Model.DistanceList.MeasureFromAddress)));
-            </script>
-            </div><hr />
-        }
+    @if (@Model.DistanceList.MeasureFromAddress != null)
+    {
+        <div>Adress för distansmätning: 
+        <span id="MeasureFromAddress">
+            Ingen funnen adress.
+        </span>
+        <script>
+            GetSearchLocation(@Html.Raw(Json.Encode(Model.DistanceList.MeasureFromAddress)));
+        </script>
+        </div><hr />
+    }
 
+    @Html.PropertyFor(m => m.CurrentPage.CompareResults)
 
+    @*
         <div class="compare-main-box">
             <table class="compare-table">
                 <thead>
@@ -148,7 +148,7 @@
                     {
                         <tr>
                             <td class="query"><div><span>@pqwr.Query.Name</span></div></td>
-                        
+
                             @foreach (OrganisationalUnitModel ou in Model.OrganisationalUnits)
                             {
                                 float? viewValue = null;
@@ -238,6 +238,8 @@
             </table>
         </div>
     }
+    *@
+
 
     @if (PageEditing.PageIsInEditMode)
     {

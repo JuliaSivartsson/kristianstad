@@ -11,8 +11,7 @@ namespace Kristianstad.CompareDomain.Models
         public PropertyQuery Query { get; set; }
 
         public List<PropertyQueryResult> Results { get; set; }
-
-
+    
         //Constructors
         public PropertyQueryWithResults()
         {
