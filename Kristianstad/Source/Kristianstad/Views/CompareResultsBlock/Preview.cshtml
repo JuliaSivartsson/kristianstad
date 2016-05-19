@@ -7,55 +7,62 @@
 
 @if (Model.OrganisationalUnits.Count == 1)
 {
-<div class="compare-main-box">
+    <nav class="section-menu">
+        <h4>Egenskaper</h4>
+        <ul>
 
-    @foreach (PropertyQueryWithResults pqwr in Model.QueriesWithResults)
-    {
-        <div class="column small-12">
-            <span>@pqwr.Query.Name</span>
-        </div>
-
-        <div class="column small-12">
-
-            <div class="result">
-                @{
-                    var resultsForOrganisationalUnit = @pqwr.Results.Where(x => x.OrganisationalUnitId == Model.OrganisationalUnits.First().SourceId).FirstOrDefault();
-                }
-                @if (resultsForOrganisationalUnit != null && resultsForOrganisationalUnit.PeriodToUse != null && resultsForOrganisationalUnit.PeriodToUse.ValueToUse != null)
-                {
-                    if (pqwr.Query.Name.Contains('%'))
-                    {
-                        <div class="answer-percent-bar">
-                            <div class="percentageBox">
-                                <div class="percentage" style="width: @((int)resultsForOrganisationalUnit.PeriodToUse.ValueToUse.Value)%"></div>
-                            </div>
-                            <div class="percentageValue">
-                                <span title="År: @resultsForOrganisationalUnit.PeriodToUse.Period">
-                                    @resultsForOrganisationalUnit.PeriodToUse.ValueToUse.Value%
-                                </span>
-                            </div>
+            @foreach (PropertyQueryWithResults pqwr in Model.QueriesWithResults)
+            {
+                <li>
+                    <div class="row">
+                        <div class="column small-12 medium-12 large-12 content">
+                            <span>@pqwr.Query.Name</span>
                         </div>
-                    }
-                    else
-                    {
-                        <div>
-                            <span title="År: @resultsForOrganisationalUnit.PeriodToUse.Period">
-                                @resultsForOrganisationalUnit.PeriodToUse.ValueToUse.Value
-                            </span>
+
+                        <div class="column small-12 medium-12 large-12 content">
+
+                            <div class="result">
+                                @{
+                                    var resultsForOrganisationalUnit = @pqwr.Results.Where(x => x.OrganisationalUnitId == Model.OrganisationalUnits.First().SourceId).FirstOrDefault();
+                                }
+                                @if (resultsForOrganisationalUnit != null && resultsForOrganisationalUnit.PeriodToUse != null && resultsForOrganisationalUnit.PeriodToUse.ValueToUse != null)
+                            {
+                                if (pqwr.Query.Name.Contains('%'))
+                                {
+                                        <div class="answer-percent-bar">
+                                            <div class="percentageBox">
+                                                <div class="percentage" style="width: @((int)resultsForOrganisationalUnit.PeriodToUse.ValueToUse.Value)%"></div>
+                                            </div>
+                                            <div class="percentageValue">
+                                                <span title="År: @resultsForOrganisationalUnit.PeriodToUse.Period">
+                                                    @resultsForOrganisationalUnit.PeriodToUse.ValueToUse.Value%
+                                                </span>
+                                            </div>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div>
+                                            <span title="År: @resultsForOrganisationalUnit.PeriodToUse.Period">
+                                                @resultsForOrganisationalUnit.PeriodToUse.ValueToUse.Value
+                                            </span>
+                                        </div>
+                                    }
+                                }
+                                else
+                                {
+                                    <div>
+                                        <span title="Inget värde." class="noValue">
+                                            -
+                                        </span>
+                                    </div>
+                                }
+                            </div>
+
                         </div>
-                    }
-                }
-                else
-                {
-                    <div>
-                        <span title="Inget värde." class="noValue">
-                            -
-                        </span>
                     </div>
-                }
-            </div>
-            
-        </div>
-    }
-</div>
+                </li>
+            }
+        </ul>
+    </nav>
 }
