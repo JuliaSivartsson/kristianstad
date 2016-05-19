@@ -124,28 +124,7 @@ namespace Kristianstad.Controllers.Compare
 
             return oUnitsList;
         }
-
-        /*
-        private List<ResultQueryBlock> GetResultQueryBlocks(IList<ContentAreaItem> existingItems)
-        {
-            List<ResultQueryBlock> list = new List<ResultQueryBlock>();
-            var repository = ServiceLocator.Current.GetInstance<IContentRepository>();
-
-            foreach (ContentAreaItem cai in existingItems)
-            {
-                var contentReference = new ContentReference(cai.ContentLink.ID);
-                ResultQueryBlock rqb = repository.Get<ResultQueryBlock>(contentReference);
-
-                if (rqb != null)
-                {
-                    list.Add(rqb);
-                }
-            }
-
-            return list;
-        }
-        */
-
+        
         private List<ResultQueryBlock> GetExistingQueryBlocks(CompareResultsBlock block)
         {
             List<ResultQueryBlock> values = new List<ResultQueryBlock>();
