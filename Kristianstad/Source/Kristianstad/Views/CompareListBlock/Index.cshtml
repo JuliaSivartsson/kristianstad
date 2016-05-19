@@ -22,18 +22,23 @@
                     </div>
                 </li>
             }
-        </ul>        
-        
-        @if (Model.OrganisationalUnits.Count > 1)
-        {
-            <a href="@Model.ComparePageUrl" class="button">Jämför objekt</a>
-        }
-        else
-        {
-            <span title="Minst två objekt måste jämföras.">Välj minst två objekt för att jämföra</span>
-        }
 
-        <a href="@string.Format("{0}ClearList?redirectBackTo={1}", Model.ComparePageUrl, Model.CurrentUrl)" class="button">Rensa</a>
+            <li>
+                @if (Model.OrganisationalUnits.Count > 1)
+                {
+                    <a href="@Model.ComparePageUrl" class="button success">
+                        Jämför objekt
+                    </a>
+                }
+                else
+                {
+                    <span title="Minst två objekt måste jämföras.">Välj minst två objekt för att jämföra</span>
+                }
+
+                <a href="@string.Format("{0}ClearList?redirectBackTo={1}", Model.ComparePageUrl, Model.CurrentUrl)" class="button primary">Rensa</a>
+
+            </li>
+        </ul>        
         
     </nav>
 }

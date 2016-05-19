@@ -2,6 +2,35 @@
 
 @model OrganisationalUnitListModel
 
+@*
+    @using (Html.BeginForm("IndexWithAddress", "Category"))
+    {
+        <div class="row">
+            <div class="column small-12 medium-12 large-10">
+                @Html.TextBox("address", null, new { placeholder = "Ange en adress för att mäta distans" })
+            </div>
+            <div class="column small-12 medium-12 large-2">
+                <input type="submit" class="button" value="Mät distans" />
+            </div>
+        </div>
+
+        <hr />
+    }
+
+        @if (@Model.DistanceList.MeasureFromAddress != null)
+        {
+            <div>
+                Adress för distansmätning:
+                <span id="MeasureFromAddress">
+                    Ingen funnen adress.
+                </span>
+                <script>
+                    GetSearchLocation(@Html.Raw(Json.Encode(Model.DistanceList.MeasureFromAddress)));
+                </script>
+            </div><hr />
+        }
+*@
+
 
 @if (Model.OrganisationalUnits.Count > 0)
 {
@@ -10,6 +39,7 @@
         <div class="column small-12 medium-12 large-10 content-organisationalUnit content">
             @Html.Action("Preview", "OrganisationalUnit", new { currentPage = organisationalUnit.CurrentPage, organisationalUnitModel = Model })
         </div>
+
         <div class="column content-organisationalUnit right-content small-12 medium-12 large-2">
 
             @{
@@ -18,14 +48,14 @@
 
             @if (organisationalUnit.InCompareAlready)
             {
-                <a class="button alert" href="@string.Format("{0}{1}/RemoveOrganisationalUnitFromCompare/?id={2}&redirectBackTo={3}", organisationalUnit.CurrentPage.ExternalURL, organisationalUnit.CurrentPage.URLSegment, organisationalUnit.CurrentPage.ContentLink.ID, redirectBackTo)">
-                    Ta bort
+                <a class="button success" href="@string.Format("{0}{1}/RemoveOrganisationalUnitFromCompare/?id={2}&redirectBackTo={3}", organisationalUnit.CurrentPage.ExternalURL, organisationalUnit.CurrentPage.URLSegment, organisationalUnit.CurrentPage.ContentLink.ID, redirectBackTo)">
+                    <i class="fa fa-check"></i> Jämför
                 </a>
             }
             else
             {
                 <a class="button" href="@string.Format("{0}{1}/AddOrganisationalUnitToCompare/?id={2}&redirectBackTo={3}", organisationalUnit.CurrentPage.ExternalURL, organisationalUnit.CurrentPage.URLSegment, organisationalUnit.CurrentPage.ContentLink.ID, redirectBackTo)">
-                    Jämför
+                    <i class="fa fa-plus"></i> Jämför
                 </a>
             }
         

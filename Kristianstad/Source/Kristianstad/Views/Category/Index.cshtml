@@ -16,35 +16,6 @@
 
     @Html.PropertyFor(x => x.CurrentPage.Description)
 
-    @using (Html.BeginForm("index", "Category"))
-    {
-        <div class="row">
-            <div class="column small-12 medium-12 large-10">
-                @Html.TextBox("address", null, new { placeholder = "Ange en adress för att mäta distans" })
-            </div>
-            <div class="column small-12 medium-12 large-2">
-                <input type="submit" class="button" value="Mät distans" />
-            </div>
-        </div>
-        <hr />
-    }
-
-
-    @if (@Model.DistanceList.MeasureFromAddress != null)
-    {
-        <div>
-            Adress för distansmätning:
-            <span id="MeasureFromAddress">
-                Ingen funnen adress.
-            </span>
-            <script>
-            GetSearchLocation(@Html.Raw(Json.Encode(Model.DistanceList.MeasureFromAddress)));
-            </script>
-        </div><hr />
-    }
-
-
-
     <div class="row">
 
         @{
@@ -137,13 +108,14 @@
 </div>
 
 <div class="column content-page right-content small-12 medium-12 large-4">
-    @{
-        Html.RenderAction("SectionMenu", "MenuKr");
-    }
 
     <div class="block-area">
         @Html.PropertyFor(m => m.CurrentPage.CompareListBlock)
     </div>
+
+    @{
+        Html.RenderAction("SectionMenu", "MenuKr");
+    }
 
     <div class="block-area">
         @Html.PropertyFor(m => m.CurrentPage.RightBlockArea)

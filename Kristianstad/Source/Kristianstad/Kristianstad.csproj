@@ -911,6 +911,7 @@
     <Content Include="Views\Category\_AddOrganisationalUnitsForm.cshtml" />
     <Content Include="Views\CompareResultPage\_AddPropertyQueriesForm.cshtml" />
     <Content Include="Views\CompareResultsBlock\Index.cshtml" />
+    <Content Include="Views\CompareResultsBlock\InRightColumn.cshtml" />
     <Content Include="Views\CompareResultsBlock\Preview.cshtml" />
     <None Include="Web.Acceptance.config">
       <DependentUpon>Web.config</DependentUpon>

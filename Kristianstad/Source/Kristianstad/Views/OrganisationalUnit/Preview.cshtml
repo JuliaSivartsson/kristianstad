@@ -5,21 +5,22 @@
 @model OrganisationalUnitPageModel
 
  <div class="listResult">
-        <h3>
-            @Html.PageLink(Model.CurrentPage)
-        </h3>
+    <h3>
+        @Html.PageLink(Model.CurrentPage)
+    </h3>
      
-        @Html.DisplayFor(x => x.CurrentPage.ShortDescription)
-
-         @*
-        @if(Model.ShowPublishDate)
+    <div class="pull-left">
+        @if (Model.CurrentPage.TitleImage != null)
         {
-            <p class="date">@Html.DisplayFor(x => x.CurrentPage.StartPublish)</p>
+            <img src="@Url.ContentUrl(Model.CurrentPage.TitleImage)" />
         }
-        @if(Model.ShowIntroduction)
+        else
         {
-            <p>@Model.PreviewText</p>
+            <img src="~/Content/img/template/img-innehallssida.jpg" />
         }
-        *@
-        <hr />
     </div>
+
+    @Html.DisplayFor(x => x.CurrentPage.ShortDescription)
+
+    <hr />
+</div>

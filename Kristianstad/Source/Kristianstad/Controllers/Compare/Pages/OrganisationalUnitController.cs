@@ -42,12 +42,6 @@ namespace Kristianstad.Controllers.Compare
         public ActionResult Full(OrganisationalUnitPage currentPage)
         {
             var model = new OrganisationalUnitPageModel(currentPage);
-            return PartialView("Full", model);
-        }
-
-        public ActionResult Index(OrganisationalUnitPage currentPage)
-        {
-            var model = new OrganisationalUnitPageModel(currentPage);
 
             // Checks if the CurrentPage is in the CompareList.
             var compareResultPage = CompareHelper.GetCompareResultPage(contentLoader.Service, currentPage);
@@ -60,6 +54,12 @@ namespace Kristianstad.Controllers.Compare
                 }
             }
 
+            return PartialView(model);
+        }
+
+        public ActionResult Index(OrganisationalUnitPage currentPage)
+        {
+            var model = new OrganisationalUnitPageModel(currentPage);
             return View(model);
         }
 

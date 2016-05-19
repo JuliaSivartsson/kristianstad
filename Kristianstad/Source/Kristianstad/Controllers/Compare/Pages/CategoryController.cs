@@ -61,7 +61,8 @@ namespace Kristianstad.Controllers.Compare
                 }).ToList()
             }).ToList();
 
-            model.ListOfExistingOU = _contentLoader.Service.GetChildren<PageData>(currentPage.ContentLink, LanguageSelector.AutoDetect(true)).OfType<OrganisationalUnitPage>();
+            // model.ListOfExistingOU = _contentLoader.Service.GetChildren<PageData>(currentPage.ContentLink, LanguageSelector.AutoDetect(true)).OfType<OrganisationalUnitPage>();
+
             model.DistanceList = new DistanceFromAddressModel()
             {
                 MeasureFromAddress = address

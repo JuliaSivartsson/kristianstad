@@ -7,27 +7,28 @@
 
 @if (Model.OrganisationalUnits.Count == 1)
 {
-    <div class="row">
-        <h3>Egenskaper</h3>
-        
-        <div class="">
+    <nav class="section-menu">
+        <h4>Egenskaper</h4>
+        <ul>
+
             @foreach (PropertyQueryWithResults pqwr in Model.QueriesWithResults)
             {
+                <li>
                     <div class="row">
-                        <div class="column small-12 medium-6 large-6 content">
+                        <div class="column small-12 medium-12 large-12 content">
                             <span>@pqwr.Query.Name</span>
                         </div>
 
-                        <div class="column small-12 medium-6 large-6 content">
+                        <div class="column small-12 medium-12 large-12 content">
 
                             <div class="result">
                                 @{
                                     var resultsForOrganisationalUnit = @pqwr.Results.Where(x => x.OrganisationalUnitId == Model.OrganisationalUnits.First().SourceId).FirstOrDefault();
                                 }
                                 @if (resultsForOrganisationalUnit != null && resultsForOrganisationalUnit.PeriodToUse != null && resultsForOrganisationalUnit.PeriodToUse.ValueToUse != null)
+                            {
+                                if (pqwr.Query.Name.Contains('%'))
                                 {
-                                    if (pqwr.Query.Name.Contains('%'))
-                                    {
                                         <div class="answer-percent-bar">
                                             <div class="percentageBox">
                                                 <div class="percentage" style="width: @((int)resultsForOrganisationalUnit.PeriodToUse.ValueToUse.Value)%"></div>
@@ -60,10 +61,8 @@
 
                         </div>
                     </div>
-
-                    <hr />
-                                    }
-            </div>
-    
-    </div>
-                                    }
+                </li>
+            }
+        </ul>
+    </nav>
+}
