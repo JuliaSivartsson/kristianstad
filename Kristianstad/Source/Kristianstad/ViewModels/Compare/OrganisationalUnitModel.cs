@@ -18,7 +18,7 @@ namespace Kristianstad.ViewModels.Compare
         public string Link { get; set; }
         public ContentReference TitleImage { get; set; }
 
-        public string Adress { get; set; }
+        public string Address { get; set; }
         public string Telephone { get; set; }
         public string Email { get; set; }
 
@@ -44,7 +44,7 @@ namespace Kristianstad.ViewModels.Compare
             Link = CompareHelper.GetExternalUrl(organisationalUnitPage.ContentLink);
             TitleImage = organisationalUnitPage.TitleImage;
 
-            Adress = organisationalUnitPage.Address;
+            Address = organisationalUnitPage.Address;
             Telephone = organisationalUnitPage.Telephone;
             Email = organisationalUnitPage.Email;
 

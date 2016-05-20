@@ -16,7 +16,7 @@ namespace Kristianstad.ViewModels.Compare
         {
             CurrentPage = currentPage;
             AddOrganisationalUnits = new AddOrganisationalUnitsFormModel();
-            DistanceList = new DistanceFromAddressModel();
+            // DistanceList = new DistanceFromAddressModel();
         }
 
         public CategoryPage CurrentPage { get; set; }
@@ -25,6 +25,5 @@ namespace Kristianstad.ViewModels.Compare
 
         // public IEnumerable<OrganisationalUnitPage> ListOfExistingOU { get; set; }
 
-        public DistanceFromAddressModel DistanceList { get; set; }
     }
 }

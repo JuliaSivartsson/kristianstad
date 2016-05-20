@@ -488,6 +488,7 @@
     <Compile Include="Models\Pages\StartPage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\Compare\AddOrganisationalUnitsFormModel.cs" />
+    <Compile Include="ViewModels\Compare\AddressDistanceModel.cs" />
     <Compile Include="ViewModels\Compare\CompareAdminPluginModel.cs" />
     <Compile Include="ViewModels\Compare\CompareResultsModel.cs" />
     <Compile Include="ViewModels\Compare\CompareResultPageModel.cs" />
@@ -913,6 +914,7 @@
     <Content Include="Views\CompareResultsBlock\Index.cshtml" />
     <Content Include="Views\CompareResultsBlock\InRightColumn.cshtml" />
     <Content Include="Views\CompareResultsBlock\Preview.cshtml" />
+    <Content Include="Views\Shared\_AddressDistance.cshtml" />
     <None Include="Web.Acceptance.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

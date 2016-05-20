@@ -1,0 +1,33 @@
+﻿
+<hr />
+
+<div class="row">
+    <div class="column small-12 medium-12 large-10">
+        @Html.TextBox("searchAddressForDistance", null, new { placeholder = "Ange en adress om du vill mäta avstånd.." })
+    </div>
+    <div class="column small-12 medium-12 large-2">
+        <button type="button" id="changeAddressDistance" class="button" value="Mät distans">Mät</button>
+    </div>
+</div>
+
+@*
+    <div id="address-distance" class="address-distance-toggle">
+        Adress för distansmätning:
+        <span id="foundAddressForDistance">
+            Ingen funnen adress.
+        </span>
+    </div>
+*@
+<hr />
+
+
+<script>
+
+    var button = document.getElementById('changeAddressDistance');
+    button.onclick = function () {
+        var textbox = document.getElementById('searchAddressForDistance');
+        var elementsToShowWhenSuccess = document.getElementsByClassName('address-distance-toggle');
+        UpdateAddressDistances(textbox, elementsToShowWhenSuccess);
+    };
+
+</script>

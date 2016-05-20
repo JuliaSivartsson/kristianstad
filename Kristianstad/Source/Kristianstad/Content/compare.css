@@ -34,7 +34,7 @@ input.small {
 
 .compare-main-box td {
     text-align: left;
-    font-size: 80%;
+    /* font-size: 85%; */
 }
 
 .compare-main-box .query {
@@ -102,4 +102,8 @@ input.small {
 
 .content-organisationalUnit a {
     margin-top: 50px;
+}
+
+.address-distance-toggle {
+    display: none;
 }

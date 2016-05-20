@@ -5,6 +5,8 @@
 
 @model CompareResultsModel
 
+@Html.Partial("_AddressDistance")
+
 <div class="compare-main-box">
     <table class="compare-table">
         <thead>
@@ -36,9 +38,9 @@
                 @foreach (OrganisationalUnitModel ou in Model.OrganisationalUnits)
                 {
                     <td class="result">
-                        @if (ou.Adress != null)
+                        @if (ou.Address != null)
                         {
-                            <div><span>@ou.Adress</span></div>
+                            <div><span>@ou.Address</span></div>
                         }
                         else
                         {
@@ -82,26 +84,19 @@
                 }
             </tr>
 
-            @*
-            @if (Model.DistanceList.MeasureFromAddress != null)
-            {
-                <tr>
-                    <td class="query"><div><span>Distans</span></div></td>
-                    @foreach (OrganisationalUnitModel ou in Model.OrganisationalUnits)
-                    {
-                        <td id="@ou.Adress" class="result">
-                            <span>
-                                -
-                                <script>
-                                            GetLocation(@Html.Raw(Json.Encode(ou.Adress)), @Html.Raw(Json.Encode(Model.DistanceList.MeasureFromAddress)), function(result){ document.getElementById(@Html.Raw(Json.Encode(ou.Adress))).innerHTML = getDistanceFromLatLonInKm(result) + " km"; });
-                                </script>
-                            </span>
-                        </td>
-                    }
-                </tr>
-
-            }
-            *@
+            <tr>
+                <td class="query"><div><span>Avstånd</span></div></td>
+                @foreach (OrganisationalUnitModel ou in Model.OrganisationalUnits)
+                {
+                    <td class="result">
+                        <div>
+                            Avstånd:
+                            <span class="address-distance" data-address="@ou.Address">Ingen adress angiven</span>
+                            <span class="address-distance-toggle">km</span>
+                        </div>
+                    </td>
+                }
+            </tr>
 
             @foreach (PropertyQueryWithResults pqwr in Model.QueriesWithResults)
             {

@@ -9,18 +9,29 @@
         @Html.PageLink(Model.CurrentPage)
     </h3>
      
-    <div class="pull-left">
-        @if (Model.CurrentPage.TitleImage != null)
-        {
-            <img src="@Url.ContentUrl(Model.CurrentPage.TitleImage)" />
-        }
-        else
-        {
-            <img src="~/Content/img/template/img-innehallssida.jpg" />
-        }
+    <div>
+        <div class="pull-left">
+            @if (Model.CurrentPage.TitleImage != null)
+            {
+                <img src="@Url.ContentUrl(Model.CurrentPage.TitleImage)" />
+            }
+            else
+            {
+                <img src="~/Content/img/template/img-innehallssida.jpg" />
+            }
+        </div>
+
+        @Html.DisplayFor(x => x.CurrentPage.ShortDescription)
+    
+        <span class="clearfix"></span>
     </div>
 
-    @Html.DisplayFor(x => x.CurrentPage.ShortDescription)
+    <div class="clearfix address-distance-toggle">
+        Avstånd:
+        <span class="address-distance" data-address="@Model.CurrentPage.Address"></span> 
+        km
+    </div>
 
     <hr />
+
 </div>
