@@ -1,16 +1,36 @@
-﻿function GetSearchLocation(adress) {
+﻿
+function UpdateAddressDistances(textboxInput, elementsToShowWhenSuccess) {
+
+    var searchAddress = textboxInput.value;
+
+    // define the function run after found the full address
+    var successFoundFunction = function (foundAddress) {
+        textboxInput.value = foundAddress;
+
+        // loop all address distance elements
+        var addressDistanceElements = document.getElementsByClassName('address-distance');
+        for (var i = 0; i < addressDistanceElements.length; i++) {
+            var organisationalUnitAddress = addressDistanceElements[i].getAttribute('data-address');
+            var element = addressDistanceElements[i];
+            CalculateAndSetDistance(organisationalUnitAddress, foundAddress, element, elementsToShowWhenSuccess);
+        }
+    }
+
+    // now start by searching for the full address
+    GetSearchLocation(searchAddress, successFoundFunction);
+}
+
+function GetSearchLocation(adress, success) {
     var geocoder = new google.maps.Geocoder();
     geocoder.geocode({ 'address': adress }, function (results, status) {
         if (status == google.maps.GeocoderStatus.OK) {
-            document.getElementById("MeasureFromAddress").innerHTML = results[0].formatted_address;
+            success(results[0].formatted_address);
         }
     });
 }
 
-function GetLocation(addressValue1, addressValue2, fn) {
+function CalculateAndSetDistance(address1, address2, element, elementsToShowWhenSuccess) { //success, failure) {
     var geocoder = new google.maps.Geocoder();
-    var address1 = addressValue1;
-    var address2 = addressValue2;
     geocoder.geocode({ 'address': address1 }, function (results, status) {
         if (status == google.maps.GeocoderStatus.OK) {
             var latitude1 = results[0].geometry.location.lat();
@@ -22,16 +42,23 @@ function GetLocation(addressValue1, addressValue2, fn) {
                     var latitude2 = results[0].geometry.location.lat();
                     var longitude2 = results[0].geometry.location.lng();
                     var string2 = string + "," + latitude2 + "," + longitude2;
-                    fn(string2);
+
+                    var result = GetDistanceFromLatLonInKm(string2);
+                    element.innerHTML = result.toString().replace('.', ',');
+
+                    for (var i = 0; i < elementsToShowWhenSuccess.length; i++) {
+                        elementsToShowWhenSuccess[i].style.display = 'inline';
+                    }
+                    //success(result);
                 }
             });
         } else {
-            return ("Request failed.");
+            //failure("Request failed.");
         }
     });
 };
 
-function getDistanceFromLatLonInKm(latlon) {
+function GetDistanceFromLatLonInKm(latlon) {
     var res = latlon.split(",");
     var R = 6371; // Radius of the earth in km
     var dLat = deg2rad(res[2] - res[0]);  // deg2rad below

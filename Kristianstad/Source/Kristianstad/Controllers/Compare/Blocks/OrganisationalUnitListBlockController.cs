@@ -34,11 +34,6 @@ namespace Kristianstad.Controllers.Compare
 
         public override ActionResult Index(OrganisationalUnitListBlock currentBlock)
         {
-            return IndexWithAddress(currentBlock, null);
-        }
-
-        public ActionResult IndexWithAddress(OrganisationalUnitListBlock currentBlock, string address)
-        {
             var pageRouteHelper = ServiceLocator.Current.GetInstance<PageRouteHelper>();
             PageData currentPage = pageRouteHelper.Page; // ?? _contentLoader.Service.Get<PageData>(ContentReference.StartPage);
 
@@ -46,13 +41,6 @@ namespace Kristianstad.Controllers.Compare
             {
                 CurrentPage = currentPage
             };
-
-            /*
-            model.DistanceList = new DistanceFromAddressModel()
-            {
-                MeasureFromAddress = address
-            };
-            */
 
             var organisationalUnits = FindOrganisationalUnitPages(currentBlock);
             var sortedOrganisationalUnits = Sort(organisationalUnits, currentBlock.SortOrder).OfType<OrganisationalUnitPage>();
@@ -74,18 +62,32 @@ namespace Kristianstad.Controllers.Compare
                 model.OrganisationalUnits.Add(organisationalUnitModel);
             }
 
-            /*
-            var model = new OrganisationalUnitListModel()
+            return PartialView(model);
+        }
+
+        /*
+        [HttpPost]
+        public ActionResult IndexWithAddress(DistanceFromAddressModel distance, string address)
+        {
+            
+
+            var model = new DistanceFromAddressModel()
             {
-                // CurrentPage = currentPage,
-                OrganisationalUnits = organisationalUnits.Select()
+                MeasureFromAddress = address
             };
 
-            // ViewData.Add("cookies", _cookieHelper.GetOrganisationalUnitsInCompare(GetCategoryPageId(currentBlock)));
-            */
+            model.DistanceList = new DistanceFromAddressModel()
+            {
+                MeasureFromAddress = address
+            };
+
+            // For Ajax request return partial view with form. Validation will work out of the box.
+            return PartialView("~/Views/OrganisationalUnitListBlock/_AddressDistanceForm", model);
+
 
             return PartialView(model);
         }
+    */
 
         public ActionResult Preview(PageData currentPage, OrganisationalUnitListModel organisationalUnitModel)
         {

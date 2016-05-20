@@ -63,10 +63,12 @@ namespace Kristianstad.Controllers.Compare
 
             // model.ListOfExistingOU = _contentLoader.Service.GetChildren<PageData>(currentPage.ContentLink, LanguageSelector.AutoDetect(true)).OfType<OrganisationalUnitPage>();
 
+            /*
             model.DistanceList = new DistanceFromAddressModel()
             {
                 MeasureFromAddress = address
             };
+            */
 
             // ViewData.Add("cookies", _cookieHelper.GetCookie(GetCategoryPageId(currentPage)));
 
