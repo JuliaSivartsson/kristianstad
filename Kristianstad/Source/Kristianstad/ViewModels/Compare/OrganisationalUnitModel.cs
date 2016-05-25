@@ -27,10 +27,14 @@ namespace Kristianstad.ViewModels.Compare
 
         public bool NameAlreadyExistsInCategory { get; set; }
 
+        public OrganisationalUnitModel()
+        {
+            // Empty
+        }
+
         public OrganisationalUnitModel(OrganisationalUnit organisationalUnit)
         {
             Title = organisationalUnit.Name;
-            
             SourceName = organisationalUnit.SourceName;
             SourceId = organisationalUnit.SourceId;
             Name = organisationalUnit.Name;
