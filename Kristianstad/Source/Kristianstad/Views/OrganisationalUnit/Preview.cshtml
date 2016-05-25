@@ -26,11 +26,15 @@
         <span class="clearfix"></span>
     </div>
 
-    <div class="clearfix address-distance-toggle">
-        Avstånd:
-        <span class="address-distance" data-address="@Model.CurrentPage.Address"></span> 
-        km
-    </div>
+     @if (Model.CurrentPage.Address != null)
+     {
+        <div class="clearfix address-distance-toggle">
+            Avstånd:
+            <span class="address-distance" data-address="@Model.CurrentPage.Address"></span>
+            km
+        </div>
+     }
+
 
     <hr />
 
