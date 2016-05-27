@@ -460,7 +460,6 @@
     <Compile Include="Controllers\Compare\Blocks\OrganisationalUnitListBlockController.cs" />
     <Compile Include="Controllers\Compare\Pages\CompareResultPageController.cs" />
     <Compile Include="Controllers\Compare\Pages\CategoryController.cs" />
-    <Compile Include="Controllers\Compare\Modules\CompareAdminPluginController.cs" />
     <Compile Include="Controllers\Compare\Pages\CompareStartPageController.cs" />
     <Compile Include="Controllers\Compare\Pages\GroupCategoryPageController.cs" />
     <Compile Include="Controllers\Compare\Pages\OrganisationalUnitController.cs" />
