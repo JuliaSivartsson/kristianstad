@@ -850,7 +850,6 @@
     <Content Include="modules\_protected\EPiServer.Forms\1.1.4.9000\ClientResources\epi-forms\themes\sleek\FormsIcons.less" />
     <Content Include="modules\_protected\EPiServer.Forms\1.1.4.9000\ClientResources\epi-forms\themes\sleek\Forms.less" />
     <Content Include="package.json" />
-    <Content Include="modules\CompareAdminPlugin\Index.cshtml" />
     <None Include="Properties\PublishProfiles\Acceptance.pubxml" />
     <None Include="Properties\PublishProfiles\Production.pubxml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
