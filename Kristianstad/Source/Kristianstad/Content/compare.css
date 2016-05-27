@@ -1,4 +1,9 @@
-﻿
+﻿.test-width{
+    color: green;
+    width: 200px;
+}
+
+
 .accordion-title {
     font-size: 0.9rem;
 }
@@ -49,6 +54,7 @@ input.small {
 .compare-main-box .result {
     min-width: 230px;
     max-width: 230px;
+    white-space: initial;
 }
 
 .compare-main-box td img {
